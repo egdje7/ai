@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>소크라테스 AI 진로탐색</title>
+<title>소크라테스 AI 진로탐색 & 학교·지역 공시정보</title>
 
 <!-- Bot Framework WebChat -->
 <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
@@ -175,19 +175,6 @@
     width: 100%; height: 100%; border: 0;
   }
 
-  /* 지도 확대 모달 전용 스타일 */
-  .map-modal-box {
-    background: #fff;
-    width: 95%;
-    max-width: 1200px;
-    height: 85vh;
-    border-radius: 24px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-  }
-
   /* 하단 주요 카드 패널 */
   .feature-section-wrapper {
     background: var(--bg-blue);
@@ -249,7 +236,7 @@
     transform: translateZ(10px);
   }
 
-  /* 모달 레이어 스타일 */
+  /* 모달 레이어 공통 스타일 */
   .result-overlay, .feature-overlay, .map-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
@@ -257,7 +244,7 @@
   .result-overlay.active, .feature-overlay.active, .map-overlay.active { display: flex; }
 
   .modal-box {
-    background: #fff; width: 90%; max-width: 850px; max-height: 85vh; border-radius: 24px;
+    background: #fff; width: 90%; max-width: 1000px; max-height: 88vh; border-radius: 24px;
     padding: 32px; display: flex; flex-direction: column; position: relative;
     box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
   }
@@ -265,13 +252,153 @@
   .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); }
   .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
 
-  .modal-content-section { font-size: 0.95rem; line-height: 1.6; color: #334155; }
-  .modal-content-section h3 { font-size: 1.1rem; color: var(--navy); margin: 16px 0 8px; }
-  .modal-content-section p { margin-bottom: 12px; }
-  .modal-content-section ul { margin-left: 20px; margin-bottom: 12px; }
-  .modal-content-section li { margin-bottom: 6px; }
+  /* 지도 확대 모달 전용 스타일 */
+  .map-modal-box {
+    background: #fff;
+    width: 95%;
+    max-width: 1200px;
+    height: 85vh;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  }
 
-  /* 진로 마인드맵 그래픽 컨테이너 */
+  /* 두 번째 파일 통합 UI 전용 스타일 */
+  .tab-container {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 2px solid var(--line);
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--muted);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .tab-btn.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+  }
+
+  .view-panel { display: none; flex-direction: column; gap: 16px; }
+  .view-panel.active { display: flex; }
+
+  .search-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-card select, .search-card input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    font-size: 0.9rem;
+    outline: none;
+  }
+  .search-card input { flex: 1; min-width: 180px; }
+  .search-card button {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .search-card button:hover { background: #1d4ed8; }
+
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+  }
+
+  .list-box {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    padding: 12px;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .list-item {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .list-item:hover, .list-item.selected {
+    background: #eff6ff;
+    border-color: var(--blue);
+  }
+  .list-item h4 { font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; }
+  .list-item p { font-size: 0.78rem; color: var(--muted); }
+
+  .detail-box {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .detail-header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+  }
+  .detail-header h2 { font-size: 1.3rem; color: var(--navy); margin-bottom: 4px; }
+  .detail-header .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #eff6ff;
+    color: var(--blue);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .info-card h5 { font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
+  .info-card p { font-size: 1rem; font-weight: bold; color: var(--ink); }
+
+  .modal-map-container {
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .modal-map-container iframe { width: 100%; height: 100%; border: 0; }
+
+  /* 마인드맵 및 다운로드 스타일 */
   .mindmap-container {
     background: #f8fafc;
     border: 1px solid var(--line);
@@ -280,24 +407,12 @@
     margin: 16px 0;
     text-align: center;
   }
-  .mindmap-svg {
-    width: 100%;
-    max-height: 260px;
-  }
+  .mindmap-svg { width: 100%; max-height: 260px; }
 
   .btn-download-action {
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    background: var(--blue); color: #fff; border: none; padding: 10px 18px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
+    transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px;
   }
   .btn-download-action:hover { background: #1d4ed8; }
   .btn-download-action.green { background: #16a34a; }
@@ -308,13 +423,9 @@
     position: fixed; right: 20px; bottom: 20px; z-index: 1100;
     background: #fff; border: 1px solid var(--line); border-radius: 16px;
     padding: 10px 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    display: flex; flex-direction: column; gap: 8px; width: 180px;
-    transition: all 0.3s ease;
+    display: flex; flex-direction: column; gap: 8px; width: 180px; transition: all 0.3s ease;
   }
-  .panel-toggle-header {
-    display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer; user-select: none; font-size: 0.8rem; font-weight: bold; color: var(--navy);
-  }
+  .panel-toggle-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; font-size: 0.8rem; font-weight: bold; color: var(--navy); }
   .arrow-icon { font-size: 0.7rem; transition: transform 0.3s ease; }
   .buddy-control-panel.collapsed .panel-collapsible-content { display: none; }
   .buddy-control-panel.collapsed .arrow-icon { transform: rotate(180deg); }
@@ -347,14 +458,11 @@
             padding: 5px 8px; font-size: .73rem; line-height: 1.35; color: var(--ink);
             box-shadow: 0 6px 16px rgba(30,58,138,.15);
             opacity: 0; transform: translateY(6px) scale(.94); transform-origin: bottom center;
-            transition: opacity .22s, transform .22s cubic-bezier(.2,1.4,.4,1);
-            pointer-events: none; }
+            transition: opacity .22s, transform .22s cubic-bezier(.2,1.4,.4,1); pointer-events: none; }
   #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
   #bubble.left { right: 110%; left: auto; transform-origin: bottom right; }
   #bubble.right { left: 110%; right: auto; transform-origin: bottom left; }
-  #bubble .tail { position: absolute; bottom: -7px; width: 10px; height: 10px;
-                  background: #fff; border-right: 2px solid var(--navy);
-                  border-bottom: 2px solid var(--navy); transform: rotate(45deg); }
+  #bubble .tail { position: absolute; bottom: -7px; width: 10px; height: 10px; background: #fff; border-right: 2px solid var(--navy); border-bottom: 2px solid var(--navy); transform: rotate(45deg); }
   #bubble.left .tail { right: 12px; left: auto; }
   #bubble.right .tail { left: 12px; right: auto; }
 </style>
@@ -370,9 +478,9 @@
 <header>
   <div class="logo">🎓 소크라테스 AI</div>
   <nav><ul>
-    <li><a>소크라테스란</a></li>
-    <li><a>전국학교정보</a></li>
-    <li><a>진로 소식</a></li>
+    <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
+    <li><a onclick="openFeatureModal('integrated')">전국학교정보</a></li>
+    <li><a onclick="openFeatureModal('integrated')">진로 소식</a></li>
     <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서</a></li>
   </ul></nav>
 </header>
@@ -387,7 +495,6 @@
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
           <h3>🤖 소크라테스 대화방</h3>
-          <!-- 진행률 테스트용 버튼 -->
           <button onclick="testFillProgress()" style="font-size:0.75rem; background:#cbd5e1; border:none; padding:2px 8px; border-radius:4px; cursor:pointer;">⚡ 진행률 100% 채우기</button>
         </div>
         <div id="webchat"></div>
@@ -478,7 +585,7 @@
   </div>
 </div>
 
-<!-- 카드 안내 모달 레이어 -->
+<!-- 카드 안내 및 공시정보 모달 레이어 -->
 <div class="feature-overlay" id="featureOverlay">
   <div class="modal-box">
     <div class="modal-top-header">
@@ -504,36 +611,29 @@
       <h3 style="margin-top: 20px;">🧠 진로 마인드맵</h3>
       <div class="mindmap-container">
         <svg id="mindmapSvg" class="mindmap-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
-          <!-- 선 연결 -->
           <line x1="350" y1="150" x2="150" y2="70" stroke="#94a3b8" stroke-width="2.5"/>
           <line x1="350" y1="150" x2="550" y2="70" stroke="#94a3b8" stroke-width="2.5"/>
           <line x1="350" y1="150" x2="150" y2="230" stroke="#94a3b8" stroke-width="2.5"/>
           <line x1="350" y1="150" x2="550" y2="230" stroke="#94a3b8" stroke-width="2.5"/>
 
-          <!-- 중앙 노드 -->
           <rect x="260" y="125" width="180" height="50" rx="25" fill="#1e3a8a"/>
           <text x="350" y="155" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">AI / SW 엔지니어</text>
 
-          <!-- 주변 노드 1 -->
           <rect x="70" y="45" width="160" height="45" rx="12" fill="#2563eb"/>
           <text x="150" y="72" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">컴퓨팅 사고력</text>
 
-          <!-- 주변 노드 2 -->
           <rect x="470" y="45" width="160" height="45" rx="12" fill="#2563eb"/>
           <text x="550" y="72" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">인공지능 모델링</text>
 
-          <!-- 주변 노드 3 -->
           <rect x="70" y="205" width="160" height="45" rx="12" fill="#0d9488"/>
           <text x="150" y="232" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">수학 & 데이터 분석</text>
 
-          <!-- 주변 노드 4 -->
           <rect x="470" y="205" width="160" height="45" rx="12" fill="#0d9488"/>
           <text x="550" y="232" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">융합 탐구 세특</text>
         </svg>
       </div>
     </div>
 
-    <!-- 다운로드 버튼 영역 -->
     <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
       <button class="btn-download-action" onclick="downloadReport()">
         📄 종합 보고서 다운로드 (.txt)
@@ -601,7 +701,74 @@
 <script>
 let hasReached100 = false;
 
-/* 진행률 업데이트 함수 (0 ~ 100) */
+/* 데이터 정의 (두 번째 파일 통합 데이터) */
+const schoolData = [
+  {
+    id: 1,
+    name: "서울고등학교",
+    type: "고등학교",
+    address: "서울특별시 서초구 효령로 190",
+    students: "1,120명",
+    teachers: "98명",
+    curriculum: "AI·데이터 융합 교육과정 특화",
+    clubs: "SW 코딩부, 로봇공학반, 빅데이터 연구회 등 35개",
+    achievement: "수학/과학 성취도 A등급 비율 82%"
+  },
+  {
+    id: 2,
+    name: "한국과학고등학교",
+    type: "고등학교",
+    address: "부산광역시 진구 백양관문로 105",
+    students: "420명",
+    teachers: "65명",
+    curriculum: "심화 과학 및 첨단 공학 이수과정",
+    clubs: "인공지능 연구반, 딥러닝 자율동아리",
+    achievement: "성취도 A등급 비율 96%"
+  },
+  {
+    id: 3,
+    name: "경기중학교",
+    type: "중학교",
+    address: "경기도 수원시 팔달구 권광로 20",
+    students: "850명",
+    teachers: "54명",
+    curriculum: "창의융합 ICT 및 방과후 코딩교실",
+    clubs: "디지털 드로잉, 기초 알고리즘반",
+    achievement: "국영수 평균 성취도 B등급 이상 88%"
+  }
+];
+
+const regionData = [
+  {
+    id: 1,
+    region: "서울",
+    title: "서울특별시교육청 진로직업체험센터",
+    schoolsCount: "1,310개교",
+    programs: "AI 미래직업 체험관, SW 코딩 캠프, 대학 연계 진로 멘토링",
+    location: "서울특별시 종로구 송월길 48",
+    infra: "진로체험 지원센터 25개소 운영 중"
+  },
+  {
+    id: 2,
+    region: "부산",
+    title: "부산광역시 교육청 진로교육원",
+    schoolsCount: "630개교",
+    programs: "해양 첨단기술 체험프로그램, 신산업 융합 세특 탐구 교실",
+    location: "부산광역시 해운대구 우동",
+    infra: "지역 거점 진로체험 인프라 12개소 연계"
+  },
+  {
+    id: 3,
+    region: "경기",
+    title: "경기도 교육청 미래교육원",
+    schoolsCount: "2,450개교",
+    programs: "하이테크 진로체험, 반도체·S/W 과학 특강",
+    location: "경기도 수원시 장안구 조원로 18",
+    infra: "권역별 미래교육센터 31개소 지원"
+  }
+];
+
+/* 진행률 업데이트 함수 */
 function updateProgress(percent) {
   const currentPercent = Math.min(100, Math.max(0, percent));
   document.getElementById('progressPercent').textContent = `${currentPercent}%`;
@@ -621,12 +788,9 @@ function updateProgress(percent) {
   }
 }
 
-/* 테스트용 버튼 */
-function testFillProgress() {
-  updateProgress(100);
-}
+function testFillProgress() { updateProgress(100); }
 
-/* 구글 지도 연동 함수 */
+/* 구글 지도 연동 */
 function searchGoogleLocation() {
   const query = document.getElementById('mapSearchInput').value.trim();
   if (!query) return;
@@ -640,24 +804,19 @@ function setGoogleLocationCenter() {
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
       document.getElementById('googleMapIframe').src = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-    }, () => {
-      alert('위치 정보를 불러올 수 없습니다.');
-    });
+    }, () => alert('위치 정보를 불러올 수 없습니다.'));
   } else {
     alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
   }
 }
 
-/* 지도 모달 제어 함수 */
+/* 지도 모달 제어 */
 function openMapModal() {
   const currentSrc = document.getElementById('googleMapIframe').src;
   document.getElementById('googleMapIframeLarge').src = currentSrc;
   document.getElementById('mapOverlay').classList.add('active');
 }
-
-function closeMapModal() {
-  document.getElementById('mapOverlay').classList.remove('active');
-}
+function closeMapModal() { document.getElementById('mapOverlay').classList.remove('active'); }
 
 function searchGoogleLocationModal() {
   const query = document.getElementById('mapModalSearchInput').value.trim();
@@ -676,15 +835,13 @@ function setGoogleLocationCenterModal() {
       const newSrc = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
       document.getElementById('googleMapIframeLarge').src = newSrc;
       document.getElementById('googleMapIframe').src = newSrc;
-    }, () => {
-      alert('위치 정보를 불러올 수 없습니다.');
-    });
+    }, () => alert('위치 정보를 불러올 수 없습니다.'));
   } else {
     alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
   }
 }
 
-/* 모달 데이터 정의 및 처리 */
+/* 모달 데이터 처리 및 두 번째 파일 인터랙티브 병합 */
 const modalData = {
   guide: {
     title: "📊 서비스 안내",
@@ -699,31 +856,55 @@ const modalData = {
       </ul>
     `
   },
-  school: {
-    title: "🏫 학교별 공시정보",
+  integrated: {
+    title: "🏫 전국 학교 및 지역별 공시정보 통합 조회",
     html: `
-      <h3>전국 학교 알리미 공시정보 조회</h3>
-      <p>전국 초·중·고등학교의 교육 여건과 학업 성취도 등 공신력 있는 학교 데이터를 한눈에 확인할 수 있습니다.</p>
-      <h3>주요 제공 정보</h3>
-      <ul>
-        <li>학교 기본 현황 (학생 수, 교원 현황, 시설 등)</li>
-        <li>교육과정 편성 및 운영 계획</li>
-        <li>동아리 활동 현황 및 방과후 학교 프로그램</li>
-        <li>학년별/과목별 학업성취도 평가 결과</li>
-      </ul>
-    `
-  },
-  region: {
-    title: "📍 지역별 공시정보",
-    html: `
-      <h3>관심 지역 기반 학교 및 진로 정보</h3>
-      <p>우측 지도와 연동하여 원하는 지역의 학교 분포 및 진로 관련 인프라 정보를 빠르게 탐색합니다.</p>
-      <h3>주요 기능</h3>
-      <ul>
-        <li>지역별 학교 위치 및 주변 환경 통합 보기</li>
-        <li>시·도 교육청별 주요 진로 체험 프로그램 안내</li>
-        <li>내 주변 지역 중심으로 진로/진학 관련 공시정보 통합 비교</li>
-      </ul>
+      <div class="tab-container">
+        <button class="tab-btn active" onclick="switchTab('schoolTab')">🏫 학교별 공시정보</button>
+        <button class="tab-btn" onclick="switchTab('regionTab')">📍 지역별 공시정보</button>
+      </div>
+
+      <!-- 1. 학교별 공시정보 탭 -->
+      <section id="schoolTab" class="view-panel active">
+        <div class="search-card">
+          <select id="schoolTypeSelect">
+            <option value="전체">학교 유형 전체</option>
+            <option value="고등학교">고등학교</option>
+            <option value="중학교">중학교</option>
+            <option value="초등학교">초등학교</option>
+          </select>
+          <input type="text" id="schoolSearchInput" placeholder="학교명 입력 (예: 서울고, 한국과학고)" onkeypress="if(event.key==='Enter') filterSchools()">
+          <button onclick="filterSchools()">검색</button>
+        </div>
+
+        <div class="grid-layout">
+          <div class="list-box" id="schoolList"></div>
+          <div class="detail-box" id="schoolDetail">
+            <p style="color: var(--muted); text-align: center; margin: auto;">학교를 선택하시면 상세 공시정보가 표시됩니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 지역별 공시정보 탭 -->
+      <section id="regionTab" class="view-panel">
+        <div class="search-card">
+          <select id="regionSelect" onchange="filterRegions()">
+            <option value="전체">지역 전체</option>
+            <option value="서울">서울특별시</option>
+            <option value="부산">부산광역시</option>
+            <option value="경기">경기도</option>
+          </select>
+          <input type="text" id="regionSearchInput" placeholder="관심 지역/기관명 입력" onkeypress="if(event.key==='Enter') filterRegions()">
+          <button onclick="filterRegions()">검색</button>
+        </div>
+
+        <div class="grid-layout">
+          <div class="list-box" id="regionList"></div>
+          <div class="detail-box" id="regionDetail">
+            <p style="color: var(--muted); text-align: center; margin: auto;">지역 또는 관할 교육청을 선택하시면 진로 인프라 정보가 표시됩니다.</p>
+          </div>
+        </div>
+      </section>
     `
   },
   roadmap: {
@@ -742,15 +923,194 @@ const modalData = {
 };
 
 function openFeatureModal(type) {
-  const data = modalData[type];
+  let targetType = type;
+  if (type === 'school' || type === 'region') {
+    targetType = 'integrated';
+  }
+
+  const data = modalData[targetType];
   if (data) {
     document.getElementById('featureModalTitle').textContent = data.title;
     document.getElementById('featureModalBody').innerHTML = data.html;
     document.getElementById('featureOverlay').classList.add('active');
+
+    // 두 번째 파일 뷰 초기화
+    if (targetType === 'integrated') {
+      setTimeout(() => {
+        renderSchools(schoolData);
+        renderRegions(regionData);
+        if (type === 'region') {
+          switchTab('regionTab');
+        } else {
+          switchTab('schoolTab');
+        }
+      }, 50);
+    }
   }
 }
 function closeFeatureModal() { document.getElementById('featureOverlay').classList.remove('active'); }
 
+/* 두 번째 파일 전용 탭 전환 및 검색 로직 */
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
+
+  if (tabId === 'schoolTab') {
+    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+  } else {
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  }
+  document.getElementById(tabId).classList.add('active');
+}
+
+function renderSchools(list) {
+  const container = document.getElementById('schoolList');
+  if(!container) return;
+  container.innerHTML = '';
+  if (list.length === 0) {
+    container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">검색 결과가 없습니다.</p>';
+    return;
+  }
+
+  list.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'list-item';
+    div.innerHTML = `
+      <h4>${item.name}</h4>
+      <p>${item.type} | ${item.address.split(' ')[0]}</p>
+    `;
+    div.onclick = () => selectSchool(item, div);
+    container.appendChild(div);
+  });
+}
+
+function selectSchool(item, element) {
+  document.querySelectorAll('#schoolList .list-item').forEach(el => el.classList.remove('selected'));
+  if (element) element.classList.add('selected');
+
+  const encodedAddr = encodeURIComponent(item.address);
+  document.getElementById('schoolDetail').innerHTML = `
+    <div class="detail-header">
+      <span class="badge">${item.type}</span>
+      <h2>${item.name}</h2>
+      <p style="color: var(--muted); font-size: 0.85rem;">📍 ${item.address}</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h5>학생 수 / 교원 수</h5>
+        <p>${item.students} / ${item.teachers}</p>
+      </div>
+      <div class="info-card">
+        <h5>학업 성취도 평가</h5>
+        <p>${item.achievement}</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h5>교육과정 편성 및 운영 계획</h5>
+      <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.curriculum}</p>
+    </div>
+
+    <div class="info-card">
+      <h5>동아리 및 방과후 프로그램 현황</h5>
+      <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.clubs}</p>
+    </div>
+
+    <div>
+      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 학교 위치 지도 (Google Maps)</h5>
+      <div class="modal-map-container">
+        <iframe src="https://maps.google.com/maps?q=${encodedAddr}&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+    </div>
+  `;
+}
+
+function filterSchools() {
+  const type = document.getElementById('schoolTypeSelect').value;
+  const keyword = document.getElementById('schoolSearchInput').value.trim().toLowerCase();
+
+  const filtered = schoolData.filter(item => {
+    const matchType = (type === '전체' || item.type === type);
+    const matchKey = item.name.toLowerCase().includes(keyword) || item.address.toLowerCase().includes(keyword);
+    return matchType && matchKey;
+  });
+
+  renderSchools(filtered);
+}
+
+function renderRegions(list) {
+  const container = document.getElementById('regionList');
+  if(!container) return;
+  container.innerHTML = '';
+  if (list.length === 0) {
+    container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">검색 결과가 없습니다.</p>';
+    return;
+  }
+
+  list.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'list-item';
+    div.innerHTML = `
+      <h4>${item.title}</h4>
+      <p>관할지역: ${item.region} | 관내 학교: ${item.schoolsCount}</p>
+    `;
+    div.onclick = () => selectRegion(item, div);
+    container.appendChild(div);
+  });
+}
+
+function selectRegion(item, element) {
+  document.querySelectorAll('#regionList .list-item').forEach(el => el.classList.remove('selected'));
+  if (element) element.classList.add('selected');
+
+  const encodedAddr = encodeURIComponent(item.location);
+  document.getElementById('regionDetail').innerHTML = `
+    <div class="detail-header">
+      <span class="badge" style="background:#dcfce7; color:#15803d;">지역 공시</span>
+      <h2>${item.title}</h2>
+      <p style="color: var(--muted); font-size: 0.85rem;">📍 주요 거점: ${item.location}</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h5>관내 학교 수</h5>
+        <p>${item.schoolsCount}</p>
+      </div>
+      <div class="info-card">
+        <h5>진로 인프라 연계</h5>
+        <p style="font-size: 0.88rem;">${item.infra}</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h5>시·도 교육청 주요 진로 체험 프로그램</h5>
+      <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.programs}</p>
+    </div>
+
+    <div>
+      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 지역 거점 센터 위치</h5>
+      <div class="modal-map-container">
+        <iframe src="https://maps.google.com/maps?q=${encodedAddr}&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+    </div>
+  `;
+}
+
+function filterRegions() {
+  const region = document.getElementById('regionSelect').value;
+  const keyword = document.getElementById('regionSearchInput').value.trim().toLowerCase();
+
+  const filtered = regionData.filter(item => {
+    const matchRegion = (region === '전체' || item.region === region);
+    const matchKey = item.title.toLowerCase().includes(keyword) || item.programs.toLowerCase().includes(keyword);
+    return matchRegion && matchKey;
+  });
+
+  renderRegions(filtered);
+}
+
+/* 결과 모달 */
 function openResultModal() {
   const navResult = document.getElementById('navResult');
   if (navResult.classList.contains('disabled')) {
@@ -761,7 +1121,7 @@ function openResultModal() {
 }
 function closeResultModal() { document.getElementById('resultOverlay').classList.remove('active'); }
 
-/* 종합 결과 보고서 TXT 다운로드 */
+/* 보고서 및 마인드맵 다운로드 */
 function downloadReport() {
   const reportText = `[소크라테스 AI 진로 탐색 종합 결과 리포트]
 --------------------------------------------------
@@ -795,7 +1155,6 @@ function downloadReport() {
   URL.revokeObjectURL(url);
 }
 
-/* 진로 마인드맵 SVG -> PNG 다운로드 */
 function downloadMindmap() {
   const svg = document.getElementById('mindmapSvg');
   const serializer = new XMLSerializer();
@@ -831,7 +1190,7 @@ function toggleControlPanel() {
   panel.classList.toggle('collapsed');
 }
 
-/* WebChat 연동 및 진행률 계산 */
+/* WebChat 연동 */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
 let currentProgress = 0;
@@ -851,22 +1210,18 @@ async function initWebChat() {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user') {
-          
-          // 1. 명시적 진행률 파싱
           if (activity.channelData && typeof activity.channelData.progressPercent === 'number') {
             updateProgress(activity.channelData.progressPercent);
           }
           else if (activity.value && typeof activity.value.progressPercent === 'number') {
             updateProgress(activity.value.progressPercent);
           }
-          // 2. 텍스트 내부 파싱
           else if (activity.text) {
             const percentMatch = activity.text.match(/(\d+)%/);
             if (percentMatch) {
               const parsedPercent = parseInt(percentMatch[1], 10);
               updateProgress(parsedPercent);
             } else {
-              // 턴 단위 자동 누적 진행률
               currentProgress += 20;
               updateProgress(currentProgress);
             }
@@ -924,7 +1279,7 @@ function tick(){
 }
 requestAnimationFrame(tick);
 
-/* 하단 4개 카드 인터랙션 */
+/* 카드 입체 효과 */
 document.querySelectorAll('.feature-card').forEach(card => {
   card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
