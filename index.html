@@ -30,10 +30,11 @@
               gap: 15px; font-size: .8rem; color: var(--muted); border-bottom: 1px solid var(--line); }
 
   header { background: #fff; padding: 16px 10%; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid var(--line); }
+           align-items: center; border-bottom: 1px solid var(--line); }
   header .logo { font-size: 1.5rem; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 8px; }
   nav ul { display: flex; list-style: none; gap: 30px; }
   nav a { text-decoration: none; color: var(--ink); font-weight: 700; cursor: pointer; }
+  nav a.disabled { color: #cbd5e1; cursor: not-allowed; }
 
   .hero-section { background: linear-gradient(180deg,#edf2f7 0%, var(--bg) 100%);
                   padding: 50px 10%; display: flex; gap: 40px; align-items: flex-start; }
@@ -46,15 +47,14 @@
                 box-shadow: 0 10px 25px rgba(30,58,138,.1); }
   .search-box input { flex: 1; border: none; outline: none; padding: 12px 16px; font-size: 1rem; }
   .search-box button { background: var(--navy); color: #fff; border: none; padding: 12px 24px;
-                        border-radius: 6px; font-weight: bold; cursor: pointer; }
+                       border-radius: 6px; font-weight: bold; cursor: pointer; }
 
-  /* ---------- 기능 카드 ---------- */
+  /* ---------- 기능 카드 섹션 ---------- */
   .feature-section { padding: 40px 10% 80px; display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
   .feature-card { background: #fff; border-radius: 12px; padding: 30px 20px; text-align: center;
                   border: 1px solid var(--line); box-shadow: 0 4px 6px rgba(0,0,0,.02);
                   transition: all .2s; cursor: pointer; }
-  .feature-card:hover, .feature-card.is-hover {
-    border-color: var(--blue); box-shadow: 0 10px 20px rgba(37,99,235,.12); transform: translateY(-3px); }
+  .feature-card:hover { border-color: var(--blue); box-shadow: 0 10px 20px rgba(37,99,235,.12); transform: translateY(-3px); }
   .feature-card .icon-box { width: 60px; height: 60px; background: var(--tint); border-radius: 50%;
                             display: flex; align-items: center; justify-content: center;
                             margin: 0 auto 16px; font-size: 1.8rem; }
@@ -68,7 +68,6 @@
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(8px); z-index: 950; flex-direction: column;
     align-items: center; justify-content: center; padding: 20px;
-    animation: fadeIn 0.3s ease;
   }
   .card-deck-overlay.active { display: flex; }
 
@@ -94,15 +93,6 @@
   .socrates-card .card-topic { font-size: 1.2rem; font-weight: 800; color: var(--navy); text-align: center; }
   .socrates-card .card-desc { font-size: 0.88rem; color: var(--muted); text-align: center; line-height: 1.4; }
   .socrates-card .card-tag { font-size: 0.75rem; background: var(--tint); color: var(--blue); padding: 4px 10px; border-radius: 999px; font-weight: bold; }
-
-  .cards-container.shuffling .socrates-card {
-    animation: shuffleAnim 0.6s ease-in-out;
-  }
-  @keyframes shuffleAnim {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(0.7) rotate(15deg) translateY(-50px); }
-    100% { transform: scale(1) rotate(0deg); }
-  }
 
   .deck-actions { margin-top: 35px; display: flex; gap: 15px; }
   .btn-shuffle { background: var(--gold); color: #fff; border: none; padding: 12px 28px; border-radius: 999px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(245,158,11,0.3); transition: transform 0.2s; }
@@ -133,8 +123,7 @@
   }
 
   .mindmap-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-  .mindmap-line { stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 6; animation: dash 20s linear infinite; }
-  @keyframes dash { to { stroke-dashoffset: -100; } }
+  .mindmap-line { stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 6; }
 
   .node {
     position: absolute; padding: 14px 22px; border-radius: 16px; font-weight: 700;
@@ -150,33 +139,30 @@
   /* ---------- AI 채팅 모달 ---------- */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.7); backdrop-filter: blur(6px); z-index: 900; justify-content: center; align-items: center; padding: 20px; }
   .modal-overlay.active { display: flex; }
-  .modal-content-chat { background: white; width: 85%; max-width: 850px; height: 85vh; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; }
+  .modal-content-chat { background: white; width: 85%; max-width: 850px; height: 85vh; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; position: relative; }
   .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
   #webchat { flex: 1; min-height: 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-top: 10px; }
-  .chat-tools { display: flex; gap: 10px; margin-bottom: 10px; }
+  .chat-tools { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
   .chat-tools button { background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 14px; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; }
   .chat-tools button:hover { background: #dbeafe; }
+  .chat-tools button.disabled { background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; cursor: not-allowed; }
   .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
 
   /* ================= 캐릭터 ================= */
-  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; }
+  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.25s ease-out; }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
-  .buddy-body { transform-box: fill-box; transform-origin: 50% 90%; transition: transform .18s ease-out; }
+  .buddy-body { transform-box: fill-box; transform-origin: 50% 90%; }
   #buddy.bob .buddy-body { animation: bob 2.6s ease-in-out infinite; }
   @keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 
   .buddy-eye-white { transform-box: fill-box; transform-origin: center; }
-  #buddy.blink .buddy-eye-white { animation: blink .18s ease-in-out; }
-  @keyframes blink { 50% { transform: scaleY(.1); } }
-
-  .buddy-think { opacity: 0; transition: opacity .2s; }
   #buddy.thinking .buddy-think { opacity: 1; }
-  #buddy.thinking .buddy-think circle { animation: think 1.1s ease-in-out infinite; }
+  .buddy-think { opacity: 0; transition: opacity .2s; }
+  .buddy-think circle { animation: think 1.1s ease-in-out infinite; }
   .buddy-think circle:nth-child(2) { animation-delay: .18s; }
   .buddy-think circle:nth-child(3) { animation-delay: .36s; }
-  @keyframes think { 0%,100% { transform: translateY(0); opacity: .4; }
-                     40%     { transform: translateY(-4px); opacity: 1; } }
+  @keyframes think { 0%,100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-4px); opacity: 1; } }
 
   #bubble { position: absolute; bottom: 62%; width: max-content; max-width: 260px;
             background: #fff; border: 2px solid var(--navy); border-radius: 14px;
@@ -186,12 +172,12 @@
             transition: opacity .22s, transform .22s cubic-bezier(.2,1.4,.4,1);
             pointer-events: none; }
   #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
-  #bubble.left  { right: 78%; transform-origin: bottom right; }
-  #bubble.right { left: 78%;  transform-origin: bottom left; }
+  #bubble.left { right: 78%; transform-origin: bottom right; }
+  #bubble.right { left: 78%; transform-origin: bottom left; }
   #bubble .tail { position: absolute; bottom: -8px; width: 14px; height: 14px;
                   background: #fff; border-right: 2px solid var(--navy);
                   border-bottom: 2px solid var(--navy); transform: rotate(45deg); }
-  #bubble.left  .tail { right: 20px; }
+  #bubble.left .tail { right: 20px; }
   #bubble.right .tail { left: 20px; }
 
   .buddy-toggle { position: fixed; right: 20px; bottom: 20px; z-index: 1050; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; font-size: .82rem; font-weight: 600; cursor: pointer; }
@@ -205,7 +191,7 @@
   <div class="logo">🎓 소크라테스 AI 진로탐색</div>
   <nav><ul>
     <li><a onclick="openDeck()">🔮 진로 카드 뽑기</a></li>
-    <li><a onclick="openMindmap()">🧠 마인드맵 보기</a></li>
+    <li><a id="navMindmap" class="disabled" onclick="openMindmap()">🧠 마인드맵 보기 (상담 완료 후 오픈)</a></li>
     <li><a onclick="openChat()">💬 AI와 대화하기</a></li>
   </ul></nav>
 </header>
@@ -282,7 +268,7 @@
 
 <!-- ================= 3. AI 채팅 모달 ================= -->
 <div class="modal-overlay" id="chatModal">
-  <div class="modal-content-chat">
+  <div class="modal-content-chat" id="chatModalContent">
     <div class="modal-header">
       <h3 style="color: var(--navy)">🤖 소크라테스 대화방</h3>
       <button class="close-btn" onclick="closeChat()">&times;</button>
@@ -290,7 +276,7 @@
     <div style="padding: 10px 0;">
       <div class="chat-tools">
         <button onclick="openDeck()">🃏 진로 카드 소환하기</button>
-        <button onclick="openMindmap()">🧠 UI 마인드맵 펼치기</button>
+        <button id="chatMindmapBtn" class="disabled" onclick="openMindmap()">🧠 마인드맵 보기 (상담 완료 후 활성화)</button>
       </div>
     </div>
     <div id="webchat"></div>
@@ -338,7 +324,7 @@
 
 <script>
 /* ============================================================
-   1. 카드 데이터 및 셔플 시스템
+   1. 진로 카드 덱 및 가이드 연동
    ============================================================ */
 const cardPool = [
   { icon: '🎨', topic: '창의성과 예술', desc: '새로운 시각적 경험과 아이디어를 세상에 표현하기', tag: '가치관' },
@@ -364,6 +350,16 @@ function renderCards() {
       <div class="card-desc">${card.desc}</div>
       <span style="font-size:0.75rem; color:#2563eb; font-weight:bold;">클릭하여 선택 →</span>
     `;
+    
+    // 카드에 마우스 올릴 때 미니 소크라테스가 가이드 멘트 출력
+    cardEl.addEventListener('mouseenter', () => {
+      dockEl = cardEl;
+      showBubble(`'${card.topic}' 카드구나! 이 길을 통해 어떤 세상을 꿈꾸고 있니?`);
+    });
+    cardEl.addEventListener('mouseleave', () => {
+      dockEl = null;
+    });
+
     cardEl.onclick = () => selectCard(card);
     container.appendChild(cardEl);
   });
@@ -399,9 +395,15 @@ function selectCard(card) {
 }
 
 /* ============================================================
-   2. 마인드맵 시각화 UI 연결선 그리기
+   2. 마인드맵 시각화 UI 및 상담 완료 상태 관리
    ============================================================ */
+let isTestCompleted = false; // 상담 완료 여부 플래그
+
 function openMindmap() {
+  if (!isTestCompleted) {
+    alert("아직 진로 탐색 상담이 완료되지 않았습니다! 대화를 통해 진행률 100%를 달성해 주세요.");
+    return;
+  }
   document.getElementById('mindmapOverlay').classList.add('active');
   drawMindmapLines();
 }
@@ -436,8 +438,24 @@ function drawMindmapLines() {
   });
 }
 
+// 상담 완료 시 호출되는 함수 (100% 달성 감지 시)
+function completeTest() {
+  isTestCompleted = true;
+  
+  // 네비게이션 및 채팅창 하단 버튼 활성화
+  const navBtn = document.getElementById('navMindmap');
+  navBtn.classList.remove('disabled');
+  navBtn.textContent = "🧠 마인드맵 보기 (완료됨)";
+
+  const chatBtn = document.getElementById('chatMindmapBtn');
+  chatBtn.classList.remove('disabled');
+  chatBtn.textContent = "🧠 마인드맵 확인하기";
+
+  showBubble("축하하네! 드디어 너만의 진로 마인드맵이 완성되었어!");
+}
+
 /* ============================================================
-   3. Direct Line 및 미니 소크라테스 버그 수정 (핵심)
+   3. Direct Line 및 채팅 연동
    ============================================================ */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
@@ -450,153 +468,6 @@ async function getDirectLineToken() {
   return await response.json();
 }
 
-async function fetchBuddyAIResponse(promptText) {
-  try {
-    const { token } = await getDirectLineToken();
-    const convRes = await fetch('https://directline.botframework.com/v3/directline/conversations', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const convData = await convRes.json();
-    const conversationId = convData.conversationId;
-
-    const systemPrompt = `[시스템 지시: 너는 유저를 관찰하는 미니 소크라테스다. 인사말 금지! 30자 이내의 짧은 질문이나 위트 있는 소크라테스식 혼잣말을 건네라.] 현재 동작: ${promptText}`;
-
-    // 1. 유저 ID를 고유하게 정의하여 보냄
-    const userId = 'mini_buddy_user_' + Date.now();
-    await fetch(`https://directline.botframework.com/v3/directline/conversations/${conversationId}/activities`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'message', from: { id: userId }, text: systemPrompt })
-    });
-
-    // 2. 봇이 실제 응답을 줄 때까지 폴링 (최대 3회)
-    for (let attempts = 0; attempts < 3; attempts++) {
-      await new Promise(r => setTimeout(r, 600));
-      const actRes = await fetch(`https://directline.botframework.com/v3/directline/conversations/${conversationId}/activities`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const actData = await actRes.json();
-      
-      // 유저 메시지가 아닌 봇의 순수한 메시지 응답만 필터링
-      const botMessages = actData.activities.filter(a => a.from.id !== userId && a.text && !a.text.includes('[시스템 지시:'));
-      if (botMessages.length > 0) {
-        return botMessages[botMessages.length - 1].text;
-      }
-    }
-  } catch (error) {
-    console.error('Buddy AI 통신 오류:', error);
-  }
-  return null;
-}
-
-/* ============================================================
-   4. 미니 소크라테스 캐릭터 연동 (프론트엔드 로컬 처리로 변경)
-   ============================================================ */
-const buddy = document.getElementById('buddy');
-const bodyG = buddy.querySelector('.buddy-body');
-const bubble = document.getElementById('bubble');
-const bubbleT = document.getElementById('bubbleText');
-const SIZE = 96;
-
-let mouse = { x: innerWidth * 0.5, y: innerHeight * 0.5 };
-let pos = { x: mouse.x + 70, y: mouse.y + 70 };
-let dockEl = null;
-
-addEventListener('mousemove', e => {
-  mouse.x = e.clientX; mouse.y = e.clientY;
-  resetIdle();
-});
-
-function tick(){
-  const t = dockEl ? { x: dockEl.getBoundingClientRect().right - 10, y: dockEl.getBoundingClientRect().top + 6 } : { x: mouse.x + 74, y: mouse.y + 64 };
-  pos.x += (t.x - pos.x) * 0.08;
-  pos.y += (t.y - pos.y) * 0.08;
-  buddy.style.transform = `translate3d(${pos.x - SIZE / 2}px, ${pos.y - SIZE / 2}px, 0)`;
-  requestAnimationFrame(tick);
-}
-requestAnimationFrame(tick);
-
-const COOLDOWN = 2000;
-const IDLE_MS = 3500;
-let lastSpoke = 0;
-let speaking = false;
-let idleTimer = null;
-
-// 상황별 미니 소크라테스 대사 풀 (메인 챗봇 세션을 방해하지 않고 즉시 출력)
-const buddyMessages = {
-  '검색창': [
-    "어떤 고민이든 편하게 적어보게. 질문 속에 답이 있는 법이니까.",
-    "무엇을 찾아야 할지 모를 때가 진짜 탐구의 시작이지.",
-    "너의 그 호기심, 아주 마음에 드는군요."
-  ],
-  '서비스 안내': [
-    "이 길잡이가 어떻게 돕는지 궁금한가? 차근차근 따라와 보게.",
-    "급할수록 돌아가라고 했다네."
-  ],
-  '학교별 공시정보': [
-    "건물과 교실이 중요한 게 아니라, 그곳에서 네가 무엇을 하느냐가 중요하지.",
-    "학교는 배움의 터전일 뿐, 항해의 방향은 네가 정하는 거야."
-  ],
-  '지역별 진로정보': [
-    "주변을 둘러보게. 이미 너를 위한 단서들이 널려 있을 테니.",
-    "네가 서 있는 그곳에서부터 탐구는 시작된다네."
-  ],
-  '세특 로드맵 생성': [
-    "끝에 도달하면 너만의 멋진 기록이 펼쳐질 거야.",
-    "기록은 네가 걸어온 흔적이자 미래의 지도라네."
-  ],
-  'idle': [
-    "무슨 생각을 그렇게 골똘히 하고 있나?",
-    "정답을 찾으려 조급해하지 말게나. 고민하는 그 자체도 배움이니까.",
-    "너 자신을 알라! ...는 뻔한 소리는 안 하겠네, 하하.",
-    "오늘 하루, 너는 너를 위해 어떤 질문을 던졌는가?"
-  ]
-};
-
-async function say(ctx){
-  if (speaking || buddy.classList.contains('off')) return;
-  if (Date.now() - lastSpoke < COOLDOWN) return;
-
-  speaking = true;
-  buddy.classList.add('thinking');
-
-  // 생각하는 듯한 연출을 위한 짧은 딜레이 (0.5초)
-  await new Promise(r => setTimeout(r, 500));
-
-  let categoryKey = ctx.trigger === 'hover' ? ctx.label : 'idle';
-  let pool = buddyMessages[categoryKey] || buddyMessages['idle'];
-  let msg = pool[Math.floor(Math.random() * pool.length)];
-
-  buddy.classList.remove('thinking');
-
-  showBubble(msg);
-  lastSpoke = Date.now();
-  speaking = false;
-}
-
-function showBubble(text){
-  bubbleT.textContent = text;
-  bubble.classList.add('show');
-  setTimeout(() => bubble.classList.remove('show'), 2500);
-}
-
-document.querySelectorAll('[data-buddy]').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    dockEl = el;
-    say({ trigger: 'hover', label: el.dataset.buddy });
-  });
-  el.addEventListener('mouseleave', () => { dockEl = null; });
-});
-
-function resetIdle(){
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => say({ trigger: 'idle' }), IDLE_MS);
-}
-
-/* ============================================================
-   5. 채팅창 구동
-   ============================================================ */
 async function initWebChat() {
   if (webChatStore) return;
   try {
@@ -608,6 +479,17 @@ async function initWebChat() {
         dispatch({ type: 'WEB_CHAT/SEND_MESSAGE', payload: { text: pendingMessage } });
         pendingMessage = null;
       }
+
+      // 봇이 보내는 응답 메시지 감지하여 100% 완료 체크
+      if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+        const activity = action.payload.activity;
+        if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
+          if (activity.text.includes('100%') || activity.text.includes('진로 키워드 마인드맵')) {
+            if (!isTestCompleted) completeTest();
+          }
+        }
+      }
+
       return next(action);
     });
 
@@ -633,6 +515,104 @@ document.getElementById('heroSubmit').onclick = () => {
   if (val) { pendingMessage = val; document.getElementById('heroInput').value = ''; }
   openChat();
 };
+
+/* ============================================================
+   4. 미니 소크라테스 캐릭터 및 위치 제어 로직
+   ============================================================ */
+const buddy = document.getElementById('buddy');
+const bubble = document.getElementById('bubble');
+const bubbleT = document.getElementById('bubbleText');
+const SIZE = 96;
+
+let mouse = { x: innerWidth * 0.5, y: innerHeight * 0.5 };
+let pos = { x: mouse.x + 70, y: mouse.y + 70 };
+let dockEl = null;
+
+addEventListener('mousemove', e => {
+  mouse.x = e.clientX; mouse.y = e.clientY;
+  resetIdle();
+});
+
+function tick(){
+  let target;
+  if (isChatOpen) {
+    // 채팅창이 열려있으면 채팅 모달의 좌측 하단 구석에 고정
+    const chatBox = document.getElementById('chatModalContent').getBoundingClientRect();
+    target = { x: chatBox.left + 40, y: chatBox.bottom - 40 };
+  } else if (dockEl) {
+    // 특정 카드나 요소에 마우스가 올라가 있으면 그 옆에 도킹
+    const rect = dockEl.getBoundingClientRect();
+    target = { x: rect.right - 10, y: rect.top + 20 };
+  } else {
+    // 평상시에는 마우스를 부드럽게 추적
+    target = { x: mouse.x + 74, y: mouse.y + 64 };
+  }
+
+  pos.x += (target.x - pos.x) * 0.08;
+  pos.y += (target.y - pos.y) * 0.08;
+  buddy.style.transform = `translate3d(${pos.x - SIZE / 2}px, ${pos.y - SIZE / 2}px, 0)`;
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+const COOLDOWN = 2000;
+const IDLE_MS = 3500;
+let lastSpoke = 0;
+let speaking = false;
+let idleTimer = null;
+
+const buddyMessages = {
+  '검색창': [
+    "어떤 고민이든 편하게 적어보게. 질문 속에 답이 있는 법이니까.",
+    "무엇을 찾아야 할지 모를 때가 진짜 탐구의 시작이지."
+  ],
+  '서비스 안내': ["이 길잡이가 어떻게 돕는지 궁금한가? 차근차근 따라와 보게."],
+  '학교별 공시정보': ["건물과 교실이 중요한 게 아니라, 그곳에서 네가 무엇을 하느냐가 중요하지."],
+  '지역별 진로정보': ["주변을 둘러보게. 이미 너를 위한 단서들이 널려 있을 테니."],
+  '세특 로드맵 생성': ["끝에 도달하면 너만의 멋진 기록이 펼쳐질 거야."],
+  'idle': [
+    "무슨 생각을 그렇게 골똘히 하고 있나?",
+    "정답을 찾으려 조급해하지 말게나. 고민하는 그 자체도 배움이니까.",
+    "오늘 하루, 너는 너를 위해 어떤 질문을 던졌는가?"
+  ]
+};
+
+async function say(ctx){
+  if (speaking || buddy.classList.contains('off')) return;
+  if (Date.now() - lastSpoke < COOLDOWN) return;
+
+  speaking = true;
+  buddy.classList.add('thinking');
+  await new Promise(r => setTimeout(r, 400));
+
+  let categoryKey = ctx.trigger === 'hover' ? ctx.label : 'idle';
+  let pool = buddyMessages[categoryKey] || buddyMessages['idle'];
+  let msg = pool[Math.floor(Math.random() * pool.length)];
+
+  buddy.classList.remove('thinking');
+  showBubble(msg);
+  lastSpoke = Date.now();
+  speaking = false;
+}
+
+function showBubble(text){
+  bubbleT.textContent = text;
+  bubble.classList.add('show');
+  setTimeout(() => bubble.classList.remove('show'), 2500);
+}
+
+document.querySelectorAll('[data-buddy]').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    dockEl = el;
+    say({ trigger: 'hover', label: el.dataset.buddy });
+  });
+  el.addEventListener('mouseleave', () => { dockEl = null; });
+});
+
+function resetIdle(){
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => say({ trigger: 'idle' }), IDLE_MS);
+}
 
 document.getElementById('buddyToggle').onclick = () => {
   const off = buddy.classList.toggle('off');
