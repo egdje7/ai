@@ -32,7 +32,8 @@
   /* GNB 상단 바 */
   .top-bar { background: #f8fafc; padding: 6px 10%; display: flex; justify-content: flex-end;
               gap: 12px; font-size: .8rem; color: var(--muted); border-bottom: 1px solid var(--line); }
-  .top-bar span { cursor: pointer; }
+  .top-bar span { cursor: pointer; transition: color 0.2s; }
+  .top-bar span:hover { color: var(--blue); }
 
   /* 헤더 */
   header { background: #fff; padding: 16px 10%; display: flex; justify-content: space-between;
@@ -118,7 +119,7 @@
     transition: width 0.4s ease-in-out;
   }
 
-  /* Google Maps 플로팅 카드 */
+  /* 구글 Maps 플로팅 카드 */
   .map-floating-card {
     background: var(--navy);
     color: #fff;
@@ -138,7 +139,6 @@
   .map-card-header h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
   .map-card-header p { font-size: 0.85rem; color: #93c5fd; }
   
-  /* 지도 창키우기 버튼 */
   .btn-expand-map {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
@@ -175,7 +175,6 @@
     width: 100%; height: 100%; border: 0;
   }
 
-  /* 지도 확대 모달전용 스타일 */
   .map-modal-box {
     background: #fff;
     width: 95%;
@@ -249,7 +248,7 @@
     transform: translateZ(10px);
   }
 
-  /* 모달 레이어 및 모달 세부 스타일 */
+  /* 모달 레이어 */
   .result-overlay, .feature-overlay, .map-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
@@ -263,7 +262,8 @@
   }
   .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
   .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); }
-  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
+  .close-btn:hover { background: #e2e8f0; }
 
   .modal-content-section { font-size: 0.95rem; line-height: 1.6; color: #334155; }
   .modal-content-section h3 { font-size: 1.1rem; color: var(--navy); margin: 16px 0 8px; }
@@ -311,22 +311,6 @@
   .buddy-think circle:nth-child(2) { animation-delay: .18s; }
   .buddy-think circle:nth-child(3) { animation-delay: .36s; }
   @keyframes think { 0%,100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-4px); opacity: 1; } }
-
-  #bubble { position: absolute; bottom: 62%; width: max-content; max-width: 145px;
-            background: #fff; border: 2px solid var(--navy); border-radius: 8px;
-            padding: 5px 8px; font-size: .73rem; line-height: 1.35; color: var(--ink);
-            box-shadow: 0 6px 16px rgba(30,58,138,.15);
-            opacity: 0; transform: translateY(6px) scale(.94); transform-origin: bottom center;
-            transition: opacity .22s, transform .22s cubic-bezier(.2,1.4,.4,1);
-            pointer-events: none; }
-  #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
-  #bubble.left { right: 110%; left: auto; transform-origin: bottom right; }
-  #bubble.right { left: 110%; right: auto; transform-origin: bottom left; }
-  #bubble .tail { position: absolute; bottom: -7px; width: 10px; height: 10px;
-                  background: #fff; border-right: 2px solid var(--navy);
-                  border-bottom: 2px solid var(--navy); transform: rotate(45deg); }
-  #bubble.left .tail { right: 12px; left: auto; }
-  #bubble.right .tail { left: 12px; right: auto; }
 </style>
 </head>
 <body>
@@ -354,7 +338,7 @@
       <div class="hero-title-area">
         <h2>대화를 나누다 보면 <span>아이들의 미래</span>가 보입니다</h2>
       </div>
-      <div class="chat-panel" data-buddy="채팅창">
+      <div class="chat-panel">
         <div class="panel-header">
           <h3>🤖 소크라테스 대화방</h3>
         </div>
@@ -374,13 +358,12 @@
     </div>
 
     <!-- 구글 지도 플로팅 카드 -->
-    <div class="map-floating-card" data-buddy="지역별 진로정보">
+    <div class="map-floating-card">
       <div class="map-card-header">
         <div>
           <h3>Google Maps 기반<br>학교/진로 지도 탐색</h3>
           <p>📍 구글 지도로 위치 탐색</p>
         </div>
-        <!-- 지도를 크게 볼 수 있는 창키우기 버튼 추가 -->
         <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
       </div>
 
@@ -402,25 +385,25 @@
   <!-- 하단 4개 카드 -->
   <section class="feature-section-wrapper">
     <div class="feature-grid">
-      <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
+      <div class="feature-card" onclick="openFeatureModal('guide')">
         <div class="icon-box">📊</div>
         <h4>서비스 안내</h4>
         <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
       </div>
 
-      <div class="feature-card" data-buddy="학교별 공시정보" onclick="openFeatureModal('school')">
+      <div class="feature-card" onclick="openFeatureModal('school')">
         <div class="icon-box">🏫</div>
         <h4>학교별 공시정보</h4>
         <p>전국 학교 공시정보를 정확하고 알기 쉽게 검색</p>
       </div>
 
-      <div class="feature-card" data-buddy="지역별 진로정보" onclick="openFeatureModal('region')">
+      <div class="feature-card" onclick="openFeatureModal('region')">
         <div class="icon-box">📍</div>
         <h4>지역별 공시정보</h4>
         <p>관심지역의 학교 공시정보를 한눈에 확인</p>
       </div>
 
-      <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
+      <div class="feature-card" onclick="openFeatureModal('roadmap')">
         <div class="icon-box">📑</div>
         <h4>세특 로드맵 생성</h4>
         <p>대화 완료 후 맞춤형 탐구 보고서 발급</p>
@@ -526,7 +509,6 @@
       </g>
     </g>
   </svg>
-  <div id="bubble"><span class="tail"></span><span id="bubbleText"></span></div>
 </div>
 
 <script>
@@ -559,7 +541,7 @@ function searchGoogleLocationModal() {
   const encodedQuery = encodeURIComponent(query);
   const newSrc = `https://maps.google.com/maps?q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
   document.getElementById('googleMapIframeLarge').src = newSrc;
-  document.getElementById('googleMapIframe').src = newSrc; // 메인지도 동기화
+  document.getElementById('googleMapIframe').src = newSrc;
 }
 
 function setGoogleLocationCenterModal() {
@@ -569,7 +551,7 @@ function setGoogleLocationCenterModal() {
       const lng = pos.coords.longitude;
       const newSrc = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
       document.getElementById('googleMapIframeLarge').src = newSrc;
-      document.getElementById('googleMapIframe').src = newSrc; // 메인지도 동기화
+      document.getElementById('googleMapIframe').src = newSrc;
     }, () => {
       alert('위치 정보를 불러올 수 없습니다.');
     });
@@ -675,7 +657,7 @@ function toggleControlPanel() {
   panel.classList.toggle('collapsed');
 }
 
-/* WebChat 연동 및 진행률 계산 예시 */
+/* WebChat 연동 및 진행률 계산 */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
 let currentProgress = 0;
@@ -695,7 +677,6 @@ async function initWebChat() {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
-          // 대화 주고받음에 따라 진행률 상승 처리
           currentProgress += 20;
           updateProgress(currentProgress);
 
@@ -716,7 +697,7 @@ async function initWebChat() {
 
 window.addEventListener('DOMContentLoaded', initWebChat);
 
-/* 캐릭터 제어 */
+/* 캐릭터 제어 및 애니메이션 */
 const buddy = document.getElementById('buddy');
 const buddySizeSlider = document.getElementById('buddySizeSlider');
 const buddySizeLabel = document.getElementById('buddySizeLabel');
@@ -751,7 +732,7 @@ function tick(){
 }
 requestAnimationFrame(tick);
 
-/* 하단 4개 카드 인터랙션 */
+/* 하단 4개 카드 3D 인터랙션 */
 document.querySelectorAll('.feature-card').forEach(card => {
   card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
