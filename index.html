@@ -149,7 +149,7 @@
   .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
 
   /* ================= 캐릭터 ================= */
-  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.25s ease-out; }
+  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.2s ease-out; }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
   .buddy-body { transform-box: fill-box; transform-origin: 50% 90%; }
@@ -172,13 +172,16 @@
             transition: opacity .22s, transform .22s cubic-bezier(.2,1.4,.4,1);
             pointer-events: none; }
   #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
-  #bubble.left { right: 78%; transform-origin: bottom right; }
-  #bubble.right { left: 78%; transform-origin: bottom left; }
+  
+  /* 동적 말풍선 위치 제어 (캐릭터 기준 좌/우 반대편) */
+  #bubble.left { right: 110%; left: auto; transform-origin: bottom right; }
+  #bubble.right { left: 110%; right: auto; transform-origin: bottom left; }
+  
   #bubble .tail { position: absolute; bottom: -8px; width: 14px; height: 14px;
                   background: #fff; border-right: 2px solid var(--navy);
                   border-bottom: 2px solid var(--navy); transform: rotate(45deg); }
-  #bubble.left .tail { right: 20px; }
-  #bubble.right .tail { left: 20px; }
+  #bubble.left .tail { right: 20px; left: auto; }
+  #bubble.right .tail { left: 20px; right: auto; }
 
   .buddy-toggle { position: fixed; right: 20px; bottom: 20px; z-index: 1050; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; font-size: .82rem; font-weight: 600; cursor: pointer; }
 </style>
@@ -317,7 +320,7 @@
       </g>
     </g>
   </svg>
-  <div id="bubble" class="left"><span class="tail"></span><span id="bubbleText"></span></div>
+  <div id="bubble"><span class="tail"></span><span id="bubbleText"></span></div>
 </div>
 
 <button class="buddy-toggle" id="buddyToggle">소크라테스 숨기기</button>
@@ -351,7 +354,6 @@ function renderCards() {
       <span style="font-size:0.75rem; color:#2563eb; font-weight:bold;">클릭하여 선택 →</span>
     `;
     
-    // 카드에 마우스 올릴 때 미니 소크라테스가 가이드 멘트 출력
     cardEl.addEventListener('mouseenter', () => {
       dockEl = cardEl;
       showBubble(`'${card.topic}' 카드구나! 이 길을 통해 어떤 세상을 꿈꾸고 있니?`);
@@ -397,7 +399,7 @@ function selectCard(card) {
 /* ============================================================
    2. 마인드맵 시각화 UI 및 상담 완료 상태 관리
    ============================================================ */
-let isTestCompleted = false; // 상담 완료 여부 플래그
+let isTestCompleted = false;
 
 function openMindmap() {
   if (!isTestCompleted) {
@@ -438,11 +440,8 @@ function drawMindmapLines() {
   });
 }
 
-// 상담 완료 시 호출되는 함수 (100% 달성 감지 시)
 function completeTest() {
   isTestCompleted = true;
-  
-  // 네비게이션 및 채팅창 하단 버튼 활성화
   const navBtn = document.getElementById('navMindmap');
   navBtn.classList.remove('disabled');
   navBtn.textContent = "🧠 마인드맵 보기 (완료됨)";
@@ -480,7 +479,6 @@ async function initWebChat() {
         pendingMessage = null;
       }
 
-      // 봇이 보내는 응답 메시지 감지하여 100% 완료 체크
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
@@ -517,7 +515,7 @@ document.getElementById('heroSubmit').onclick = () => {
 };
 
 /* ============================================================
-   4. 미니 소크라테스 캐릭터 및 위치 제어 로직
+   4. 미니 소크라테스 캐릭터 및 부드러운 위치/말풍선 제어 로직
    ============================================================ */
 const buddy = document.getElementById('buddy');
 const bubble = document.getElementById('bubble');
@@ -536,20 +534,20 @@ addEventListener('mousemove', e => {
 function tick(){
   let target;
   if (isChatOpen) {
-    // 채팅창이 열려있으면 채팅 모달의 좌측 하단 구석에 고정
-    const chatBox = document.getElementById('chatModalContent').getBoundingClientRect();
-    target = { x: chatBox.left + 40, y: chatBox.bottom - 40 };
+    // 채팅창이 열려있으면 화면 전체의 완전히 좌측 하단 구석에 고정
+    target = { x: 60, y: innerHeight - 60 };
   } else if (dockEl) {
-    // 특정 카드나 요소에 마우스가 올라가 있으면 그 옆에 도킹
+    // 카드나 요소에 마우스가 올라가 있으면 그 옆에 도킹
     const rect = dockEl.getBoundingClientRect();
     target = { x: rect.right - 10, y: rect.top + 20 };
   } else {
-    // 평상시에는 마우스를 부드럽게 추적
+    // 평상시에는 부드러운 관성으로 마우스를 추적
     target = { x: mouse.x + 74, y: mouse.y + 64 };
   }
 
-  pos.x += (target.x - pos.x) * 0.08;
-  pos.y += (target.y - pos.y) * 0.08;
+  // 보간 계수를 낮추어(0.045) 훨씬 매끄럽고 부드러운 움직임 부여
+  pos.x += (target.x - pos.x) * 0.045;
+  pos.y += (target.y - pos.y) * 0.045;
   buddy.style.transform = `translate3d(${pos.x - SIZE / 2}px, ${pos.y - SIZE / 2}px, 0)`;
   requestAnimationFrame(tick);
 }
@@ -597,6 +595,16 @@ async function say(ctx){
 
 function showBubble(text){
   bubbleT.textContent = text;
+
+  // 캐릭터가 화면의 좌측에 위치해 있으면 말풍선이 오른쪽에 뜨게 하고, 우측에 있으면 왼쪽에 뜨게 동적 제어
+  if (pos.x < innerWidth / 2) {
+    bubble.classList.remove('left');
+    bubble.classList.add('right');
+  } else {
+    bubble.classList.remove('right');
+    bubble.classList.add('left');
+  }
+
   bubble.classList.add('show');
   setTimeout(() => bubble.classList.remove('show'), 2500);
 }
