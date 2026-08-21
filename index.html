@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>소크라테스 진로 탐색 & 마인드맵 AI</title>
+<title>소크라테스 진로 탐색 AI</title>
 
 <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -52,7 +52,6 @@
                        border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
   .search-box button:hover { background: var(--blue); }
 
-  /* ---------- 기능 카드 섹션 ---------- */
   .feature-section { padding: 40px 10% 80px; display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
   .feature-card { background: #fff; border-radius: 16px; padding: 30px 20px; text-align: center;
                   border: 1px solid var(--line); box-shadow: 0 4px 6px rgba(0,0,0,.02);
@@ -64,9 +63,7 @@
   .feature-card h4 { font-size: 1.1rem; margin-bottom: 8px; }
   .feature-card p { font-size: .85rem; color: var(--muted); line-height: 1.4; }
 
-  /* ============================================================
-     대형 결과 보고서 팝업
-     ============================================================ */
+  /* 대형 결과 보고서 팝업 */
   .result-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.82);
     backdrop-filter: blur(10px); z-index: 970; justify-content: center; align-items: center; padding: 20px;
@@ -92,7 +89,7 @@
   .result-quote h5 { color: #b45309; font-size: 1rem; margin-bottom: 6px; }
   .result-quote p { font-size: 0.95rem; color: #78350f; font-style: italic; line-height: 1.4; }
 
-  /* ---------- AI 채팅 모달 ---------- */
+  /* AI 채팅 모달 */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.7); backdrop-filter: blur(6px); z-index: 900; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s ease; }
   .modal-overlay.active { display: flex; }
   
@@ -113,7 +110,6 @@
   .close-btn { background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
   .close-btn:hover { background: #e2e8f0; }
 
-  /* 검사 완료 알림 박스 */
   .completion-banner {
     background: linear-gradient(135deg, #dcfce7, #dbeafe);
     border: 2px solid #22c55e; border-radius: 12px; padding: 12px 18px;
@@ -124,12 +120,11 @@
   .btn-view-result { background: #16a34a; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
   .btn-view-result:hover { background: #15803d; }
 
-  /* 애니메이션 키프레임 */
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
   @keyframes bounceIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-  /* ================= 캐릭터 ================= */
+  /* 캐릭터 */
   #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.15s cubic-bezier(0.1, 1, 0.3, 1); }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
@@ -183,7 +178,7 @@
   <section class="hero-section">
     <div class="hero-left">
       <h2 class="hero-title">소크라테스의 질문으로 시작하는<br><span>나만의 진로 마인드맵</span></h2>
-      <div class="search-box" data-buddy="검색창">
+      <div class="search-box" data-buddy="메인 질문 입력 영역을 기웃거림">
         <input type="text" id="heroInput" placeholder="무엇이든 질문해보세요. 예) 컴퓨터공학과와 디자인 중 고민돼요.">
         <button id="heroSubmit">AI 탐색</button>
       </div>
@@ -191,25 +186,25 @@
   </section>
 
   <section class="feature-section">
-    <div class="feature-card" data-buddy="서비스 안내">
+    <div class="feature-card" data-buddy="서비스 가이드 메뉴 살펴보기">
       <div class="icon-box">📊</div>
       <h4>서비스 안내</h4>
       <p>AI 진로 길잡이 이용 방법과<br>성찰 프로세스 안내</p>
     </div>
 
-    <div class="feature-card" data-buddy="학교별 공시정보">
+    <div class="feature-card" data-buddy="전국 학교 공시 정보 조회 버튼 탐색">
       <div class="icon-box">🏫</div>
       <h4>학교별 공시정보</h4>
       <p>전국 중·고등학교 정보 및<br>교과 편성표 확인</p>
     </div>
 
-    <div class="feature-card" data-buddy="지역별 진로정보">
+    <div class="feature-card" data-buddy="지역별 진로 프로그램 메뉴 둘러보기">
       <div class="icon-box">📍</div>
       <h4>지역별 진로정보</h4>
       <p>관심 지역의 학교별<br>진로 프로그램 검색</p>
     </div>
 
-    <div class="feature-card" data-buddy="세특 로드맵 생성">
+    <div class="feature-card" data-buddy="세특 탐구 로드맵 발급 메뉴 탐색">
       <div class="icon-box">📑</div>
       <h4>세특 로드맵 생성</h4>
       <p>AI 대화 완료 후<br>맞춤형 탐구 보고서 발급</p>
@@ -217,7 +212,6 @@
   </section>
 </main>
 
-<!-- ================= 대형 종합 결과 보고서 팝업 ================= -->
 <div class="result-overlay" id="resultOverlay">
   <div class="result-modal">
     <div class="result-header">
@@ -255,7 +249,6 @@
   </div>
 </div>
 
-<!-- ================= AI 채팅 모달 ================= -->
 <div class="modal-overlay" id="chatModal">
   <div class="modal-content-chat" id="chatModalContent">
     <div class="modal-header">
@@ -273,7 +266,6 @@
   </div>
 </div>
 
-<!-- 캐릭터 및 토글 -->
 <div id="buddy" class="bob">
   <svg viewBox="0 0 120 120" aria-hidden="true">
     <defs>
@@ -313,9 +305,6 @@
 <button class="buddy-toggle" id="buddyToggle">소크라테스 숨기기</button>
 
 <script>
-/* ============================================================
-   1. 종합 결과 보고서 모달 및 완료 상태 관리
-   ============================================================ */
 let isTestCompleted = false;
 
 function openResultModal() {
@@ -333,12 +322,10 @@ function completeTest() {
   if (isTestCompleted) return;
   isTestCompleted = true;
 
-  // 상단 네비게이션 버튼 활성화
   const navBtn = document.getElementById('navResult');
   navBtn.classList.remove('disabled');
   navBtn.textContent = "📊 종합 결과 보고서 (완료됨)";
 
-  // 채팅 툴바 영역에 검사 완료 배너와 버튼 동적 생성
   const actionContainer = document.getElementById('chatActionContainer');
   actionContainer.innerHTML = `
     <div class="completion-banner">
@@ -350,9 +337,7 @@ function completeTest() {
   showBubble("축하하네! 드디어 너만의 진로 리포트가 완성되었어!");
 }
 
-/* ============================================================
-   2. Direct Line 및 채팅 연동 & 엔터 키 처리
-   ============================================================ */
+/* API 및 채팅 연동 */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
 let pendingMessage = null;
@@ -362,6 +347,48 @@ async function getDirectLineToken() {
   const response = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
   if (!response.ok) throw new Error('토큰 발급 실패');
   return await response.json();
+}
+
+/* 유저 상호작용 실시간 AI 호출 함수 (정해진 대사 없이 API 실시간 호출) */
+async function fetchBuddyAIResponse(contextAction) {
+  try {
+    const { token } = await getDirectLineToken();
+    const convRes = await fetch('https://directline.botframework.com/v3/directline/conversations', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const convData = await convRes.json();
+    const conversationId = convData.conversationId;
+
+    const systemPrompt = `[상황: 유저가 현재 '${contextAction}' 행동을 하고 있음]
+너는 옆에서 유저를 관찰하는 '미니 소크라테스'야.
+안녕/반가워 등 흔한 인사는 절대 하지 마.
+유저의 행동에 맞춰 유저가 생각을 더 깊게 하도록 만드는 기발한 질문이나 짧은 혼잣말을 1문장(30자 이내)으로 해줘.
+이전에 한 말과 절대 겹치지 않게 매번 새롭게 말해줘.`;
+
+    const userId = 'mini_buddy_' + Date.now();
+    await fetch(`https://directline.botframework.com/v3/directline/conversations/${conversationId}/activities`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'message', from: { id: userId }, text: systemPrompt })
+    });
+
+    for (let i = 0; i < 4; i++) {
+      await new Promise(r => setTimeout(r, 450));
+      const actRes = await fetch(`https://directline.botframework.com/v3/directline/conversations/${conversationId}/activities`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const actData = await actRes.json();
+      
+      const botMsgs = actData.activities.filter(a => a.from.id !== userId && a.text && !a.text.includes('[상황:'));
+      if (botMsgs.length > 0) {
+        return botMsgs[botMsgs.length - 1].text;
+      }
+    }
+  } catch (err) {
+    console.error('Buddy AI 통신 장애:', err);
+  }
+  return "무슨 생각을 하고 있는지 문득 궁금해지는군.";
 }
 
 async function initWebChat() {
@@ -376,7 +403,6 @@ async function initWebChat() {
         pendingMessage = null;
       }
 
-      // 봇이 보내는 응답 메시지 감지하여 완료 조건 체크
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
@@ -406,7 +432,6 @@ function closeChat() {
   document.getElementById('chatModal').classList.remove('active');
 }
 
-// 홈 화면 검색창 제출 및 엔터 키 처리
 function handleHeroSubmit() {
   const val = document.getElementById('heroInput').value.trim();
   if (val) {
@@ -418,14 +443,10 @@ function handleHeroSubmit() {
 
 document.getElementById('heroSubmit').onclick = handleHeroSubmit;
 document.getElementById('heroInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    handleHeroSubmit();
-  }
+  if (e.key === 'Enter') handleHeroSubmit();
 });
 
-/* ============================================================
-   3. 미니 소크라테스 캐릭터 및 위치/말풍선 제어 로직
-   ============================================================ */
+/* 미니 소크라테스 캐릭터 인터랙션 */
 const buddy = document.getElementById('buddy');
 const bubble = document.getElementById('bubble');
 const bubbleT = document.getElementById('bubbleText');
@@ -443,14 +464,11 @@ addEventListener('mousemove', e => {
 function tick(){
   let target;
   if (isChatOpen) {
-    // 채팅 중일 때는 화면 좌측 하단 구석에 고정
     target = { x: 60, y: innerHeight - 60 };
   } else if (dockEl) {
-    // 요소에 마우스가 올라가 있으면 그 옆에 도킹
     const rect = dockEl.getBoundingClientRect();
     target = { x: rect.right - 10, y: rect.top + 20 };
   } else {
-    // 평상시 마우스 추적
     target = { x: mouse.x + 74, y: mouse.y + 64 };
   }
 
@@ -461,39 +479,22 @@ function tick(){
 }
 requestAnimationFrame(tick);
 
-const COOLDOWN = 2000;
-const IDLE_MS = 3500;
+const COOLDOWN = 3000;
+const IDLE_MS = 4000;
 let lastSpoke = 0;
 let speaking = false;
 let idleTimer = null;
 
-const buddyMessages = {
-  '검색창': [
-    "어떤 고민이든 편하게 적어보게. 질문 속에 답이 있는 법이니까.",
-    "무엇을 찾아야 할지 모를 때가 진짜 탐구의 시작이지."
-  ],
-  '서비스 안내': ["이 길잡이가 어떻게 돕는지 궁금한가? 차근차근 따라와 보게."],
-  '학교별 공시정보': ["건물과 교실이 중요한 게 아니라, 그곳에서 네가 무엇을 하느냐가 중요하지."],
-  '지역별 진로정보': ["주변을 둘러보게. 이미 너를 위한 단서들이 널려 있을 테니."],
-  '세특 로드맵 생성': ["끝에 도달하면 너만의 멋진 기록이 펼쳐질 거야."],
-  'idle': [
-    "무슨 생각을 그렇게 골똘히 하고 있나?",
-    "정답을 찾으려 조급해하지 말게나. 고민하는 그 자체도 배움이니까.",
-    "오늘 하루, 너는 너를 위해 어떤 질문을 던졌는가?"
-  ]
-};
-
+/* 고정 대사(buddyMessages)를 전면 삭제하고 실시간 AI 통신으로 대체 */
 async function say(ctx){
   if (speaking || buddy.classList.contains('off')) return;
   if (Date.now() - lastSpoke < COOLDOWN) return;
 
   speaking = true;
   buddy.classList.add('thinking');
-  await new Promise(r => setTimeout(r, 400));
 
-  let categoryKey = ctx.trigger === 'hover' ? ctx.label : 'idle';
-  let pool = buddyMessages[categoryKey] || buddyMessages['idle'];
-  let msg = pool[Math.floor(Math.random() * pool.length)];
+  let actionText = ctx.trigger === 'hover' ? ctx.label : '생각에 잠겨 화면을 움직이지 않고 계심';
+  let msg = await fetchBuddyAIResponse(actionText);
 
   buddy.classList.remove('thinking');
   showBubble(msg);
@@ -513,7 +514,7 @@ function showBubble(text){
   }
 
   bubble.classList.add('show');
-  setTimeout(() => bubble.classList.remove('show'), 2800);
+  setTimeout(() => bubble.classList.remove('show'), 3000);
 }
 
 document.querySelectorAll('[data-buddy]').forEach(el => {
