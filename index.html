@@ -265,7 +265,7 @@
     box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
 
-  /* 두 번째 파일 통합 UI 전용 스타일 */
+  /* 통합 UI 전용 스타일 */
   .tab-container {
     display: flex;
     justify-content: flex-start;
@@ -479,7 +479,7 @@
   <div class="logo">🎓 소크라테스 AI</div>
   <nav><ul>
     <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
-    <li><a onclick="openFeatureModal('integrated')">전국학교정보</a></li>
+    <li><a onclick="openFeatureModal('integrated')">전국대학교정보</a></li>
     <li><a onclick="openFeatureModal('integrated')">진로 소식</a></li>
     <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서</a></li>
   </ul></nav>
@@ -516,14 +516,14 @@
     <div class="map-floating-card" data-buddy="지역별 진로정보">
       <div class="map-card-header">
         <div>
-          <h3>Google Maps 기반<br>학교/진로 지도 탐색</h3>
+          <h3>Google Maps 기반<br>대학교/진로 지도 탐색</h3>
           <p>📍 구글 지도로 위치 탐색</p>
         </div>
         <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
       </div>
 
       <div class="map-search-mini">
-        <input type="text" id="mapSearchInput" placeholder="지역/학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocation()">
+        <input type="text" id="mapSearchInput" placeholder="지역/대학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocation()">
         <button onclick="searchGoogleLocation()">검색</button>
       </div>
 
@@ -546,16 +546,16 @@
         <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
       </div>
 
-      <div class="feature-card" data-buddy="학교별 공시정보" onclick="openFeatureModal('school')">
-        <div class="icon-box">🏫</div>
-        <h4>학교별 공시정보</h4>
-        <p>전국 학교 공시정보를 정확하고 알기 쉽게 검색</p>
+      <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openFeatureModal('school')">
+        <div class="icon-box">🏛️</div>
+        <h4>대학교별 공시정보</h4>
+        <p>전국 대학교 공시정보를 정확하고 알기 쉽게 검색</p>
       </div>
 
       <div class="feature-card" data-buddy="지역별 진로정보" onclick="openFeatureModal('region')">
         <div class="icon-box">📍</div>
         <h4>지역별 공시정보</h4>
-        <p>관심지역의 학교 공시정보를 한눈에 확인</p>
+        <p>관심지역의 진로 인프라 공시정보를 한눈에 확인</p>
       </div>
 
       <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
@@ -575,7 +575,7 @@
       <button class="close-btn" onclick="closeMapModal()">&times;</button>
     </div>
     <div class="map-search-mini" style="margin-bottom: 16px;">
-      <input type="text" id="mapModalSearchInput" placeholder="지역/학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocationModal()">
+      <input type="text" id="mapModalSearchInput" placeholder="지역/대학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocationModal()">
       <button onclick="searchGoogleLocationModal()" style="padding: 0 16px;">검색</button>
       <button onclick="setGoogleLocationCenterModal()" style="background: #16a34a; color:#fff; border:none; border-radius:6px; padding:0 12px; font-weight:bold; cursor:pointer;">📍 내 위치</button>
     </div>
@@ -606,7 +606,7 @@
     <div class="modal-content-section" id="reportContentArea">
       <p><b>탐색 대상:</b> 학생 맞춤형 AI 대화 분석 완료</p>
       <p><b>주요 추천 직군:</b> 소프트웨어 및 인공지능 연구원, 시스템 데이터 엔지니어</p>
-      <p><b>추천 진로 로드맵:</b> 고교학점제 연계 수학/정보 과목 집중 이수 및 컴퓨팅 사고력 중심 동아리 활동</p>
+      <p><b>추천 진로 로드맵:</b> 연계 전공 및 AI/정보 분야 심화 학부 과정 집중 이수, 대학 연구실 연계 프로젝트 참여</p>
       
       <h3 style="margin-top: 20px;">🧠 진로 마인드맵</h3>
       <div class="mindmap-container">
@@ -701,70 +701,71 @@
 <script>
 let hasReached100 = false;
 
-/* 데이터 정의 (두 번째 파일 통합 데이터) */
+/* 데이터 정의 (대학교 정보로 구성) */
 const schoolData = [
   {
     id: 1,
-    name: "서울고등학교",
-    type: "고등학교",
-    address: "서울특별시 서초구 효령로 190",
-    students: "1,120명",
-    teachers: "98명",
-    curriculum: "AI·데이터 융합 교육과정 특화",
-    clubs: "SW 코딩부, 로봇공학반, 빅데이터 연구회 등 35개",
-    achievement: "수학/과학 성취도 A등급 비율 82%"
+    name: "서울대학교",
+    type: "대학교",
+    address: "서울특별시 관악구 관악로 1",
+    students: "28,000명",
+    teachers: "2,200명",
+    curriculum: "AI·데이터 사이언스 융합 학부 및 인공지능 전문 과정",
+    clubs: "AI 학술 연구회, 로봇공학 동아리, 빅데이터 분석 학회 등 50여 개",
+    achievement: "취업률 71.2% / 연구 실적 최우수 S등급"
   },
   {
     id: 2,
-    name: "한국과학고등학교",
-    type: "고등학교",
-    address: "부산광역시 진구 백양관문로 105",
-    students: "420명",
-    teachers: "65명",
-    curriculum: "심화 과학 및 첨단 공학 이수과정",
-    clubs: "인공지능 연구반, 딥러닝 자율동아리",
-    achievement: "성취도 A등급 비율 96%"
+    name: "한국과학기술원 (KAIST)",
+    type: "대학교",
+    address: "대전광역시 유성구 대학로 291",
+    students: "10,500명",
+    teachers: "1,100명",
+    curriculum: "첨단 공학, 전산학부 심화 과정 및 AI 대학원 연계",
+    clubs: "인공지능 연구회, 자율주행 알고리즘 연구반",
+    achievement: "취업률 85.4% / 글로벌 연구 산학협력 최우수"
   },
   {
     id: 3,
-    name: "경기중학교",
-    type: "중학교",
-    address: "경기도 수원시 팔달구 권광로 20",
-    students: "850명",
-    teachers: "54명",
-    curriculum: "창의융합 ICT 및 방과후 코딩교실",
-    clubs: "디지털 드로잉, 기초 알고리즘반",
-    achievement: "국영수 평균 성취도 B등급 이상 88%"
+    name: "포항공과대학교 (POSTECH)",
+    type: "대학교",
+    address: "경상북도 포항시 남구 청암로 77",
+    students: "3,500명",
+    teachers: "450명",
+    curriculum: "컴퓨터공학과 중심 SW·AI 융합 중심 대학 과제 운영",
+    clubs: "알고리즘 연구회, 딥러닝 응용 개발 프로젝트반",
+    achievement: "취업 및 진학률 88.0%"
   }
 ];
 
+/* 기관 정보 올바르게 수정 */
 const regionData = [
   {
     id: 1,
     region: "서울",
-    title: "서울특별시교육청 진로직업체험센터",
-    schoolsCount: "1,310개교",
-    programs: "AI 미래직업 체험관, SW 코딩 캠프, 대학 연계 진로 멘토링",
+    title: "서울특별시교육청 진로직업교육체험지원센터",
+    schoolsCount: "54개 대학 연계",
+    programs: "자치구별 진로직업체험지원센터 연계 프로그램, 대학생 멘토링, AI 미래직업 체험관",
     location: "서울특별시 종로구 송월길 48",
-    infra: "진로체험 지원센터 25개소 운영 중"
+    infra: "25개 자치구 진로직업체험지원센터 및 권역별 대학 연계 인프라"
   },
   {
     id: 2,
     region: "부산",
-    title: "부산광역시 교육청 진로교육원",
-    schoolsCount: "630개교",
-    programs: "해양 첨단기술 체험프로그램, 신산업 융합 세특 탐구 교실",
-    location: "부산광역시 해운대구 우동",
-    infra: "지역 거점 진로체험 인프라 12개소 연계"
+    title: "부산진로진학지원센터",
+    schoolsCount: "22개 대학 연계",
+    programs: "해양 AI 및 첨단기술 융합 전공 오픈 캠퍼스, 맞춤형 진로진학 컨설팅",
+    location: "부산광역시 부산진구 중앙대로 945",
+    infra: "지역 거점 국립대 및 사립대 산학협력 네트워크"
   },
   {
     id: 3,
     region: "경기",
-    title: "경기도 교육청 미래교육원",
-    schoolsCount: "2,450개교",
-    programs: "하이테크 진로체험, 반도체·S/W 과학 특강",
-    location: "경기도 수원시 장안구 조원로 18",
-    infra: "권역별 미래교육센터 31개소 지원"
+    title: "경기도교육청 진로교육원",
+    schoolsCount: "68개 대학 연계",
+    programs: "하이테크 진로체험, 반도체·S/W 대학 오픈랩 탐방, 시·군 진로체험지원센터 연계 사업",
+    location: "경기도 수원시 영통구 도청로 28",
+    infra: "31개 시·군 진로체험지원센터 및 경기 권역 대학 교육 센터 연계"
   }
 ];
 
@@ -841,7 +842,7 @@ function setGoogleLocationCenterModal() {
   }
 }
 
-/* 모달 데이터 처리 및 두 번째 파일 인터랙티브 병합 */
+/* 모달 데이터 처리 및 인터랙티브 병합 */
 const modalData = {
   guide: {
     title: "📊 서비스 안내",
@@ -857,30 +858,28 @@ const modalData = {
     `
   },
   integrated: {
-    title: "🏫 전국 학교 및 지역별 공시정보 통합 조회",
+    title: "🏛️ 전국 대학교 및 지역별 공시정보 통합 조회",
     html: `
       <div class="tab-container">
-        <button class="tab-btn active" onclick="switchTab('schoolTab')">🏫 학교별 공시정보</button>
+        <button class="tab-btn active" onclick="switchTab('schoolTab')">🏛️ 대학교별 공시정보</button>
         <button class="tab-btn" onclick="switchTab('regionTab')">📍 지역별 공시정보</button>
       </div>
 
-      <!-- 1. 학교별 공시정보 탭 -->
+      <!-- 1. 대학교별 공시정보 탭 -->
       <section id="schoolTab" class="view-panel active">
         <div class="search-card">
           <select id="schoolTypeSelect">
-            <option value="전체">학교 유형 전체</option>
-            <option value="고등학교">고등학교</option>
-            <option value="중학교">중학교</option>
-            <option value="초등학교">초등학교</option>
+            <option value="전체">구분 전체</option>
+            <option value="대학교">대학교</option>
           </select>
-          <input type="text" id="schoolSearchInput" placeholder="학교명 입력 (예: 서울고, 한국과학고)" onkeypress="if(event.key==='Enter') filterSchools()">
+          <input type="text" id="schoolSearchInput" placeholder="대학교명 입력 (예: 서울대, KAIST)" onkeypress="if(event.key==='Enter') filterSchools()">
           <button onclick="filterSchools()">검색</button>
         </div>
 
         <div class="grid-layout">
           <div class="list-box" id="schoolList"></div>
           <div class="detail-box" id="schoolDetail">
-            <p style="color: var(--muted); text-align: center; margin: auto;">학교를 선택하시면 상세 공시정보가 표시됩니다.</p>
+            <p style="color: var(--muted); text-align: center; margin: auto;">대학교를 선택하시면 상세 공시정보가 표시됩니다.</p>
           </div>
         </div>
       </section>
@@ -901,7 +900,7 @@ const modalData = {
         <div class="grid-layout">
           <div class="list-box" id="regionList"></div>
           <div class="detail-box" id="regionDetail">
-            <p style="color: var(--muted); text-align: center; margin: auto;">지역 또는 관할 교육청을 선택하시면 진로 인프라 정보가 표시됩니다.</p>
+            <p style="color: var(--muted); text-align: center; margin: auto;">지역 또는 기관을 선택하시면 진로 인프라 정보가 표시됩니다.</p>
           </div>
         </div>
       </section>
@@ -911,12 +910,12 @@ const modalData = {
     title: "📑 세특 로드맵 생성",
     html: `
       <h3>대화 기반 맞춤형 세특(학교생활기록부) 로드맵</h3>
-      <p>소크라테스 AI와의 대화를 종합 분석하여 학생 개인만의 고유한 진로 세특 가이드를 자동으로 제시해 드립니다.</p>
+      <p>진로 탐구가 완료된 후 '세특 로드맵 생성해줘'와 같이 요청하면, 소크라테스 AI와의 대화를 종합 분석하여 학생 개인만의 고유한 진로 세특 가이드를 자동으로 제시해 드립니다.</p>
       <h3>로드맵 활용 팁</h3>
       <ul>
-        <li>학생의 관심 분야와 연계된 교과목별 탐구 주제 추천</li>
-        <li>자율·동아리·진로 활동에 적용할 수 있는 구체적인 프로젝트 아이디어 제공</li>
-        <li>생성된 리포트를 활용해 학교 생활기록부 관리 전략 수립</li>
+        <li>학생의 관심 분야와 연계된 대학 전공 탐색 및 교과목 추천</li>
+        <li>학부 연계 및 연구 프로젝트와 결합할 수 있는 탐구 주제 제시</li>
+        <li>생성된 리포트를 활용해 진학 관리 전략 수립</li>
       </ul>
     `
   }
@@ -934,7 +933,6 @@ function openFeatureModal(type) {
     document.getElementById('featureModalBody').innerHTML = data.html;
     document.getElementById('featureOverlay').classList.add('active');
 
-    // 두 번째 파일 뷰 초기화
     if (targetType === 'integrated') {
       setTimeout(() => {
         renderSchools(schoolData);
@@ -950,7 +948,7 @@ function openFeatureModal(type) {
 }
 function closeFeatureModal() { document.getElementById('featureOverlay').classList.remove('active'); }
 
-/* 두 번째 파일 전용 탭 전환 및 검색 로직 */
+/* 탭 전환 및 검색 로직 */
 function switchTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
@@ -998,27 +996,27 @@ function selectSchool(item, element) {
 
     <div class="info-grid">
       <div class="info-card">
-        <h5>학생 수 / 교원 수</h5>
+        <h5>재학생 수 / 교원 수</h5>
         <p>${item.students} / ${item.teachers}</p>
       </div>
       <div class="info-card">
-        <h5>학업 성취도 평가</h5>
+        <h5>취업률 / 성과</h5>
         <p>${item.achievement}</p>
       </div>
     </div>
 
     <div class="info-card">
-      <h5>교육과정 편성 및 운영 계획</h5>
+      <h5>전공 과정 및 교육과정 편성</h5>
       <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.curriculum}</p>
     </div>
 
     <div class="info-card">
-      <h5>동아리 및 방과후 프로그램 현황</h5>
+      <h5>동아리 및 학술 연구회 현황</h5>
       <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.clubs}</p>
     </div>
 
     <div>
-      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 학교 위치 지도 (Google Maps)</h5>
+      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 대학교 위치 지도 (Google Maps)</h5>
       <div class="modal-map-container">
         <iframe src="https://maps.google.com/maps?q=${encodedAddr}&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
       </div>
@@ -1053,7 +1051,7 @@ function renderRegions(list) {
     div.className = 'list-item';
     div.innerHTML = `
       <h4>${item.title}</h4>
-      <p>관할지역: ${item.region} | 관내 학교: ${item.schoolsCount}</p>
+      <p>관할지역: ${item.region} | 연계 대학/기관: ${item.schoolsCount}</p>
     `;
     div.onclick = () => selectRegion(item, div);
     container.appendChild(div);
@@ -1069,12 +1067,12 @@ function selectRegion(item, element) {
     <div class="detail-header">
       <span class="badge" style="background:#dcfce7; color:#15803d;">지역 공시</span>
       <h2>${item.title}</h2>
-      <p style="color: var(--muted); font-size: 0.85rem;">📍 주요 거점: ${item.location}</p>
+      <p style="color: var(--muted); font-size: 0.85rem;">📍 위치: ${item.location}</p>
     </div>
 
     <div class="info-grid">
       <div class="info-card">
-        <h5>관내 학교 수</h5>
+        <h5>관내 대학교/기관 연계</h5>
         <p>${item.schoolsCount}</p>
       </div>
       <div class="info-card">
@@ -1084,12 +1082,12 @@ function selectRegion(item, element) {
     </div>
 
     <div class="info-card">
-      <h5>시·도 교육청 주요 진로 체험 프로그램</h5>
+      <h5>주요 진로 체험 및 지원 프로그램</h5>
       <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.programs}</p>
     </div>
 
     <div>
-      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 지역 거점 센터 위치</h5>
+      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 지원 센터 위치</h5>
       <div class="modal-map-container">
         <iframe src="https://maps.google.com/maps?q=${encodedAddr}&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
       </div>
@@ -1133,8 +1131,8 @@ function downloadReport() {
    - 시스템 데이터 엔지니어
 
 2. 추천 진로 로드맵
-   - 고교학점제 연계 수학/정보 과목 집중 이수
-   - 컴퓨팅 사고력 중심 동아리 활동 참여
+   - 연계 전공 및 AI/정보 분야 심화 학부 과정 집중 이수
+   - 대학 연구실 연계 프로젝트 참여
 
 3. 세부 역량 키워드
    - 컴퓨팅 사고력
