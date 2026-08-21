@@ -65,45 +65,7 @@
   .feature-card p { font-size: .85rem; color: var(--muted); line-height: 1.4; }
 
   /* ============================================================
-     소환되는 진로 카드 덱 오버레이
-     ============================================================ */
-  .card-deck-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(8px); z-index: 950; flex-direction: column;
-    align-items: center; justify-content: center; padding: 20px;
-    animation: fadeIn 0.3s ease;
-  }
-  .card-deck-overlay.active { display: flex; }
-
-  .deck-title { color: #fff; font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  .deck-sub { color: #cbd5e1; font-size: 1.05rem; margin-bottom: 30px; }
-  .cards-container { display: flex; gap: 24px; perspective: 1000px; }
-
-  .socrates-card {
-    width: 220px; height: 320px; background: linear-gradient(145deg, #ffffff, #f1f5f9);
-    border: 2px solid #3b82f6; border-radius: 20px; padding: 24px 16px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3); display: flex; flex-direction: column;
-    justify-content: space-between; align-items: center; cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-    position: relative; user-select: none;
-  }
-  .socrates-card:hover {
-    transform: translateY(-15px) scale(1.05);
-    box-shadow: 0 25px 45px rgba(59, 130, 246, 0.4);
-    border-color: var(--gold);
-  }
-  .socrates-card .card-icon { font-size: 3.5rem; margin-top: 10px; }
-  .socrates-card .card-topic { font-size: 1.2rem; font-weight: 800; color: var(--navy); text-align: center; }
-  .socrates-card .card-desc { font-size: 0.88rem; color: var(--muted); text-align: center; line-height: 1.4; }
-  .socrates-card .card-tag { font-size: 0.75rem; background: var(--tint); color: var(--blue); padding: 4px 10px; border-radius: 999px; font-weight: bold; }
-
-  .deck-actions { margin-top: 35px; display: flex; gap: 15px; }
-  .btn-shuffle { background: var(--gold); color: #fff; border: none; padding: 12px 28px; border-radius: 999px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(245,158,11,0.3); transition: transform 0.2s; }
-  .btn-shuffle:hover { transform: scale(1.05); }
-  .btn-close-deck { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 12px 24px; border-radius: 999px; font-weight: bold; cursor: pointer; }
-
-  /* ============================================================
-     대형 결과 보고서 팝업 (마인드맵 대체 깔끔한 리포트)
+     대형 결과 보고서 팝업
      ============================================================ */
   .result-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.82);
@@ -151,7 +113,7 @@
   .close-btn { background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
   .close-btn:hover { background: #e2e8f0; }
 
-  /* 검사 완료 알림 박스 (채팅 하단/툴바 영역에 동적 삽입) */
+  /* 검사 완료 알림 박스 */
   .completion-banner {
     background: linear-gradient(135deg, #dcfce7, #dbeafe);
     border: 2px solid #22c55e; border-radius: 12px; padding: 12px 18px;
@@ -212,7 +174,6 @@
 <header>
   <div class="logo">🎓 소크라테스 AI 진로탐색</div>
   <nav><ul>
-    <li><a onclick="openDeck()">🔮 진로 카드 뽑기</a></li>
     <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서 (상담 완료 후 오픈)</a></li>
     <li><a onclick="openChat()">💬 AI와 대화하기</a></li>
   </ul></nav>
@@ -256,20 +217,7 @@
   </section>
 </main>
 
-<!-- ================= 1. 진로 카드 덱 오버레이 ================= -->
-<div class="card-deck-overlay" id="cardDeckOverlay">
-  <div class="deck-title">🔮 소크라테스 진로 선택 카드</div>
-  <div class="deck-sub">마음에 끌리는 카드 하나를 선택해보세요. AI가 그 이유를 함께 탐구합니다.</div>
-
-  <div class="cards-container" id="cardsContainer"></div>
-
-  <div class="deck-actions">
-    <button class="btn-shuffle" onclick="shuffleCards()">🔀 카드 셔플하기</button>
-    <button class="btn-close-deck" onclick="closeDeck()">닫기</button>
-  </div>
-</div>
-
-<!-- ================= 2. 대형 종합 결과 보고서 팝업 ================= -->
+<!-- ================= 대형 종합 결과 보고서 팝업 ================= -->
 <div class="result-overlay" id="resultOverlay">
   <div class="result-modal">
     <div class="result-header">
@@ -307,7 +255,7 @@
   </div>
 </div>
 
-<!-- ================= 3. AI 채팅 모달 ================= -->
+<!-- ================= AI 채팅 모달 ================= -->
 <div class="modal-overlay" id="chatModal">
   <div class="modal-content-chat" id="chatModalContent">
     <div class="modal-header">
@@ -316,7 +264,6 @@
     </div>
     <div style="padding: 10px 0;">
       <div class="chat-tools">
-        <button onclick="openDeck()">🃏 진로 카드 소환하기</button>
         <div id="chatActionContainer" style="display:inline-block;">
           <button id="chatResultBtn" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서 보기</button>
         </div>
@@ -367,77 +314,7 @@
 
 <script>
 /* ============================================================
-   1. 진로 카드 덱 및 가이드 연동
-   ============================================================ */
-const cardPool = [
-  { icon: '🎨', topic: '창의성과 예술', desc: '새로운 시각적 경험과 아이디어를 세상에 표현하기', tag: '가치관' },
-  { icon: '🧩', topic: '논리와 분석', desc: '복잡한 문제를 체계적으로 분석하고 해결책 찾기', tag: '적성' },
-  { icon: '🤝', topic: '타인과의 연결', desc: '사람들의 고충을 듣고 공감하며 함께 성장하기', tag: '관계' },
-  { icon: '🚀', topic: '도전과 리더십', desc: '새로운 영역을 개척하고 팀을 목표로 이끌기', tag: '성향' },
-  { icon: '📚', topic: '탐구와 지식', desc: '깊이 있는 학문과 원리를 끝없이 탐구하기', tag: '학업' },
-  { icon: '⚖️', topic: '공정과 정의', desc: '사회적 규칙을 바로잡고 올바른 가치를 구현하기', tag: '사회' }
-];
-
-function renderCards() {
-  const container = document.getElementById('cardsContainer');
-  container.innerHTML = '';
-  const shuffled = [...cardPool].sort(() => 0.5 - Math.random()).slice(0, 3);
-  
-  shuffled.forEach(card => {
-    const cardEl = document.createElement('div');
-    cardEl.className = 'socrates-card';
-    cardEl.innerHTML = `
-      <span class="card-tag">${card.tag}</span>
-      <div class="card-icon">${card.icon}</div>
-      <div class="card-topic">${card.topic}</div>
-      <div class="card-desc">${card.desc}</div>
-      <span style="font-size:0.75rem; color:#2563eb; font-weight:bold;">클릭하여 선택 →</span>
-    `;
-    
-    cardEl.addEventListener('mouseenter', () => {
-      dockEl = cardEl;
-      showBubble(`'${card.topic}' 카드구나! 이 길을 통해 어떤 세상을 꿈꾸고 있니?`);
-    });
-    cardEl.addEventListener('mouseleave', () => {
-      dockEl = null;
-    });
-
-    cardEl.onclick = () => selectCard(card);
-    container.appendChild(cardEl);
-  });
-}
-
-function shuffleCards() {
-  const container = document.getElementById('cardsContainer');
-  container.classList.add('shuffling');
-  setTimeout(() => {
-    renderCards();
-    container.classList.remove('shuffling');
-  }, 300);
-}
-
-function openDeck() {
-  renderCards();
-  document.getElementById('cardDeckOverlay').classList.add('active');
-}
-function closeDeck() {
-  document.getElementById('cardDeckOverlay').classList.remove('active');
-}
-
-function selectCard(card) {
-  closeDeck();
-  openChat();
-  const prompt = `[유저가 진로 카드 <${card.topic}> (${card.icon})를 선택했습니다.] "소크라테스님, 저는 방금 '${card.topic}' 카드를 골랐어요!"`;
-  
-  if (webChatStore) {
-    webChatStore.dispatch({ type: 'WEB_CHAT/SEND_MESSAGE', payload: { text: prompt } });
-  } else {
-    pendingMessage = prompt;
-  }
-}
-
-/* ============================================================
-   2. 종합 결과 보고서 모달 및 완료 상태 관리
+   1. 종합 결과 보고서 모달 및 완료 상태 관리
    ============================================================ */
 let isTestCompleted = false;
 
@@ -474,7 +351,7 @@ function completeTest() {
 }
 
 /* ============================================================
-   3. Direct Line 및 채팅 연동 & QoL (엔터 키 입력)
+   2. Direct Line 및 채팅 연동 & 엔터 키 처리
    ============================================================ */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
@@ -529,7 +406,7 @@ function closeChat() {
   document.getElementById('chatModal').classList.remove('active');
 }
 
-// 홈 화면 검색창 제출 및 엔터 키 QoL 처리
+// 홈 화면 검색창 제출 및 엔터 키 처리
 function handleHeroSubmit() {
   const val = document.getElementById('heroInput').value.trim();
   if (val) {
@@ -547,7 +424,7 @@ document.getElementById('heroInput').addEventListener('keydown', (e) => {
 });
 
 /* ============================================================
-   4. 미니 소크라테스 캐릭터 및 부드러운 위치/말풍선 제어 로직
+   3. 미니 소크라테스 캐릭터 및 위치/말풍선 제어 로직
    ============================================================ */
 const buddy = document.getElementById('buddy');
 const bubble = document.getElementById('bubble');
@@ -566,14 +443,14 @@ addEventListener('mousemove', e => {
 function tick(){
   let target;
   if (isChatOpen) {
-    // 채팅 중일 때는 화면 완전히 좌측 하단 구석에 고정
+    // 채팅 중일 때는 화면 좌측 하단 구석에 고정
     target = { x: 60, y: innerHeight - 60 };
   } else if (dockEl) {
     // 요소에 마우스가 올라가 있으면 그 옆에 도킹
     const rect = dockEl.getBoundingClientRect();
     target = { x: rect.right - 10, y: rect.top + 20 };
   } else {
-    // 평상시 부드러운 관성으로 마우스 추적
+    // 평상시 마우스 추적
     target = { x: mouse.x + 74, y: mouse.y + 64 };
   }
 
@@ -627,7 +504,6 @@ async function say(ctx){
 function showBubble(text){
   bubbleT.textContent = text;
 
-  // 캐릭터가 화면 좌측에 있으면 말풍선이 우측에, 우측에 있으면 좌측에 뜨도록 동적 제어
   if (pos.x < innerWidth / 2) {
     bubble.classList.remove('left');
     bubble.classList.add('right');
