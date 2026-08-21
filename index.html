@@ -1,84 +1,649 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소크라테스 진로진학 AI</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-  <title>Copilot Agent</title>
-
-  <script
-    src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"
-  ></script>
+  <!-- Bot Framework Web Chat -->
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
 
   <style>
-    html,
-    body {
-      width: 100%;
-      height: 100%;
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* 상단 GNB 바 */
+    .top-bar {
+      background-color: #f1f5f9;
+      padding: 8px 10%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      font-size: 0.8rem;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* 메인 헤더 */
+    header {
+      background-color: #ffffff;
+      padding: 16px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1e3a8a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* 히어로 섹션 (중앙 검색/채팅 + 지도) */
+    .hero-section {
+      background: linear-gradient(180deg, #edf2f7 0%, #f8fafc 100%);
+      padding: 50px 10%;
+      display: flex;
+      gap: 40px;
+      position: relative;
+      align-items: flex-start;
+    }
+
+    /* 좌측: 메인 AI 대화/검색 공간 */
+    .hero-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      color: #1e293b;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .hero-title span {
+      color: #2563eb;
+    }
+
+    /* AI 입력/검색창 스타일 */
+    .search-box {
+      width: 100%;
+      max-width: 650px;
+      background: #ffffff;
+      border: 2px solid #1e3a8a;
+      border-radius: 8px;
+      display: flex;
+      padding: 6px;
+      box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1);
+      margin-top: 20px;
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 12px 16px;
+      font-size: 1rem;
+    }
+
+    .search-box button {
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-box button:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    /* AI 응답 예시 결과 (검색창 하단) */
+    .chat-preview {
+      width: 100%;
+      max-width: 650px;
+      margin-top: 20px;
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .chat-preview:hover {
+      border-color: #2563eb;
+    }
+
+    .chat-preview .ai-msg {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .chat-preview .hint {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    /* 우측: 지도 카드 배너 */
+    .map-banner-card {
+      width: 260px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      border-radius: 16px;
+      padding: 24px 20px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 12px 20px rgba(37, 99, 235, 0.25);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .map-banner-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .map-banner-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .map-banner-card p {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-bottom: 16px;
+    }
+
+    .map-graphic {
+      width: 100%;
+      height: 220px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+    }
+
+    /* 하단: 4개 아이콘 카드 섹션 */
+    .feature-section {
+      padding: 40px 10%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .feature-card .icon-box {
+      width: 60px;
+      height: 60px;
+      background-color: #eff6ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px auto;
+      font-size: 1.8rem;
+    }
+
+    .feature-card h4 {
+      font-size: 1.1rem;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* 모달 공통 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      width: 80%;
+      max-width: 900px;
+      height: 80vh;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.25rem;
+      color: #1e293b;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      color: #475569;
+    }
+
+    .map-area {
+      flex: 1;
+      background-color: #e2e8f0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #475569;
+    }
+
+    /* 채팅 모달 전용 */
+    #chatModal .modal-content {
+      max-width: 720px;
     }
 
     #webchat {
-      width: 100%;
+      flex: 1;
+      min-height: 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .chat-status {
+      display: flex;
       height: 100%;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 0.95rem;
+      text-align: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    /* 채팅 모달 안의 빠른 질문 버튼 */
+    .quick-asks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .quick-asks button {
+      background: #eff6ff;
+      color: #1e3a8a;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .quick-asks button:hover {
+      background: #dbeafe;
+    }
+
+    @media (max-width: 900px) {
+      .hero-section { flex-direction: column; }
+      .map-banner-card { width: 100%; }
+      .feature-section { grid-template-columns: repeat(2, 1fr); }
+      nav ul { gap: 14px; }
+      .modal-content { width: 94%; height: 88vh; padding: 16px; }
     }
   </style>
 </head>
-
 <body>
-  <div id="webchat"></div>
+
+  <div class="top-bar">
+    <span>이용자 가이드</span>
+    <span>FAQ</span>
+  </div>
+
+  <header>
+    <div class="logo">🎓 학교알리미 AI</div>
+    <nav>
+      <ul>
+        <li><a href="#">서비스 안내</a></li>
+        <li><a href="#">전국 학교 정보</a></li>
+        <li><a href="#" onclick="openChat(); return false;">진로 탐색 AI</a></li>
+        <li><a href="#">마이페이지</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 히어로 섹션 -->
+    <section class="hero-section">
+      <div class="hero-left">
+        <h2 class="hero-title">진로를 보면<br><span>아이들의 미래</span>가 보입니다</h2>
+
+        <!-- 검색창 형태의 AI 채팅 입력바 -->
+        <div class="search-box">
+          <input
+            type="text"
+            id="heroInput"
+            placeholder="학교명 또는 관심 진로를 입력해주세요. 예) 서울고등학교 미술 진로"
+            autocomplete="off"
+          />
+          <button id="heroSubmit">AI 탐색</button>
+        </div>
+
+        <!-- AI 답변/진행 상황 미리보기 -->
+        <div class="chat-preview" onclick="openChat()">
+          <p class="ai-msg">🤖 <b>소크라테스 AI</b>: 반갑습니다! 관심 있는 분야나 과목을 말씀해주시면 질문을 통해 적성을 함께 찾아볼게요.
+            <span class="hint">클릭해서 대화 시작하기 →</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 우측 대한민국 지도 배너 카드 -->
+      <div class="map-banner-card" onclick="openMapModal()">
+        <h3>내 주변 학교정보</h3>
+        <p>지도 검색</p>
+        <div class="map-graphic">
+          <span style="font-size: 2.5rem; margin-bottom: 8px;">🗺️</span>
+          <span style="font-size: 0.8rem;">[ 대한민국 지도 ]</span>
+          <span style="font-size: 0.75rem; opacity: 0.7; margin-top: 4px;">클릭하여 지도 확대</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 하단 4개 카테고리 카드 -->
+    <section class="feature-section">
+      <div class="feature-card" onclick="askAI('이 서비스는 어떻게 이용하나요? 성찰 프로세스를 알려주세요.')">
+        <div class="icon-box">📊</div>
+        <h4>서비스 안내</h4>
+        <p>AI 진로 길잡이 이용 방법과<br>성찰 프로세스 안내</p>
+      </div>
+
+      <div class="feature-card" onclick="askAI('우리 학교 교과 편성표와 공시정보를 알려주세요.')">
+        <div class="icon-box">🏫</div>
+        <h4>학교별 공시정보</h4>
+        <p>전국 중·고등학교 정보 및<br>교과 편성표 확인</p>
+      </div>
+
+      <div class="feature-card" onclick="openMapModal()">
+        <div class="icon-box">📍</div>
+        <h4>지역별 진로정보</h4>
+        <p>관심 지역의 학교별<br>진로 프로그램 검색</p>
+      </div>
+
+      <div class="feature-card" onclick="askAI('제 관심 분야로 세특 탐구 로드맵을 만들어 주세요.')">
+        <div class="icon-box">📑</div>
+        <h4>세특 로드맵 생성</h4>
+        <p>AI 대화 완료 후<br>맞춤형 탐구 보고서 발급</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 지도 모달 -->
+  <div class="modal-overlay" id="mapModal" onclick="if (event.target === this) closeMapModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🗺️ 내 주변 학교 정보 (지도 검색)</h2>
+        <button class="close-btn" onclick="closeMapModal()">&times;</button>
+      </div>
+      <div class="map-area">
+        [ 대한민국 지도 API 및 내 주변 학교 위치 표시 영역 ]
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 채팅 모달 -->
+  <div class="modal-overlay" id="chatModal" onclick="if (event.target === this) closeChat()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🤖 소크라테스 진로진학 AI</h2>
+        <button class="close-btn" onclick="closeChat()">&times;</button>
+      </div>
+
+      <div class="quick-asks">
+        <button onclick="askAI('제 성향에 맞는 진로를 함께 찾아주세요.')">진로 적성 찾기</button>
+        <button onclick="askAI('관심 학과에 맞는 고교 과목 선택을 도와주세요.')">과목 선택 상담</button>
+        <button onclick="askAI('세특 탐구 주제를 추천해 주세요.')">세특 주제 추천</button>
+      </div>
+
+      <div id="webchat">
+        <div class="chat-status" id="chatStatus">대화를 준비하는 중입니다...</div>
+      </div>
+    </div>
+  </div>
 
   <script>
+    /* =========================================================
+       1) 설정
+       ========================================================= */
+    const DIRECT_LINE_TOKEN_URL =
+      'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
+
+    let webChatStore = null;   // Web Chat 상태 저장소 (메시지 전송용)
+    let chatStarting = false;  // 중복 초기화 방지
+    let pendingMessage = null; // 연결 완료 전에 눌린 질문을 잠시 보관
+
+    /* =========================================================
+       2) Direct Line 토큰 발급 (서버가 시크릿을 대신 보관)
+       ========================================================= */
     async function getDirectLineToken() {
-      const response = await fetch(
-        'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken',
-        {
-          method: 'POST',
-          cache: 'no-store'
-        }
-      );
-
+      const response = await fetch(DIRECT_LINE_TOKEN_URL, {
+        method: 'POST',
+        cache: 'no-store'
+      });
       if (!response.ok) {
-        throw new Error(
-          `토큰 발급 실패: ${response.status}`
-        );
+        throw new Error(`토큰 발급 실패: ${response.status}`);
       }
-
       return response.json();
     }
 
-    async function startChat() {
-      const { token } = await getDirectLineToken();
+    /* =========================================================
+       3) Web Chat 초기화 (모달을 처음 열 때 한 번만 실행)
+       ========================================================= */
+    async function initWebChat() {
+      if (webChatStore || chatStarting) return;
+      chatStarting = true;
 
-      const directLine =
-        window.WebChat.createDirectLine({
-          token
+      try {
+        const { token } = await getDirectLineToken();
+        const directLine = window.WebChat.createDirectLine({ token });
+
+        // 연결이 끝나는 순간 보관해 둔 첫 질문을 자동으로 보냄
+        webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+          if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED' && pendingMessage) {
+            dispatch({
+              type: 'WEB_CHAT/SEND_MESSAGE',
+              payload: { text: pendingMessage }
+            });
+            pendingMessage = null;
+          }
+          return next(action);
         });
 
-      window.WebChat.renderWebChat(
-        {
-          directLine,
-          locale: 'ko-KR',
-          styleOptions: {
-            accent: '#0078D4',
-            botAvatarInitials: 'AI',
-            userAvatarInitials: '나'
-          }
-        },
-        document.getElementById('webchat')
-      );
+        document.getElementById('webchat').innerHTML = '';
+
+        window.WebChat.renderWebChat(
+          {
+            directLine,
+            store: webChatStore,
+            locale: 'ko-KR',
+            styleOptions: {
+              accent: '#1e3a8a',
+              botAvatarInitials: 'AI',
+              userAvatarInitials: '나',
+              bubbleBackground: '#f1f5f9',
+              bubbleBorderRadius: 12,
+              bubbleFromUserBackground: '#1e3a8a',
+              bubbleFromUserTextColor: '#ffffff',
+              bubbleFromUserBorderRadius: 12,
+              hideUploadButton: true,
+              rootHeight: '100%',
+              rootWidth: '100%'
+            }
+          },
+          document.getElementById('webchat')
+        );
+      } catch (error) {
+        console.error(error);
+        chatStarting = false;
+        webChatStore = null;
+        pendingMessage = null;
+        document.getElementById('webchat').innerHTML =
+          '<div class="chat-status">채팅을 시작하지 못했습니다.<br>잠시 후 다시 시도해 주세요.</div>';
+      }
     }
 
-    startChat().catch(error => {
-      console.error(error);
+    /* =========================================================
+       4) 채팅 모달 열기 / 닫기 / 질문 보내기
+       ========================================================= */
+    function openChat() {
+      document.getElementById('chatModal').classList.add('active');
+      initWebChat();
+    }
 
-      document.getElementById('webchat').textContent =
-        '채팅을 시작하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+    function closeChat() {
+      document.getElementById('chatModal').classList.remove('active');
+    }
+
+    // 어디서든(검색창, 카드, 빠른 질문 버튼) 이 함수 하나로 질문을 보냄
+    function askAI(text) {
+      const message = (text || '').trim();
+      openChat();
+
+      if (!message) return;
+
+      if (webChatStore) {
+        webChatStore.dispatch({
+          type: 'WEB_CHAT/SEND_MESSAGE',
+          payload: { text: message }
+        });
+      } else {
+        // 아직 연결 전이면 보관해 두었다가 연결 직후 자동 전송
+        pendingMessage = message;
+      }
+    }
+
+    /* =========================================================
+       5) 히어로 검색창 → 채팅으로 연결
+       ========================================================= */
+    const heroInput = document.getElementById('heroInput');
+    const heroSubmit = document.getElementById('heroSubmit');
+
+    function submitHero() {
+      const value = heroInput.value.trim();
+      if (!value) {
+        openChat();
+        return;
+      }
+      askAI(value);
+      heroInput.value = '';
+    }
+
+    heroSubmit.addEventListener('click', submitHero);
+    heroInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') submitHero();
+    });
+
+    /* =========================================================
+       6) 지도 모달
+       ========================================================= */
+    function openMapModal() {
+      document.getElementById('mapModal').classList.add('active');
+    }
+    function closeMapModal() {
+      document.getElementById('mapModal').classList.remove('active');
+    }
+
+    // ESC로 모달 닫기
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeMapModal();
+        closeChat();
+      }
     });
   </script>
+
 </body>
 </html>
