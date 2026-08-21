@@ -372,7 +372,7 @@
 
 <script>
 /* ============================================================
-   상태 관리 변수
+   상태 관리 변수 추가
    ============================================================ */
 let isChatOpen = false; // 챗봇 모달이 열려있는지 확인
 
@@ -445,13 +445,13 @@ async function initWebChat() {
 }
 
 function openChat() {
-  isChatOpen = true;
+  isChatOpen = true; // 채팅창이 열리면 상태 변경
   document.getElementById('chatModal').classList.add('active');
   initWebChat();
 }
 
 function closeChat() { 
-  isChatOpen = false;
+  isChatOpen = false; // 채팅창을 닫으면 상태 복구
   document.getElementById('chatModal').classList.remove('active'); 
 }
 
@@ -504,11 +504,11 @@ addEventListener('mousemove', e => {
 });
 
 function getTarget(){
-  // 채팅창이 열려있을 때 좌측 하단에 고정
+  // ★ 채팅창이 열려있을 때 고정시키는 로직 추가
   if (isChatOpen) {
     return {
-      x: 80,
-      y: innerHeight - 80
+      x: 80, // 좌측 모서리에서 살짝 떨어진 위치
+      y: innerHeight - 80 // 하단 모서리에서 살짝 떨어진 위치
     };
   }
 
@@ -540,6 +540,7 @@ function tick(){
   lean += (targetLean - lean) * 0.15;
   bodyG.style.transform = `rotate(${lean.toFixed(2)}deg)`;
 
+  // 몸이 고정되어 있어도 눈동자는 마우스를 계속 따라가도록 설정
   const ang  = Math.atan2(mouse.y - pos.y, mouse.x - pos.x);
   const dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
   const amt  = Math.min(3.4, dist / 34);
@@ -563,90 +564,30 @@ requestAnimationFrame(tick);
 })();
 
 /* ============================================================
-   4. AI 대사 엔진 (미니 소크라테스 AI API 연동)
+   4. AI 대사 엔진
    ============================================================ */
+async function brain(ctx){
+  await new Promise(r => setTimeout(r, 500 + Math.random() * 700));
 
-// Direct Line API를 통해 캐릭터 전용 대사 받아오기
-async function fetchBuddyAIResponse(promptText) {
-  try {
-    const { token } = await getDirectLineToken();
-    
-    // 대화 세션 생성
-    const convRes = await fetch('https://directline.botframework.com/v3/directline/conversations', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const convData = await convRes.json();
-    const conversationId = convData.conversationId;
-
-    // 미니 소크라테스 페르소나 지시어 포함
-    const shortPrompt = `[시스템: 당신은 화면을 떠다니는 '미니 소크라테스'입니다. 말풍선용으로 50자 이내의 아주 짧고 다정한 소크라테스식 질문이나 반응을 한 문장으로 해주세요.] 유저 상황: ${promptText}`;
-
-    await fetch(`https://directline.botframework.com/v3/directline/conversations/${conversationId}/activities`, {
-      method: 'POST',
-      headers: { 
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        type: 'message',
-        from: { id: 'mini_buddy_user' },
-        text: shortPrompt
-      })
-    });
-
-    // AI 답변 수신 폴링 (1.2초 대기)
-    await new Promise(r => setTimeout(r, 1200));
-    const actRes = await fetch(`https://directline.botframework.com/v3/directline/conversations/${conversationId}/activities`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const actData = await actRes.json();
-    
-    // AI의 텍스트 답변 메시지 추출
-    const botMessages = actData.activities.filter(a => a.from.id !== 'mini_buddy_user' && a.text);
-    if (botMessages.length > 0) {
-      return botMessages[botMessages.length - 1].text;
-    }
-  } catch (error) {
-    console.error('Buddy AI 통신 오류:', error);
+  if (ctx.trigger === 'hover') return ctx.hint;
+  if (ctx.trigger === 'click') return `<b>${ctx.label}</b> 골랐군요. 왜 그게 눈에 들어왔는지 궁금해요.`;
+  if (ctx.trigger === 'idle') {
+    const lines = [
+      '요즘 학교에서 제일 기다려지는 시간이 언제예요?',
+      '진로, 아직 안 정해도 괜찮아요. 뭐가 재밌는지부터 볼까요?',
+      '위에 검색창에 좋아하는 과목 하나만 적어보세요.',
+      '잘하는 것보다, 하다 보면 시간 가는 줄 모르는 게 뭐예요?'
+    ];
+    return lines[Math.floor(Math.random() * lines.length)];
   }
   return null;
-}
-
-async function brain(ctx){
-  let promptText = '';
-
-  if (ctx.trigger === 'hover') {
-    promptText = `유저가 '${ctx.label}' 메뉴에 마우스를 올렸어. 관련된 짧은 흥미 유발 질문을 건네줘.`;
-  } else if (ctx.trigger === 'click') {
-    promptText = `유저가 '${ctx.label}' 메뉴를 클릭했어. 탐구심을 자극하는 한마디를 해줘.`;
-  } else if (ctx.trigger === 'idle') {
-    promptText = `유저가 고민하며 가만히 있어. 생각에 잠길 만한 따뜻한 진로 질문을 던져줘.`;
-  }
-
-  // AI 응답 요청
-  const aiMessage = await fetchBuddyAIResponse(promptText);
-
-  // 통신 실패 시 사용할 기본 대사 (Fallback)
-  if (!aiMessage) {
-    if (ctx.trigger === 'hover') return ctx.hint;
-    if (ctx.trigger === 'click') return `<b>${ctx.label}</b> 관심이 가나요? 왜 그게 눈에 들어왔을까요?`;
-    const fallbackLines = [
-      '요즘 학교에서 가장 즐거운 순간은 언제인가요?',
-      '좋아하는 일을 할 때 당신은 어떤 기분이 드나요?',
-      '어떤 질문이 당신의 호기심을 자극하나요?'
-    ];
-    return fallbackLines[Math.floor(Math.random() * fallbackLines.length)];
-  }
-
-  return aiMessage;
 }
 
 /* ============================================================
    5. 말풍선 처리
    ============================================================ */
-const COOLDOWN = 12000;
-const IDLE_MS  = 8000;
+const COOLDOWN = 15000;
+const IDLE_MS  = 9000;
 let lastSpoke  = 0;
 let speaking   = false;
 let idleTimer  = null;
@@ -657,7 +598,7 @@ async function say(ctx){
   if (Date.now() - lastSpoke < COOLDOWN) return;
 
   speaking = true;
-  buddy.classList.add('thinking'); // AI 응답을 대기하는 동안 점 3개 생각 애니메이션 실행
+  buddy.classList.add('thinking');
 
   let msg = null;
   try { msg = await brain(ctx); } catch (e) { console.error(e); }
@@ -684,13 +625,13 @@ function showBubble(html){
         if (i >= plain.length) { clearInterval(typer); bubbleT.innerHTML = html; }
       }, 28);
     }
-    const dwell = 2800 + html.length * 50;
+    const dwell = 2600 + html.length * 55;
     setTimeout(() => { bubble.classList.remove('show'); resolve(); }, dwell);
   });
 }
 
 /* ============================================================
-   6. 카드 및 검색창 이벤트 연결
+   6. 카드 및 검색창 이벤터 연결
    ============================================================ */
 document.querySelectorAll('[data-buddy]').forEach(el => {
   let dwell = null;
