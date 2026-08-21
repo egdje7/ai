@@ -103,7 +103,7 @@
   .btn-close-deck { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 12px 24px; border-radius: 999px; font-weight: bold; cursor: pointer; }
 
   /* ============================================================
-     대형 결과 보고서 팝업 (크기 확장 및 깔끔한 리포트)
+     대형 결과 보고서 팝업
      ============================================================ */
   .result-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.82);
@@ -151,7 +151,7 @@
   .close-btn { background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
   .close-btn:hover { background: #e2e8f0; }
 
-  /* 검사 완료 알림 박스 (채팅 하단/툴바 영역에 동적 삽입) */
+  /* 검사 완료 알림 박스 */
   .completion-banner {
     background: linear-gradient(135deg, #dcfce7, #dbeafe);
     border: 2px solid #22c55e; border-radius: 12px; padding: 12px 18px;
@@ -168,7 +168,7 @@
   @keyframes bounceIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
   /* ================= 캐릭터 및 축소된 말풍선 ================= */
-  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.15s cubic-bezier(0.1, 1, 0.3, 1); }
+  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.05s cubic-bezier(0.1, 1, 0.3, 1); }
   #buddy.off { display: none !important; }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
@@ -457,12 +457,10 @@ function completeTest() {
   if (isTestCompleted) return;
   isTestCompleted = true;
 
-  // 상단 네비게이션 버튼 활성화
   const navBtn = document.getElementById('navResult');
   navBtn.classList.remove('disabled');
   navBtn.textContent = "📊 종합 결과 보고서 (완료됨)";
 
-  // 채팅 툴바 영역에 검사 완료 배너와 버튼 동적 생성
   const actionContainer = document.getElementById('chatActionContainer');
   actionContainer.innerHTML = `
     <div class="completion-banner">
@@ -500,7 +498,6 @@ async function initWebChat() {
         pendingMessage = null;
       }
 
-      // 봇이 보내는 응답 메시지 감지하여 완료 조건 체크 (긴 내용은 팝업으로 유도하고 메시지는 심플하게 유지)
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
@@ -530,7 +527,6 @@ function closeChat() {
   document.getElementById('chatModal').classList.remove('active');
 }
 
-// 홈 화면 검색창 제출 및 엔터 키 QoL 처리
 function handleHeroSubmit() {
   const val = document.getElementById('heroInput').value.trim();
   if (val) {
@@ -548,7 +544,7 @@ document.getElementById('heroInput').addEventListener('keydown', (e) => {
 });
 
 /* ============================================================
-   4. 미니 소크라테스 캐릭터 및 부드러운 위치/말풍선 제어 로직
+   4. 미니 소크라테스 캐릭터 및 속도가 향상된 추적 로직
    ============================================================ */
 const buddy = document.getElementById('buddy');
 const bubble = document.getElementById('bubble');
@@ -575,8 +571,9 @@ function tick(){
     target = { x: mouse.x + 74, y: mouse.y + 64 };
   }
 
-  pos.x += (target.x - pos.x) * 0.05;
-  pos.y += (target.y - pos.y) * 0.05;
+  // 이동 속도를 커서에 맞춰 빠르게 추적하도록 보간 계수(0.4) 적용
+  pos.x += (target.x - pos.x) * 0.4;
+  pos.y += (target.y - pos.y) * 0.4;
   buddy.style.transform = `translate3d(${pos.x - SIZE / 2}px, ${pos.y - SIZE / 2}px, 0)`;
   requestAnimationFrame(tick);
 }
