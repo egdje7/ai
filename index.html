@@ -33,7 +33,8 @@
            align-items: center; border-bottom: 1px solid var(--line); }
   header .logo { font-size: 1.5rem; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 8px; }
   nav ul { display: flex; list-style: none; gap: 30px; }
-  nav a { text-decoration: none; color: var(--ink); font-weight: 700; cursor: pointer; }
+  nav a { text-decoration: none; color: var(--ink); font-weight: 700; cursor: pointer; transition: color 0.2s; }
+  nav a:hover { color: var(--blue); }
   nav a.disabled { color: #cbd5e1; cursor: not-allowed; }
 
   .hero-section { background: linear-gradient(180deg,#edf2f7 0%, var(--bg) 100%);
@@ -43,18 +44,20 @@
   .hero-title span { color: var(--blue); }
 
   .search-box { width: 100%; max-width: 650px; background: #fff; border: 2px solid var(--navy);
-                border-radius: 8px; display: flex; padding: 6px; margin-top: 20px;
-                box-shadow: 0 10px 25px rgba(30,58,138,.1); }
-  .search-box input { flex: 1; border: none; outline: none; padding: 12px 16px; font-size: 1rem; }
+                border-radius: 12px; display: flex; padding: 6px; margin-top: 20px;
+                box-shadow: 0 10px 25px rgba(30,58,138,.1); transition: transform 0.2s, box-shadow 0.2s; }
+  .search-box:focus-within { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(37,99,235,0.15); }
+  .search-box input { flex: 1; border: none; outline: none; padding: 12px 16px; font-size: 1rem; background: transparent; }
   .search-box button { background: var(--navy); color: #fff; border: none; padding: 12px 24px;
-                       border-radius: 6px; font-weight: bold; cursor: pointer; }
+                       border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+  .search-box button:hover { background: var(--blue); }
 
   /* ---------- 기능 카드 섹션 ---------- */
   .feature-section { padding: 40px 10% 80px; display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
-  .feature-card { background: #fff; border-radius: 12px; padding: 30px 20px; text-align: center;
+  .feature-card { background: #fff; border-radius: 16px; padding: 30px 20px; text-align: center;
                   border: 1px solid var(--line); box-shadow: 0 4px 6px rgba(0,0,0,.02);
-                  transition: all .2s; cursor: pointer; }
-  .feature-card:hover { border-color: var(--blue); box-shadow: 0 10px 20px rgba(37,99,235,.12); transform: translateY(-3px); }
+                  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
+  .feature-card:hover { border-color: var(--blue); box-shadow: 0 12px 24px rgba(37,99,235,.12); transform: translateY(-5px); }
   .feature-card .icon-box { width: 60px; height: 60px; background: var(--tint); border-radius: 50%;
                             display: flex; align-items: center; justify-content: center;
                             margin: 0 auto 16px; font-size: 1.8rem; }
@@ -62,18 +65,18 @@
   .feature-card p { font-size: .85rem; color: var(--muted); line-height: 1.4; }
 
   /* ============================================================
-     소환되는 카드 덱 (웹 UI 오버레이)
+     소환되는 진로 카드 덱 오버레이
      ============================================================ */
   .card-deck-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(8px); z-index: 950; flex-direction: column;
     align-items: center; justify-content: center; padding: 20px;
+    animation: fadeIn 0.3s ease;
   }
   .card-deck-overlay.active { display: flex; }
 
   .deck-title { color: #fff; font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
   .deck-sub { color: #cbd5e1; font-size: 1.05rem; margin-bottom: 30px; }
-
   .cards-container { display: flex; gap: 24px; perspective: 1000px; }
 
   .socrates-card {
@@ -100,56 +103,72 @@
   .btn-close-deck { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 12px 24px; border-radius: 999px; font-weight: bold; cursor: pointer; }
 
   /* ============================================================
-     마인드맵 UI 모달
+     대형 결과 보고서 팝업 (마인드맵 대체 깔끔한 리포트)
      ============================================================ */
-  .mindmap-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(8px); z-index: 960; justify-content: center; align-items: center; padding: 20px;
+  .result-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.82);
+    backdrop-filter: blur(10px); z-index: 970; justify-content: center; align-items: center; padding: 20px;
+    animation: fadeIn 0.3s ease;
   }
-  .mindmap-overlay.active { display: flex; }
+  .result-overlay.active { display: flex; }
 
-  .mindmap-modal {
-    background: #fff; width: 92%; max-width: 1100px; height: 85vh; border-radius: 24px;
-    padding: 30px; display: flex; flex-direction: column; position: relative;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  .result-modal {
+    background: #fff; width: 92%; max-width: 900px; max-height: 85vh; border-radius: 24px;
+    padding: 40px; display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35); overflow-y: auto;
+    animation: scaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .mindmap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; }
-  .mindmap-header h2 { font-size: 1.6rem; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+  .result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; margin-bottom: 24px; }
+  .result-header h2 { font-size: 1.8rem; color: var(--navy); display: flex; align-items: center; gap: 12px; }
+  
+  .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px; }
+  .result-card { background: var(--tint); border: 1px solid #bfdbfe; border-radius: 16px; padding: 22px; }
+  .result-card h4 { font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .result-card p { font-size: 0.95rem; color: var(--ink); line-height: 1.5; }
 
-  .mindmap-canvas {
-    flex: 1; margin-top: 20px; background: #f8fafc; border-radius: 16px;
-    border: 1px dashed #cbd5e1; position: relative; overflow: hidden;
-    display: flex; justify-content: center; align-items: center;
-  }
-
-  .mindmap-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-  .mindmap-line { stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 6; }
-
-  .node {
-    position: absolute; padding: 14px 22px; border-radius: 16px; font-weight: 700;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08); background: #fff; border: 2px solid var(--blue);
-    color: var(--ink); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .node:hover { transform: scale(1.08); box-shadow: 0 15px 30px rgba(37,99,235,0.2); }
-  .node-center { background: var(--navy); color: #fff; border: none; font-size: 1.2rem; padding: 20px 30px; z-index: 2; }
-  .node-interest { border-color: #10b981; color: #047857; }
-  .node-value { border-color: #f59e0b; color: #b45309; }
-  .node-subject { border-color: #8b5cf6; color: #6d28d9; }
+  .result-quote { background: #fffbeb; border-left: 4px solid var(--gold); padding: 18px 22px; border-radius: 0 12px 12px 0; margin-bottom: 30px; }
+  .result-quote h5 { color: #b45309; font-size: 1rem; margin-bottom: 6px; }
+  .result-quote p { font-size: 0.95rem; color: #78350f; font-style: italic; line-height: 1.4; }
 
   /* ---------- AI 채팅 모달 ---------- */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.7); backdrop-filter: blur(6px); z-index: 900; justify-content: center; align-items: center; padding: 20px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.7); backdrop-filter: blur(6px); z-index: 900; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s ease; }
   .modal-overlay.active { display: flex; }
-  .modal-content-chat { background: white; width: 85%; max-width: 850px; height: 85vh; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; position: relative; }
+  
+  .modal-content-chat {
+    background: white; width: 85%; max-width: 850px; height: 85vh; border-radius: 24px; padding: 24px;
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
   .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-  #webchat { flex: 1; min-height: 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-top: 10px; }
-  .chat-tools { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-  .chat-tools button { background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 14px; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-  .chat-tools button:hover { background: #dbeafe; }
-  .chat-tools button.disabled { background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; cursor: not-allowed; }
-  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+  #webchat { flex: 1; min-height: 0; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-top: 10px; }
+  
+  .chat-tools { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
+  .chat-tools button { background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe; border-radius: 10px; padding: 8px 16px; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .chat-tools button:hover { background: #dbeafe; transform: translateY(-1px); }
+  .chat-tools button.disabled { background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; cursor: not-allowed; transform: none; }
+  
+  .close-btn { background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
+  .close-btn:hover { background: #e2e8f0; }
+
+  /* 검사 완료 알림 박스 (채팅 하단/툴바 영역에 동적 삽입) */
+  .completion-banner {
+    background: linear-gradient(135deg, #dcfce7, #dbeafe);
+    border: 2px solid #22c55e; border-radius: 12px; padding: 12px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .completion-banner span { font-weight: 700; color: #166534; font-size: 0.95rem; }
+  .btn-view-result { background: #16a34a; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+  .btn-view-result:hover { background: #15803d; }
+
+  /* 애니메이션 키프레임 */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  @keyframes bounceIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
   /* ================= 캐릭터 ================= */
-  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.2s ease-out; }
+  #buddy { position: fixed; top: 0; left: 0; width: 96px; height: 96px; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.15s cubic-bezier(0.1, 1, 0.3, 1); }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
   .buddy-body { transform-box: fill-box; transform-origin: 50% 90%; }
@@ -173,7 +192,6 @@
             pointer-events: none; }
   #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
   
-  /* 동적 말풍선 위치 제어 (캐릭터 기준 좌/우 반대편) */
   #bubble.left { right: 110%; left: auto; transform-origin: bottom right; }
   #bubble.right { left: 110%; right: auto; transform-origin: bottom left; }
   
@@ -183,7 +201,8 @@
   #bubble.left .tail { right: 20px; left: auto; }
   #bubble.right .tail { left: 20px; right: auto; }
 
-  .buddy-toggle { position: fixed; right: 20px; bottom: 20px; z-index: 1050; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; font-size: .82rem; font-weight: 600; cursor: pointer; }
+  .buddy-toggle { position: fixed; right: 20px; bottom: 20px; z-index: 1050; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; font-size: .82rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: background 0.2s; }
+  .buddy-toggle:hover { background: #f1f5f9; }
 </style>
 </head>
 <body>
@@ -194,7 +213,7 @@
   <div class="logo">🎓 소크라테스 AI 진로탐색</div>
   <nav><ul>
     <li><a onclick="openDeck()">🔮 진로 카드 뽑기</a></li>
-    <li><a id="navMindmap" class="disabled" onclick="openMindmap()">🧠 마인드맵 보기 (상담 완료 후 오픈)</a></li>
+    <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서 (상담 완료 후 오픈)</a></li>
     <li><a onclick="openChat()">💬 AI와 대화하기</a></li>
   </ul></nav>
 </header>
@@ -237,7 +256,7 @@
   </section>
 </main>
 
-<!-- ================= 1. 소환되는 진로 카드 덱 UI ================= -->
+<!-- ================= 1. 진로 카드 덱 오버레이 ================= -->
 <div class="card-deck-overlay" id="cardDeckOverlay">
   <div class="deck-title">🔮 소크라테스 진로 선택 카드</div>
   <div class="deck-sub">마음에 끌리는 카드 하나를 선택해보세요. AI가 그 이유를 함께 탐구합니다.</div>
@@ -250,21 +269,40 @@
   </div>
 </div>
 
-<!-- ================= 2. 마인드맵 시각화 UI 모달 ================= -->
-<div class="mindmap-overlay" id="mindmapOverlay">
-  <div class="mindmap-modal">
-    <div class="mindmap-header">
-      <h2>🧠 AI 대화 기반 진로 마인드맵</h2>
-      <button class="close-btn" onclick="closeMindmap()">&times;</button>
+<!-- ================= 2. 대형 종합 결과 보고서 팝업 ================= -->
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-modal">
+    <div class="result-header">
+      <h2>📊 소크라테스 진로 탐색 종합 결과 리포트</h2>
+      <button class="close-btn" onclick="closeResultModal()">&times;</button>
     </div>
-    <div class="mindmap-canvas" id="mindmapCanvas">
-      <svg class="mindmap-svg" id="mindmapSvg"></svg>
-      <div class="node node-center" style="top: 42%; left: 40%;">🎯 나의 진로 탐색</div>
-      <div class="node node-interest" style="top: 20%; left: 18%;">🎨 창의적 표현</div>
-      <div class="node node-interest" style="top: 22%; left: 62%;">💻 문제 해결 기술</div>
-      <div class="node node-value" style="top: 68%; left: 22%;">🌱 자율성과 성장</div>
-      <div class="node node-subject" style="top: 65%; left: 60%;">📚 정보과학 / 미디어</div>
-      <div class="node node-subject" style="top: 45%; left: 75%;">🏫 미디어커뮤니케이션</div>
+
+    <div class="result-quote">
+      <h5>🏛️ 소크라테스의 총평</h5>
+      <p>"너 자신을 알라 함은 곧 네가 무엇에 열정적이고 어떤 가치를 소중히 여기는지 자각하는 것이다. 대화를 통해 너의 내면에서 피어오른 단서들을 아래와 같이 정리해 두노라."</p>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-card">
+        <h4>🎨 핵심 가치 및 적성</h4>
+        <p>논리적인 분석력과 창의적 표현력이 조화를 이루며, 복잡한 문제를 구조화하고 해결하는 과정에서 깊은 몰입을 경험함.</p>
+      </div>
+      <div class="result-card">
+        <h4>💻 추천 진로 분야</h4>
+        <p>소프트웨어 공학, 디지털 미디어 콘텐츠 기획, 사용자 경험(UX) 디자인 및 데이터 기반 문제해결 직군.</p>
+      </div>
+      <div class="result-card">
+        <h4>🌱 성장 마인드맵 키워드</h4>
+        <p>#자율성 #문제해결 #정보과학 #미디어커뮤니케이션 #인간중심디자인</p>
+      </div>
+      <div class="result-card">
+        <h4>📑 고교 세특 탐구 로드맵</h4>
+        <p>정보 교과에서의 알고리즘 연구와 사회/미디어 교과를 연계한 융합 탐구 보고서 작성 추천.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 10px;">
+      <button class="btn-view-result" onclick="closeResultModal()" style="padding: 12px 32px; font-size: 1rem;">확인 완료</button>
     </div>
   </div>
 </div>
@@ -279,7 +317,9 @@
     <div style="padding: 10px 0;">
       <div class="chat-tools">
         <button onclick="openDeck()">🃏 진로 카드 소환하기</button>
-        <button id="chatMindmapBtn" class="disabled" onclick="openMindmap()">🧠 마인드맵 보기 (상담 완료 후 활성화)</button>
+        <div id="chatActionContainer" style="display:inline-block;">
+          <button id="chatResultBtn" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서 보기</button>
+        </div>
       </div>
     </div>
     <div id="webchat"></div>
@@ -397,64 +437,44 @@ function selectCard(card) {
 }
 
 /* ============================================================
-   2. 마인드맵 시각화 UI 및 상담 완료 상태 관리
+   2. 종합 결과 보고서 모달 및 완료 상태 관리
    ============================================================ */
 let isTestCompleted = false;
 
-function openMindmap() {
+function openResultModal() {
   if (!isTestCompleted) {
-    alert("아직 진로 탐색 상담이 완료되지 않았습니다! 대화를 통해 진행률 100%를 달성해 주세요.");
+    alert("아직 진로 탐색 상담이 완료되지 않았습니다! 대화를 통해 검사를 완료해 주세요.");
     return;
   }
-  document.getElementById('mindmapOverlay').classList.add('active');
-  drawMindmapLines();
+  document.getElementById('resultOverlay').classList.add('active');
 }
-function closeMindmap() {
-  document.getElementById('mindmapOverlay').classList.remove('active');
-}
-
-function drawMindmapLines() {
-  const svg = document.getElementById('mindmapSvg');
-  const canvas = document.getElementById('mindmapCanvas');
-  const nodes = canvas.querySelectorAll('.node');
-  const centerNode = canvas.querySelector('.node-center');
-  
-  svg.innerHTML = '';
-  const cRect = centerNode.getBoundingClientRect();
-  const canvasRect = canvas.getBoundingClientRect();
-  
-  const cx = cRect.left + cRect.width/2 - canvasRect.left;
-  const cy = cRect.top + cRect.height/2 - canvasRect.top;
-
-  nodes.forEach(node => {
-    if (node === centerNode) return;
-    const nRect = node.getBoundingClientRect();
-    const nx = nRect.left + nRect.width/2 - canvasRect.left;
-    const ny = nRect.top + nRect.height/2 - canvasRect.top;
-
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
-    line.setAttribute('x2', nx); line.setAttribute('y2', ny);
-    line.setAttribute('class', 'mindmap-line');
-    svg.appendChild(line);
-  });
+function closeResultModal() {
+  document.getElementById('resultOverlay').classList.remove('active');
 }
 
 function completeTest() {
+  if (isTestCompleted) return;
   isTestCompleted = true;
-  const navBtn = document.getElementById('navMindmap');
+
+  // 상단 네비게이션 버튼 활성화
+  const navBtn = document.getElementById('navResult');
   navBtn.classList.remove('disabled');
-  navBtn.textContent = "🧠 마인드맵 보기 (완료됨)";
+  navBtn.textContent = "📊 종합 결과 보고서 (완료됨)";
 
-  const chatBtn = document.getElementById('chatMindmapBtn');
-  chatBtn.classList.remove('disabled');
-  chatBtn.textContent = "🧠 마인드맵 확인하기";
+  // 채팅 툴바 영역에 검사 완료 배너와 버튼 동적 생성
+  const actionContainer = document.getElementById('chatActionContainer');
+  actionContainer.innerHTML = `
+    <div class="completion-banner">
+      <span>✨ 검사 완료! 결과가 준비되었습니다.</span>
+      <button class="btn-view-result" onclick="openResultModal()">📊 결과 보기</button>
+    </div>
+  `;
 
-  showBubble("축하하네! 드디어 너만의 진로 마인드맵이 완성되었어!");
+  showBubble("축하하네! 드디어 너만의 진로 리포트가 완성되었어!");
 }
 
 /* ============================================================
-   3. Direct Line 및 채팅 연동
+   3. Direct Line 및 채팅 연동 & QoL (엔터 키 입력)
    ============================================================ */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
@@ -479,11 +499,12 @@ async function initWebChat() {
         pendingMessage = null;
       }
 
+      // 봇이 보내는 응답 메시지 감지하여 완료 조건 체크
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
-          if (activity.text.includes('100%') || activity.text.includes('진로 키워드 마인드맵')) {
-            if (!isTestCompleted) completeTest();
+          if (activity.text.includes('100%') || activity.text.includes('진로 키워드 마인드맵') || activity.text.includes('검사 완료')) {
+            completeTest();
           }
         }
       }
@@ -508,11 +529,22 @@ function closeChat() {
   document.getElementById('chatModal').classList.remove('active');
 }
 
-document.getElementById('heroSubmit').onclick = () => {
+// 홈 화면 검색창 제출 및 엔터 키 QoL 처리
+function handleHeroSubmit() {
   const val = document.getElementById('heroInput').value.trim();
-  if (val) { pendingMessage = val; document.getElementById('heroInput').value = ''; }
+  if (val) {
+    pendingMessage = val;
+    document.getElementById('heroInput').value = '';
+  }
   openChat();
-};
+}
+
+document.getElementById('heroSubmit').onclick = handleHeroSubmit;
+document.getElementById('heroInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    handleHeroSubmit();
+  }
+});
 
 /* ============================================================
    4. 미니 소크라테스 캐릭터 및 부드러운 위치/말풍선 제어 로직
@@ -534,20 +566,19 @@ addEventListener('mousemove', e => {
 function tick(){
   let target;
   if (isChatOpen) {
-    // 채팅창이 열려있으면 화면 전체의 완전히 좌측 하단 구석에 고정
+    // 채팅 중일 때는 화면 완전히 좌측 하단 구석에 고정
     target = { x: 60, y: innerHeight - 60 };
   } else if (dockEl) {
-    // 카드나 요소에 마우스가 올라가 있으면 그 옆에 도킹
+    // 요소에 마우스가 올라가 있으면 그 옆에 도킹
     const rect = dockEl.getBoundingClientRect();
     target = { x: rect.right - 10, y: rect.top + 20 };
   } else {
-    // 평상시에는 부드러운 관성으로 마우스를 추적
+    // 평상시 부드러운 관성으로 마우스 추적
     target = { x: mouse.x + 74, y: mouse.y + 64 };
   }
 
-  // 보간 계수를 낮추어(0.045) 훨씬 매끄럽고 부드러운 움직임 부여
-  pos.x += (target.x - pos.x) * 0.045;
-  pos.y += (target.y - pos.y) * 0.045;
+  pos.x += (target.x - pos.x) * 0.05;
+  pos.y += (target.y - pos.y) * 0.05;
   buddy.style.transform = `translate3d(${pos.x - SIZE / 2}px, ${pos.y - SIZE / 2}px, 0)`;
   requestAnimationFrame(tick);
 }
@@ -596,7 +627,7 @@ async function say(ctx){
 function showBubble(text){
   bubbleT.textContent = text;
 
-  // 캐릭터가 화면의 좌측에 위치해 있으면 말풍선이 오른쪽에 뜨게 하고, 우측에 있으면 왼쪽에 뜨게 동적 제어
+  // 캐릭터가 화면 좌측에 있으면 말풍선이 우측에, 우측에 있으면 좌측에 뜨도록 동적 제어
   if (pos.x < innerWidth / 2) {
     bubble.classList.remove('left');
     bubble.classList.add('right');
@@ -606,7 +637,7 @@ function showBubble(text){
   }
 
   bubble.classList.add('show');
-  setTimeout(() => bubble.classList.remove('show'), 2500);
+  setTimeout(() => bubble.classList.remove('show'), 2800);
 }
 
 document.querySelectorAll('[data-buddy]').forEach(el => {
