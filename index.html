@@ -491,7 +491,7 @@ async function fetchBuddyAIResponse(promptText) {
 }
 
 /* ============================================================
-   4. 미니 소크라테스 캐릭터 연동
+   4. 미니 소크라테스 캐릭터 연동 (프론트엔드 로컬 처리로 변경)
    ============================================================ */
 const buddy = document.getElementById('buddy');
 const bodyG = buddy.querySelector('.buddy-body');
@@ -523,6 +523,37 @@ let lastSpoke = 0;
 let speaking = false;
 let idleTimer = null;
 
+// 상황별 미니 소크라테스 대사 풀 (메인 챗봇 세션을 방해하지 않고 즉시 출력)
+const buddyMessages = {
+  '검색창': [
+    "어떤 고민이든 편하게 적어보게. 질문 속에 답이 있는 법이니까.",
+    "무엇을 찾아야 할지 모를 때가 진짜 탐구의 시작이지.",
+    "너의 그 호기심, 아주 마음에 드는군요."
+  ],
+  '서비스 안내': [
+    "이 길잡이가 어떻게 돕는지 궁금한가? 차근차근 따라와 보게.",
+    "급할수록 돌아가라고 했다네."
+  ],
+  '학교별 공시정보': [
+    "건물과 교실이 중요한 게 아니라, 그곳에서 네가 무엇을 하느냐가 중요하지.",
+    "학교는 배움의 터전일 뿐, 항해의 방향은 네가 정하는 거야."
+  ],
+  '지역별 진로정보': [
+    "주변을 둘러보게. 이미 너를 위한 단서들이 널려 있을 테니.",
+    "네가 서 있는 그곳에서부터 탐구는 시작된다네."
+  ],
+  '세특 로드맵 생성': [
+    "끝에 도달하면 너만의 멋진 기록이 펼쳐질 거야.",
+    "기록은 네가 걸어온 흔적이자 미래의 지도라네."
+  ],
+  'idle': [
+    "무슨 생각을 그렇게 골똘히 하고 있나?",
+    "정답을 찾으려 조급해하지 말게나. 고민하는 그 자체도 배움이니까.",
+    "너 자신을 알라! ...는 뻔한 소리는 안 하겠네, 하하.",
+    "오늘 하루, 너는 너를 위해 어떤 질문을 던졌는가?"
+  ]
+};
+
 async function say(ctx){
   if (speaking || buddy.classList.contains('off')) return;
   if (Date.now() - lastSpoke < COOLDOWN) return;
@@ -530,15 +561,14 @@ async function say(ctx){
   speaking = true;
   buddy.classList.add('thinking');
 
-  let promptText = ctx.trigger === 'hover' ? `'${ctx.label}' 메뉴 위에서 고민 중이야.` : '생각에 잠겨 있어.';
-  let msg = await fetchBuddyAIResponse(promptText);
+  // 생각하는 듯한 연출을 위한 짧은 딜레이 (0.5초)
+  await new Promise(r => setTimeout(r, 500));
+
+  let categoryKey = ctx.trigger === 'hover' ? ctx.label : 'idle';
+  let pool = buddyMessages[categoryKey] || buddyMessages['idle'];
+  let msg = pool[Math.floor(Math.random() * pool.length)];
 
   buddy.classList.remove('thinking');
-  
-  if (!msg) {
-    const fallbacks = ['무슨 생각을 그렇게 해?', '네가 진짜 원하는 건 뭐야?', '정답은 네 안에 있을지도 몰라.'];
-    msg = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-  }
 
   showBubble(msg);
   lastSpoke = Date.now();
