@@ -130,8 +130,31 @@
     justify-content: space-between;
     height: 580px;
   }
+  .map-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
   .map-card-header h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
   .map-card-header p { font-size: 0.85rem; color: #93c5fd; }
+  
+  /* 지도 창키우기 버튼 */
+  .btn-expand-map {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .btn-expand-map:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
 
   .map-search-mini { margin: 12px 0; display: flex; gap: 6px; }
   .map-search-mini input {
@@ -148,8 +171,21 @@
     overflow: hidden;
     position: relative;
   }
-  #googleMapIframe {
+  #googleMapIframe, #googleMapIframeLarge {
     width: 100%; height: 100%; border: 0;
+  }
+
+  /* 지도 확대 모달전용 스타일 */
+  .map-modal-box {
+    background: #fff;
+    width: 95%;
+    max-width: 1200px;
+    height: 85vh;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
 
   /* 하단 주요 카드 패널 */
@@ -214,11 +250,11 @@
   }
 
   /* 모달 레이어 및 모달 세부 스타일 */
-  .result-overlay, .feature-overlay {
+  .result-overlay, .feature-overlay, .map-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
   }
-  .result-overlay.active, .feature-overlay.active { display: flex; }
+  .result-overlay.active, .feature-overlay.active, .map-overlay.active { display: flex; }
 
   .modal-box {
     background: #fff; width: 90%; max-width: 850px; max-height: 85vh; border-radius: 24px;
@@ -340,8 +376,12 @@
     <!-- 구글 지도 플로팅 카드 -->
     <div class="map-floating-card" data-buddy="지역별 진로정보">
       <div class="map-card-header">
-        <h3>Google Maps 기반<br>학교/진로 지도 탐색</h3>
-        <p>📍 구글 지도로 위치 탐색</p>
+        <div>
+          <h3>Google Maps 기반<br>학교/진로 지도 탐색</h3>
+          <p>📍 구글 지도로 위치 탐색</p>
+        </div>
+        <!-- 지도를 크게 볼 수 있는 창키우기 버튼 추가 -->
+        <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
       </div>
 
       <div class="map-search-mini">
@@ -388,6 +428,24 @@
     </div>
   </section>
 </main>
+
+<!-- 지도 확대용 모달 레이어 -->
+<div class="map-overlay" id="mapOverlay">
+  <div class="map-modal-box">
+    <div class="modal-top-header">
+      <h2>🗺️ 구글 지도 크게 보기</h2>
+      <button class="close-btn" onclick="closeMapModal()">&times;</button>
+    </div>
+    <div class="map-search-mini" style="margin-bottom: 16px;">
+      <input type="text" id="mapModalSearchInput" placeholder="지역/학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocationModal()">
+      <button onclick="searchGoogleLocationModal()" style="padding: 0 16px;">검색</button>
+      <button onclick="setGoogleLocationCenterModal()" style="background: #16a34a; color:#fff; border:none; border-radius:6px; padding:0 12px; font-weight:bold; cursor:pointer;">📍 내 위치</button>
+    </div>
+    <div style="flex: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);">
+      <iframe id="googleMapIframeLarge" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+    </div>
+  </div>
+</div>
 
 <!-- 카드 안내 모달 레이어 -->
 <div class="feature-overlay" id="featureOverlay">
@@ -481,6 +539,42 @@ function updateProgress(percent) {
   if (currentPercent >= 100) {
     const navResult = document.getElementById('navResult');
     navResult.classList.remove('disabled');
+  }
+}
+
+/* 지도 모달 제어 함수 */
+function openMapModal() {
+  const currentSrc = document.getElementById('googleMapIframe').src;
+  document.getElementById('googleMapIframeLarge').src = currentSrc;
+  document.getElementById('mapOverlay').classList.add('active');
+}
+
+function closeMapModal() {
+  document.getElementById('mapOverlay').classList.remove('active');
+}
+
+function searchGoogleLocationModal() {
+  const query = document.getElementById('mapModalSearchInput').value.trim();
+  if (!query) return;
+  const encodedQuery = encodeURIComponent(query);
+  const newSrc = `https://maps.google.com/maps?q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  document.getElementById('googleMapIframeLarge').src = newSrc;
+  document.getElementById('googleMapIframe').src = newSrc; // 메인지도 동기화
+}
+
+function setGoogleLocationCenterModal() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      const newSrc = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      document.getElementById('googleMapIframeLarge').src = newSrc;
+      document.getElementById('googleMapIframe').src = newSrc; // 메인지도 동기화
+    }, () => {
+      alert('위치 정보를 불러올 수 없습니다.');
+    });
+  } else {
+    alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
   }
 }
 
@@ -601,7 +695,7 @@ async function initWebChat() {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user' && activity.text) {
-          // 대화 주고받음에 따라 진행률 상승 처리 (예시 코드)
+          // 대화 주고받음에 따라 진행률 상승 처리
           currentProgress += 20;
           updateProgress(currentProgress);
 
