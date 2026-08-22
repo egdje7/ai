@@ -109,7 +109,7 @@
     transition: width 0.4s ease-in-out;
   }
 
-  /* 플로팅 카드 (지도 영역) */
+  /* 구글 지도 플로팅 카드 */
   .map-floating-card {
     background: var(--navy);
     color: #fff;
@@ -294,55 +294,304 @@
     padding: 32px; display: flex; flex-direction: column; position: relative;
     box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
   }
-
-  /* 2번 파일에서 잘린 부분 완성 (1번 파일 코드 병합) */
-  .modal-top-header { 
-    display: flex; justify-content: space-between; align-items: center; 
-    border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; 
-  }
+  .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
   .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); font-weight: 800; }
-  
-  .close-btn {
-    background: #f1f5f9; border: none; width: 36px; height: 36px;
-    border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s;
-  }
+  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
   .close-btn:hover { background: #e2e8f0; }
-  
   .map-modal-box, .academy-modal-box {
     background: #fff; width: 95%; max-width: 1200px; height: 85vh; border-radius: 24px;
-    padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
 
-  /* 마인드맵 (1번 파일) */
+  /* 마인드맵 및 다운로드 스타일 */
   .mindmap-container {
     background: #f8fafc; border: 1px solid var(--line); border-radius: 16px;
     padding: 16px; margin: 16px 0; text-align: center;
   }
   .mindmap-svg { width: 100%; max-height: 260px; }
   .btn-download-action {
-    background: var(--blue); color: #fff; border: none; padding: 10px 18px; border-radius: 8px;
-    font-weight: bold; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;
-    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue); color: #fff; border: none; padding: 10px 18px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
+    transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px;
   }
   .btn-download-action:hover { background: #1d4ed8; }
   .btn-download-action.green { background: #16a34a; }
   .btn-download-action.green:hover { background: #15803d; }
 
-  /* 미니 소크라테스 (1번 파일) */
+  /* =======================================================================
+     📊 종합 결과 보고서 (동적 생성)
+     ======================================================================= */
+  .rpt-cover {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff;
+    border-radius: 18px; padding: 24px 26px; margin-bottom: 20px;
+  }
+  .rpt-cover .who { font-size: 0.8rem; opacity: 0.85; font-weight: 600; }
+  .rpt-cover h3 { font-size: 1.6rem; font-weight: 800; margin: 6px 0 10px; line-height: 1.3; word-break: keep-all; }
+  .rpt-cover .sum { font-size: 0.92rem; line-height: 1.65; opacity: 0.95; word-break: keep-all; }
+  .rpt-cover .meta { margin-top: 14px; font-size: 0.75rem; opacity: 0.8; }
+
+  .rpt-warn {
+    background: #fef3c7; border: 1px solid #fbbf24; color: #92400e;
+    border-radius: 10px; padding: 10px 14px; font-size: 0.8rem; font-weight: 700;
+    margin-bottom: 16px; line-height: 1.6; word-break: keep-all;
+  }
+
+  .rpt-sec { margin-bottom: 22px; }
+  .rpt-sec > h4 {
+    font-size: 1.05rem; font-weight: 800; color: var(--navy);
+    display: flex; align-items: center; gap: 7px; margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 2px solid var(--sky);
+  }
+
+  .rpt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .rpt-card {
+    background: #f8fafc; border: 1px solid var(--line); border-left: 4px solid var(--blue);
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .rpt-card.teal { border-left-color: #0d9488; }
+  .rpt-card.violet { border-left-color: #7c3aed; }
+  .rpt-card.amber { border-left-color: #d97706; }
+  .rpt-card .lb { font-size: 0.75rem; color: var(--muted); font-weight: 800; margin-bottom: 6px; }
+  .rpt-card .bd { font-size: 0.92rem; color: var(--ink); line-height: 1.6; word-break: keep-all; }
+
+  .rpt-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rpt-chips span {
+    background: var(--sky); color: #1d4ed8; border-radius: 999px;
+    padding: 6px 14px; font-size: 0.83rem; font-weight: 700;
+  }
+
+  /* 세특 로드맵 타임라인 */
+  .rpt-road { position: relative; padding-left: 26px; }
+  .rpt-road::before {
+    content: ''; position: absolute; left: 7px; top: 6px; bottom: 6px;
+    width: 2px; background: linear-gradient(#2563eb, #16a34a);
+  }
+  .rpt-road .step { position: relative; margin-bottom: 16px; }
+  .rpt-road .step:last-child { margin-bottom: 0; }
+  .rpt-road .step::before {
+    content: ''; position: absolute; left: -23px; top: 4px;
+    width: 12px; height: 12px; border-radius: 50%; background: var(--blue);
+    border: 2px solid #fff; box-shadow: 0 0 0 2px var(--blue);
+  }
+  .rpt-road .step b { display: block; font-size: 0.9rem; color: var(--navy); font-weight: 800; margin-bottom: 3px; }
+  .rpt-road .step p { font-size: 0.88rem; color: #475569; line-height: 1.6; word-break: keep-all; }
+
+  .rpt-quote {
+    background: #f8fafc; border-radius: 12px; padding: 12px 16px;
+    font-size: 0.85rem; color: #475569; line-height: 1.7; border: 1px solid var(--line);
+    max-height: 190px; overflow-y: auto;
+  }
+  .rpt-quote .turn { margin-bottom: 9px; }
+  .rpt-quote .turn:last-child { margin-bottom: 0; }
+  .rpt-quote .turn b { color: var(--navy); }
+  .rpt-quote .turn.me b { color: #0d9488; }
+
+  .mindmap-svg { width: 100%; max-height: 420px; }
+
+  .rpt-actions {
+    display: flex; gap: 10px; justify-content: center; margin-top: 22px; flex-wrap: wrap;
+    border-top: 1px solid var(--line); padding-top: 18px;
+  }
+
+  @media (max-width: 780px) { .rpt-grid { grid-template-columns: 1fr; } }
+
+  /* =======================================================================
+     🏛️ 소크라테스 알리미 (자체 제작 대학 공시정보 뷰어)
+     ======================================================================= */
+  .alimi-banner {
+    background: #fef3c7; border: 1px solid #fbbf24; color: #92400e;
+    border-radius: 10px; padding: 9px 14px; font-size: 0.78rem; font-weight: 700;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px; word-break: keep-all;
+  }
+  .alimi-banner.live { background: #dcfce7; border-color: #22c55e; color: #166534; }
+  .alimi-banner a { color: inherit; }
+
+  .alimi-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .alimi-tabs button {
+    background: #f1f5f9; border: 1px solid var(--line); color: #475569;
+    padding: 7px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .alimi-tabs button.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  .alimi-body { flex: 1; min-height: 0; display: none; }
+  .alimi-body.on { display: grid; }
+
+  /* 대학별 탭 : 좌측 목록 + 우측 상세 */
+  #alimiTabSchool { grid-template-columns: 250px 1fr; gap: 16px; }
+  .alimi-side { display: flex; flex-direction: column; min-height: 0; }
+  .alimi-side input {
+    width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 0.85rem; outline: none; margin-bottom: 8px;
+  }
+  .alimi-side input:focus { border-color: var(--blue); }
+  .alimi-univ-list { flex: 1; overflow-y: auto; border-top: 1px solid var(--line); padding-top: 6px; }
+  .alimi-univ-item {
+    padding: 8px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+    color: var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 6px;
+  }
+  .alimi-univ-item:hover { background: var(--sky); }
+  .alimi-univ-item.on { background: var(--navy); color: #fff; }
+  .alimi-univ-item small { font-size: 0.68rem; opacity: 0.65; white-space: nowrap; }
+
+  .alimi-detail { overflow-y: auto; padding-right: 6px; min-height: 0; }
+  .alimi-empty { color: var(--muted); font-size: 0.9rem; text-align: center; padding-top: 60px; line-height: 1.7; }
+
+  .alimi-head {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+    border-bottom: 2px solid var(--sky); padding-bottom: 12px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .alimi-head h3 { font-size: 1.35rem; color: var(--navy); font-weight: 800; }
+  .alimi-head .tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+  .alimi-head .tags span {
+    background: var(--sky); color: var(--blue); border-radius: 6px;
+    padding: 3px 9px; font-size: 0.72rem; font-weight: 700;
+  }
+  .alimi-head .yr {
+    border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px;
+    font-size: 0.8rem; font-weight: 700; color: var(--muted); background: #fff;
+  }
+
+  .alimi-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+  .alimi-stat {
+    background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 14px;
+  }
+  .alimi-stat .lb { font-size: 0.74rem; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+  .alimi-stat .vl { font-size: 1.4rem; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .alimi-stat .vl sup { font-size: 0.5rem; color: #d97706; font-weight: 800; vertical-align: super; }
+  .alimi-stat .un { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-left: 2px; }
+  .alimi-stat .cmp { font-size: 0.7rem; font-weight: 700; margin-top: 6px; }
+  .alimi-stat .cmp.up { color: #dc2626; }
+  .alimi-stat .cmp.down { color: #2563eb; }
+  .alimi-stat .cmp.flat { color: var(--muted); }
+
+  .alimi-section-title {
+    font-size: 0.95rem; font-weight: 800; color: var(--navy);
+    margin: 0 0 10px; display: flex; align-items: center; gap: 6px;
+  }
+
+  /* 전국 평균 비교 막대 */
+  .alimi-bars { background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 18px; }
+  .alimi-bar-row { margin-bottom: 14px; }
+  .alimi-bar-row:last-child { margin-bottom: 0; }
+  .alimi-bar-row .cap { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; margin-bottom: 5px; }
+  .alimi-bar-row .cap .n { color: var(--ink); }
+  .alimi-bar-row .cap .a { color: var(--muted); font-weight: 600; }
+  .alimi-bar-track { height: 9px; background: #e2e8f0; border-radius: 5px; position: relative; overflow: visible; }
+  .alimi-bar-fill { height: 100%; border-radius: 5px; background: var(--blue); transition: width 0.5s ease; }
+  .alimi-bar-avg {
+    position: absolute; top: -4px; width: 2px; height: 17px; background: #ef4444; border-radius: 1px;
+  }
+  .alimi-bar-avg::after {
+    content: '평균'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    font-size: 0.58rem; color: #ef4444; font-weight: 800; white-space: nowrap;
+  }
+
+  /* 학과 칩 */
+  .alimi-majors { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .alimi-majors span {
+    background: #fff; border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 12px; font-size: 0.78rem; color: #475569; font-weight: 600;
+  }
+  .alimi-majors .none { border: none; color: var(--muted); font-size: 0.8rem; }
+
+  .alimi-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 8px; }
+
+  /* 지역별 탭 */
+  #alimiTabRegion { grid-template-columns: 1fr; overflow-y: auto; }
+  .alimi-region-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .alimi-region-card {
+    background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px;
+    cursor: pointer; transition: all 0.18s ease;
+  }
+  .alimi-region-card:hover { border-color: var(--blue); box-shadow: 0 6px 16px rgba(37,99,235,0.14); transform: translateY(-2px); }
+  .alimi-region-card.on { border-color: var(--navy); background: var(--sky); }
+  .alimi-region-card h4 { font-size: 1rem; color: var(--navy); font-weight: 800; margin-bottom: 4px; }
+  .alimi-region-card .cnt { font-size: 1.6rem; font-weight: 800; color: var(--blue); }
+  .alimi-region-card .cnt small { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+  .alimi-region-card .mini-bar { height: 6px; background: #e2e8f0; border-radius: 3px; margin-top: 8px; }
+  .alimi-region-card .mini-bar div { height: 100%; background: var(--blue); border-radius: 3px; }
+
+  .alimi-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+  .alimi-table th {
+    background: #f1f5f9; color: var(--navy); font-weight: 800; padding: 10px;
+    text-align: left; border-bottom: 2px solid var(--line); font-size: 0.78rem;
+  }
+  .alimi-table td { padding: 9px 10px; border-bottom: 1px solid #f1f5f9; }
+  .alimi-table tr:hover td { background: #f8fafc; }
+  .alimi-table td.num { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .alimi-table .lnk { color: var(--blue); font-weight: 700; cursor: pointer; }
+  .alimi-table .lnk:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    #alimiTabSchool { grid-template-columns: 1fr; grid-template-rows: 150px 1fr; }
+    .alimi-stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .academy-search-bar { grid-template-columns: 1fr; }
+  }
+
+  /* =======================================================================
+     🔎 실시간 학교정보 검색 탭 (공공데이터포털 학교기본정보 API)
+     ======================================================================= */
+  #alimiTabApi { grid-template-columns: 1fr; min-height: 0; }
+  .academy-search-panel { display: flex; flex-direction: column; gap: 14px; height: 100%; min-height: 0; }
+  .academy-search-bar { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+  .academy-search-bar input {
+    width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px;
+    font-size: .95rem; outline: none;
+  }
+  .academy-search-bar input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, .1); }
+  .academy-search-bar button {
+    border: none; background: var(--blue); color: #fff; padding: 0 18px;
+    border-radius: 10px; font-weight: 800; cursor: pointer;
+  }
+  .academy-search-options { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .academy-search-options select {
+    padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+    background: #fff; color: var(--ink); outline: none;
+  }
+  .academy-status { min-height: 20px; font-size: .85rem; color: var(--muted); }
+  .academy-results {
+    flex: 1; min-height: 0; overflow: auto; border: 1px solid var(--line);
+    border-radius: 14px; background: #f8fafc; padding: 14px;
+  }
+  .academy-empty {
+    height: 100%; display: flex; align-items: center; justify-content: center;
+    text-align: center; color: var(--muted); padding: 30px;
+  }
+  .academy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .academy-card {
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px; box-shadow: 0 4px 12px rgba(15, 23, 42, .05);
+  }
+  .academy-card h3 { color: var(--navy); font-size: 1rem; margin-bottom: 10px; }
+  .academy-card dl { display: grid; grid-template-columns: 90px 1fr; gap: 7px 10px; font-size: .84rem; }
+  .academy-card dt { color: var(--muted); font-weight: 700; }
+  .academy-card dd { color: var(--ink); word-break: keep-all; }
+  .academy-card .academy-link {
+    display: inline-flex; margin-top: 12px; padding: 8px 10px; border-radius: 8px;
+    background: #eff6ff; color: var(--blue); text-decoration: none; font-weight: 700; font-size: .8rem;
+  }
+
+  /* =======================================================================
+     미니 소크라테스 (대사 시스템) CSS 내장
+     ======================================================================= */
   #miniSocrates {
     position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
-    pointer-events: none; will-change: transform; transition: opacity 0.3s ease-in-out;
+    pointer-events: none; will-change: transform;
+    /* 투명도 전환 효과 애니메이션 */
+    transition: opacity 0.2s ease-in-out;
   }
   #miniSocrates svg { width: 100%; height: 100%; overflow: visible; }
   .mini-socrates-body { transform-box: fill-box; transform-origin: 50% 90%; animation: miniSocratesFloat 2.6s ease-in-out infinite; }
-  @keyframes miniSocratesFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
-
+  @keyframes miniSocratesFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -4px; } }
   #miniSocratesBubble {
     position: absolute; bottom: 72%; left: 110%; width: max-content; max-width: 220px;
     background: #fff; border: 2px solid #1a2e63; border-radius: 12px; padding: 10px 14px;
     color: #1e293b; font-size: .8rem; font-weight: 700; line-height: 1.4;
-    box-shadow: 0 8px 20px rgba(30, 58, 138, .16); opacity: 0; transform: translateY(6px) scale(.94);
-    transition: opacity .18s ease, transform .18s cubic-bezier(.2, 1.4, .4, 1); pointer-events: none;
+    box-shadow: 0 8px 20px rgba(30,58,138,.16); opacity: 0;
+    transform: translateY(6px) scale(.94);
+    transition: opacity .18s ease, transform .18s cubic-bezier(.2,1.4,.4,1);
+    pointer-events: none;
   }
   #miniSocratesBubble.show { opacity: 1; transform: translateY(0) scale(1); }
   #miniSocratesBubble.left { left: auto; right: 110%; transform-origin: bottom right; }
@@ -353,654 +602,1830 @@
   }
   #miniSocratesBubble.left .mini-socrates-tail { right: 14px; }
   #miniSocratesBubble.right .mini-socrates-tail { left: 14px; }
-
-  /* 대학 API 검색 UI (1번 파일) */
-  .academy-search-panel { display: flex; flex-direction: column; gap: 14px; height: 100%; min-height: 0; }
-  .academy-search-bar { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-  .academy-search-bar input {
-    width: 100%; padding: 13px 14px; border: 1px solid var(--line);
-    border-radius: 10px; font-size: .95rem; outline: none;
-  }
-  .academy-search-bar input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, .1); }
-  .academy-search-bar button { border: none; background: var(--blue); color: #fff; padding: 0 18px; border-radius: 10px; font-weight: 800; cursor: pointer; }
-  .academy-search-options { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .academy-search-options select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); outline: none; }
-  .academy-status { min-height: 20px; font-size: .85rem; color: var(--muted); }
-  .academy-results { flex: 1; min-height: 0; overflow: auto; border: 1px solid var(--line); border-radius: 14px; background: #f8fafc; padding: 14px; }
-  .academy-empty { height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); padding: 30px; }
-  .academy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-  
-  .academy-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: 0 4px 12px rgba(15, 23, 42, .05); }
-  .academy-card h3 { color: var(--navy); font-size: 1rem; margin-bottom: 10px; }
-  .academy-card dl { display: grid; grid-template-columns: 90px 1fr; gap: 7px 10px; font-size: .84rem; }
-  .academy-card dt { color: var(--muted); font-weight: 700; }
-  .academy-card dd { color: var(--ink); word-break: keep-all; }
-  .academy-card .academy-link { display: inline-flex; margin-top: 12px; padding: 8px 10px; border-radius: 8px; background: #eff6ff; color: var(--blue); text-decoration: none; font-weight: 700; font-size: .8rem; }
-
-  @media (max-width: 1000px) {
-    .hero-section { grid-template-columns: 1fr; }
-    .feature-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 700px) {
-    header { padding: 16px 5%; flex-direction: column; gap: 12px; }
-    nav ul { gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .hero-section { padding: 25px 5% 40px; }
-    .feature-section-wrapper { padding: 40px 5%; }
-    .feature-grid { grid-template-columns: 1fr; }
-    .academy-search-bar { grid-template-columns: 1fr; }
-    .academy-search-bar button { min-height: 44px; }
-    .academy-card dl { grid-template-columns: 78px 1fr; }
-    .academy-modal-box { width: 100%; height: 92vh; padding: 18px; }
-  }
 </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo">🎓 소크라테스 AI</div>
-    <nav>
-      <ul>
-        <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
-        <li><a onclick="openAcademyInfo('school')">전국대학교정보</a></li>
-        <li><a onclick="openAcademyInfo('region')">진로 소식</a></li>
-        <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서</a></li>
-      </ul>
-    </nav>
-  </header>
+<header>
+  <div class="logo">🎓 소크라테스 AI</div>
+  <nav><ul>
+    <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
+    <li><a onclick="openAcademyInfo('school')">전국대학교정보</a></li>
+    <li><a onclick="openAcademyInfo('region')">진로 소식</a></li>
+    <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서</a></li>
+  </ul></nav>
+</header>
 
-  <main style="display:flex; flex-direction:column; flex:1;">
-    <!-- HERO -->
-    <section class="hero-section">
-      <!-- AI 채팅 -->
-      <div class="chat-hero-container">
-        <div class="chat-panel" data-buddy="채팅창">
-          <div class="panel-header">
-            <h3>
-              <svg viewBox="0 0 120 120" width="28" height="28">
-                <rect x="24" y="34" width="72" height="70" rx="28" fill="#1e3a8a" />
-                <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827" />
-                <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b" />
-                <circle cx="60" cy="26" r="3" fill="#fbbf24" />
-                <path d="M99 27 v14" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" />
-                <circle cx="99" cy="43" r="3.5" fill="#fbbf24" />
-                <ellipse cx="47" cy="65" rx="10" ry="11" fill="#fff" />
-                <ellipse cx="73" cy="65" rx="10" ry="11" fill="#fff" />
-                <circle cx="47" cy="66" r="4.6" fill="#0f172a" />
-                <circle cx="73" cy="66" r="4.6" fill="#0f172a" />
-                <path d="M53 84 q7 6 14 0" fill="none" stroke="#dbeafe" stroke-width="3" stroke-linecap="round" />
-              </svg>
-              소크라테스 진로 심리 검사
-            </h3>
+<main style="display: flex; flex-direction: column; flex: 1;">
+  <section class="hero-section">
+    <!-- AI 채팅창 -->
+    <div class="chat-hero-container">
+      <div class="chat-panel" data-buddy="채팅창">
+        <div class="panel-header">
+          <h3>
+            <svg viewBox="0 0 120 120" width="28" height="28">
+              <rect x="24" y="34" width="72" height="70" rx="28" fill="#1e3a8a"/>
+              <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827"/>
+              <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b"/>
+              <circle cx="60" cy="26" r="3" fill="#fbbf24"/>
+              <path d="M99 27 v14" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="99" cy="43" r="3.5" fill="#fbbf24"/>
+              <ellipse cx="47" cy="65" rx="10" ry="11" fill="#fff"/>
+              <ellipse cx="73" cy="65" rx="10" ry="11" fill="#fff"/>
+              <circle cx="47" cy="66" r="4.6" fill="#0f172a"/>
+              <circle cx="73" cy="66" r="4.6" fill="#0f172a"/>
+              <path d="M53 84 q7 6 14 0" fill="none" stroke="#dbeafe" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            소크라테스 진로 심리 검사
+          </h3>
+        </div>
+        <div id="webchat"></div>
+        
+        <div class="progress-container">
+          <div class="progress-info">
+            <span>진단 프로세스 진행률</span>
+            <span id="progressPercent">0%</span>
           </div>
-          <div id="webchat"></div>
-          <div class="progress-container">
-            <div class="progress-info">
-              <span>진단 프로세스 진행률</span>
-              <span id="progressPercent">0%</span>
-            </div>
-            <div class="progress-bar-bg">
-              <div id="progressBarFill" class="progress-bar-fill"></div>
-            </div>
+          <div class="progress-bar-bg">
+            <div id="progressBarFill" class="progress-bar-fill"></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- 지도 (2번 파일의 구조 활용) -->
-      <div class="map-floating-card" data-buddy="지역별 진로정보">
-        <div class="map-card-header">
-          <div>
-            <h3>대학교/진로 지도 탐색</h3>
-            <p>📍 지역별 대학 위치 탐색</p>
-          </div>
-          <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
+    <!-- 전국 대학교 전용 지도 카드 -->
+    <div class="map-floating-card" data-buddy="지역별 진로정보">
+      <div class="map-card-header">
+        <div>
+          <h3>전국 대학교 지도</h3>
+          <p>🎓 대학교만 표시 · <span id="uniCount">0</span>개 탐색 가능</p>
         </div>
-        <div class="map-search-mini">
-          <input type="text" id="mapSearchInput" placeholder="지역/대학교명 검색">
-          <button>검색</button>
-        </div>
-        <div class="region-chips">
-          <button class="on">전체</button>
-          <button>서울</button>
-          <button>수도권</button>
-        </div>
-        <div class="map-card-canvas">
-          <div id="uniMapWrap">
-            <div id="uniMap"></div>
-          </div>
-        </div>
-        <div class="nearby-mini" id="nearbyMiniList">
-          <!-- 스크립트 등을 통해 결과 삽입 가능 -->
-        </div>
-        <button class="btn-locate ask" onclick="locateMe()">📍 내 위치 주변 대학 찾기</button>
+        <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
       </div>
-    </section>
 
-    <!-- 기능 카드 -->
-    <section class="feature-section-wrapper">
-      <div class="feature-grid">
-        <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
-          <div class="icon-box">📊</div>
-          <h4>서비스 안내</h4>
-          <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
-        </div>
-        <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
-          <div class="icon-box">🏛️</div>
-          <h4>대학교별 공시정보</h4>
-          <p>소크라테스 알리미에서 전국 대학교 공시정보를 정확하게 검색</p>
-        </div>
-        <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
-          <div class="icon-box">📍</div>
-          <h4>지역별 공시정보</h4>
-          <p>관심지역의 대학 공시정보를 한눈에 확인</p>
-        </div>
-        <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
-          <div class="icon-box">📑</div>
-          <h4>세특 로드맵 생성</h4>
-          <p>대화 완료 후 맞춤형 탐구 보고서 발급</p>
-        </div>
+      <div class="map-search-mini">
+        <input type="text" id="uniSearchInput" placeholder="대학교명 검색 (예: 경희대)"
+               oninput="onUniSearch(this.value, 'card')"
+               onkeypress="if(event.key==='Enter') focusFirstResult()">
+        <button onclick="focusFirstResult()">검색</button>
       </div>
-    </section>
-  </main>
 
-  <!-- 대학 정보 모달 -->
-  <div class="academy-overlay" id="academyOverlay">
-    <div class="academy-modal-box" data-buddy="대학교 공시정보">
-      <div class="modal-top-header">
-        <h2 id="academyModalTitle">🏛️ 소크라테스 알리미 — 대학 정보 검색</h2>
-        <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
+      <div class="region-chips" id="regionChipsCard"></div>
+
+      <div class="map-card-canvas" id="mapSlotCard">
+        <div id="uniMapWrap"><div id="uniMap"></div></div>
       </div>
+
+      <div class="nearby-mini" id="nearbyMini"></div>
+
+      <button class="btn-locate" id="btnLocate" onclick="findNearbyUniversities()">
+        📍 내 주변 대학 찾기
+      </button>
+    </div>
+  </section>
+
+  <!-- 하단 4개 카드 -->
+  <section class="feature-section-wrapper">
+    <div class="feature-grid">
+      <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
+        <div class="icon-box">📊</div>
+        <h4>서비스 안내</h4>
+        <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
+      </div>
+      <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
+        <div class="icon-box">🏛️</div>
+        <h4>대학교별 공시정보</h4>
+        <p>소크라테스 알리미에서 전국 대학교 공시정보를 정확하게 검색</p>
+      </div>
+      <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
+        <div class="icon-box">📍</div>
+        <h4>지역별 공시정보</h4>
+        <p>관심지역의 대학 공시정보를 한눈에 확인</p>
+      </div>
+      <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
+        <div class="icon-box">📑</div>
+        <h4>세특 로드맵 생성</h4>
+        <p>대화 완료 후 맞춤형 탐구 보고서 발급</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 모달 레이어들 -->
+<div class="academy-overlay" id="academyOverlay">
+  <div class="academy-modal-box" data-buddy="대학교 공시정보">
+    <div class="modal-top-header">
+      <h2 id="academyModalTitle">🏛️ 소크라테스 알리미</h2>
+      <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
+    </div>
+
+    <div id="alimiBanner" class="alimi-banner"></div>
+
+    <div class="alimi-tabs">
+      <button data-tab="school" class="on" onclick="switchAlimiTab('school')">🏛️ 대학별 공시정보</button>
+      <button data-tab="region" onclick="switchAlimiTab('region')">📍 지역별 공시정보</button>
+      <button data-tab="api" onclick="switchAlimiTab('api')">🔎 실시간 학교정보 검색</button>
+    </div>
+
+    <!-- 대학별 탭 -->
+    <div class="alimi-body on" id="alimiTabSchool">
+      <div class="alimi-side">
+        <input type="text" id="alimiSearchInput" placeholder="🔍 대학교명 검색" oninput="onAlimiSearch(this.value)">
+        <div class="alimi-univ-list" id="alimiUnivList"></div>
+      </div>
+      <div class="alimi-detail" id="alimiDetail">
+        <p class="alimi-empty">왼쪽에서 대학교를 선택하면<br>등록금·취업률·전임교원 확보율 등<br>주요 공시정보를 한눈에 볼 수 있습니다.</p>
+      </div>
+    </div>
+
+    <!-- 지역별 탭 -->
+    <div class="alimi-body" id="alimiTabRegion"></div>
+
+    <!-- 🔎 실시간 학교정보 검색 탭 (공공데이터포털 API 직접 호출) -->
+    <div class="alimi-body" id="alimiTabApi">
       <div class="academy-search-panel">
         <div class="academy-search-bar">
-          <input id="academySearchInput" type="search" placeholder="대학교명을 입력하세요. 예: 서울대학교" autocomplete="off">
+          <input id="academySearchInput" type="search" placeholder="대학교명을 입력하세요. 예: 서울대학교" autocomplete="off"
+                 onkeypress="if(event.key==='Enter'){event.preventDefault();searchAcademyInfo();}">
           <button onclick="searchAcademyInfo()">검색</button>
         </div>
+
         <div class="academy-search-options">
-          <select id="academyYearFilter" aria-label="조회 연도">
+          <select id="academyYearFilter" aria-label="조회 연도"
+                  onchange="if(document.getElementById('academySearchInput').value.trim()) searchAcademyInfo();">
             <option value="2026">2026년</option>
             <option value="2025" selected>2025년</option>
             <option value="2024">2024년</option>
             <option value="2023">2023년</option>
           </select>
+          <span style="font-size:.78rem;color:var(--muted);">공공데이터포털 학교기본정보 API로 실시간 조회합니다.</span>
         </div>
+
         <div id="academyStatus" class="academy-status"></div>
+
         <div id="academyResults" class="academy-results">
           <div class="academy-empty">
             <div>
-              <div style="font-size:2rem; margin-bottom:10px;">🏛️</div>
+              <div style="font-size:2rem;margin-bottom:10px;">🏛️</div>
               <b>원하는 대학을 검색해 보세요.</b>
-              <p style="margin-top:8px;">학교명과 조회 연도를 선택하면 공공데이터 API에서 정보를 가져옵니다.</p>
+              <p style="margin-top:8px;">학교명과 조회 연도를 선택하면 공공데이터 API에서 실시간으로 정보를 가져옵니다.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 지도 크게보기 (2번 파일의 구조 활용) -->
-  <div class="map-overlay" id="mapOverlay">
-    <div class="map-modal-box" data-buddy="지도 크게보기">
-      <div class="modal-top-header">
-        <h2>🗺️ 지도 크게 보기</h2>
-        <button class="close-btn" onclick="closeMapModal()">&times;</button>
-      </div>
-      <div class="map-modal-body">
-        <div class="map-modal-side">
-          <div class="map-search-mini light">
-            <input type="text" id="mapModalSearchInput" placeholder="지역/대학교명 검색">
-            <button>검색</button>
-          </div>
-          <div class="region-chips light">
-             <button class="on">전체</button>
-             <button>서울</button>
-             <button>수도권</button>
-          </div>
-          <button class="btn-locate" onclick="locateMeModal()">📍 내 위치 주변 탐색</button>
-          <div class="nearby-panel" id="modalNearbyPanel">
-             <div class="nearby-empty">지도를 이동하거나 내 위치를 검색해보세요.</div>
-          </div>
+<div class="map-overlay" id="mapOverlay">
+  <div class="map-modal-box" data-buddy="지도 크게보기">
+    <div class="modal-top-header">
+      <h2>🎓 전국 대학교 지도 크게 보기</h2>
+      <button class="close-btn" onclick="closeMapModal()">&times;</button>
+    </div>
+    <div class="map-modal-body">
+      <div class="map-modal-side">
+        <div class="map-search-mini light" style="margin: 0 0 10px;">
+          <input type="text" id="uniSearchInputModal" placeholder="대학교명 검색"
+                 oninput="onUniSearch(this.value, 'modal')"
+                 onkeypress="if(event.key==='Enter') focusFirstResult()">
+          <button onclick="focusFirstResult()" style="padding: 0 14px;">검색</button>
         </div>
-        <div class="map-modal-map">
-          <div id="uniMapLarge" style="width:100%; height:100%; background:#dbe6f5;"></div>
+        <button class="btn-locate" style="margin-top: 0;" onclick="findNearbyUniversities()">
+          📍 내 위치에서 가까운 대학 10곳
+        </button>
+        <div class="region-chips light" id="regionChipsModal" style="margin-top: 12px;"></div>
+        <div class="nearby-panel" id="nearbyList">
+          <p class="nearby-empty">📍 <b>내 위치에서 가까운 대학 10곳</b> 버튼을 누르면<br>브라우저가 위치 접근 권한을 물어봅니다.<br>허용하면 현재 위치 기준으로 가까운 순서대로 대학 목록이 여기에 표시됩니다.</p>
         </div>
       </div>
+      <div class="map-modal-map" id="mapSlotModal"></div>
     </div>
   </div>
+</div>
 
-  <!-- 서비스 안내 -->
-  <div class="feature-overlay" id="featureOverlay">
-    <div class="modal-box">
-      <div class="modal-top-header">
-        <h2 id="featureModalTitle">📌 서비스 안내</h2>
-        <button class="close-btn" onclick="closeFeatureModal()">&times;</button>
-      </div>
-      <div id="featureModalBody" class="modal-content-section"></div>
+<div class="feature-overlay" id="featureOverlay">
+  <div class="modal-box">
+    <div class="modal-top-header">
+      <h2 id="featureModalTitle">📌 서비스 안내</h2>
+      <button class="close-btn" onclick="closeFeatureModal()">&times;</button>
+    </div>
+    <div id="featureModalBody" class="modal-content-section"></div>
+  </div>
+</div>
+
+<div class="result-overlay" id="resultOverlay">
+  <div class="modal-box">
+    <div class="modal-top-header">
+      <h2>📊 소크라테스 진로 탐색 종합 결과 리포트</h2>
+      <button class="close-btn" onclick="closeResultModal()">&times;</button>
+    </div>
+
+    <div class="modal-content-section" id="reportContentArea">
+      <p class="alimi-empty">대화 진행률이 100%가 되면 결과가 이곳에 생성됩니다.</p>
+    </div>
+
+    <div class="rpt-actions">
+      <button class="btn-download-action" onclick="downloadReportPDF()">📄 보고서 PDF로 저장</button>
+      <button class="btn-download-action green" onclick="downloadMindmap()">🖼️ 마인드맵 PNG 다운로드</button>
+      <button class="btn-download-action" style="background:#7c3aed;" onclick="downloadReportHTML()">🌐 보고서 HTML 저장</button>
+      <button class="btn-download-action" style="background:#475569;" onclick="downloadReport()">📝 텍스트(.txt)</button>
     </div>
   </div>
+</div>
 
-  <!-- 결과 보고서 -->
-  <div class="result-overlay" id="resultOverlay">
-    <div class="modal-box">
-      <div class="modal-top-header">
-        <h2>📊 소크라테스 진로 탐색 종합 결과 리포트</h2>
-        <button class="close-btn" onclick="closeResultModal()">&times;</button>
-      </div>
-      <div class="modal-content-section" id="reportContentArea">
-        <p><b>탐색 대상:</b> 학생 맞춤형 AI 대화 분석 완료</p>
-        <p><b>주요 추천 직군:</b> 소프트웨어 및 인공지능 연구원, 시스템 데이터 엔지니어</p>
-        <p><b>추천 진로 로드맵:</b> 연계 전공 및 AI/정보 분야 심화 학부 과정 집중 이수, 대학 연구실 연계 프로젝트 참여</p>
-        <h3 style="margin-top:20px;">🧠 진로 마인드맵</h3>
-        <div class="mindmap-container">
-          <svg id="mindmapSvg" class="mindmap-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
-            <line x1="350" y1="150" x2="150" y2="70" stroke="#94a3b8" stroke-width="2.5" />
-            <line x1="350" y1="150" x2="550" y2="70" stroke="#94a3b8" stroke-width="2.5" />
-            <line x1="350" y1="150" x2="150" y2="230" stroke="#94a3b8" stroke-width="2.5" />
-            <line x1="350" y1="150" x2="550" y2="230" stroke="#94a3b8" stroke-width="2.5" />
-            <rect x="260" y="125" width="180" height="50" rx="25" fill="#1e3a8a" />
-            <text x="350" y="155" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">AI / SW 엔지니어</text>
-            <rect x="70" y="45" width="160" height="45" rx="12" fill="#2563eb" />
-            <text x="150" y="72" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">컴퓨팅 사고력</text>
-            <rect x="470" y="45" width="160" height="45" rx="12" fill="#2563eb" />
-            <text x="550" y="72" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">인공지능 모델링</text>
-            <rect x="70" y="205" width="160" height="45" rx="12" fill="#0d9488" />
-            <text x="150" y="232" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">수학 &amp; 데이터 분석</text>
-            <rect x="470" y="205" width="160" height="45" rx="12" fill="#0d9488" />
-            <text x="550" y="232" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">융합 탐구 세특</text>
-          </svg>
-        </div>
-      </div>
-      <div style="display:flex; gap:12px; justify-content:center; margin-top:20px;">
-        <button class="btn-download-action" onclick="downloadReport()">📄 종합 보고서 다운로드 (.txt)</button>
-        <button class="btn-download-action green" onclick="downloadMindmap()">🖼️ 진로 마인드맵 다운로드 (.png)</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 미니 소크라테스 -->
-  <div id="miniSocrates">
-    <svg viewBox="0 0 120 120" aria-hidden="true">
-      <defs>
-        <linearGradient id="miniSocratesBodyGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#3b82f6" />
-          <stop offset="100%" stop-color="#1e3a8a" />
-        </linearGradient>
-      </defs>
-      <ellipse cx="60" cy="110" rx="24" ry="5" fill="#1e293b" opacity=".13" />
-      <g class="mini-socrates-body">
-        <rect x="24" y="34" width="72" height="70" rx="28" fill="url(#miniSocratesBodyGrad)" />
-        <rect x="24" y="34" width="72" height="70" rx="28" fill="none" stroke="#0f2461" stroke-opacity=".25" stroke-width="1.5" />
-        <g>
-          <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827" />
-          <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b" />
-          <circle cx="60" cy="26" r="3" fill="#fbbf24" />
-          <path d="M99 27 v14" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" />
-          <circle cx="99" cy="43" r="3.5" fill="#fbbf24" />
-        </g>
-        <g>
-          <ellipse cx="47" cy="65" rx="10" ry="11" fill="#fff" />
-          <ellipse cx="73" cy="65" rx="10" ry="11" fill="#fff" />
-          <circle cx="47" cy="66" r="4.6" fill="#0f172a" />
-          <circle cx="73" cy="66" r="4.6" fill="#0f172a" />
-        </g>
-        <path d="M53 84 q7 6 14 0" fill="none" stroke="#dbeafe" stroke-width="3" stroke-linecap="round" />
+<!-- =======================================================================
+     미니 소크라테스 대사 시스템 (본문에 직접 병합)
+     ======================================================================= -->
+<div id="miniSocrates">
+  <svg viewBox="0 0 120 120" aria-hidden="true">
+    <defs>
+      <linearGradient id="miniSocratesBodyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3b82f6"/>
+        <stop offset="100%" stop-color="#1e3a8a"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="110" rx="24" ry="5" fill="#1e293b" opacity=".13"/>
+    <g class="mini-socrates-body">
+      <rect x="24" y="34" width="72" height="70" rx="28" fill="url(#miniSocratesBodyGrad)"/>
+      <rect x="24" y="34" width="72" height="70" rx="28" fill="none" stroke="#0f2461" stroke-opacity=".25" stroke-width="1.5"/>
+      <g>
+        <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827"/>
+        <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b"/>
+        <circle cx="60" cy="26" r="3" fill="#fbbf24"/>
+        <path d="M99 27 v14" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="99" cy="43" r="3.5" fill="#fbbf24"/>
       </g>
-    </svg>
-    <div id="miniSocratesBubble">
-      <span class="mini-socrates-tail"></span>
-      <span id="miniSocratesBubbleText"></span>
+      <g>
+        <ellipse cx="47" cy="65" rx="10" ry="11" fill="#fff"/>
+        <ellipse cx="73" cy="65" rx="10" ry="11" fill="#fff"/>
+        <circle cx="47" cy="66" r="4.6" fill="#0f172a"/>
+        <circle cx="73" cy="66" r="4.6" fill="#0f172a"/>
+      </g>
+      <path d="M53 84 q7 6 14 0" fill="none" stroke="#dbeafe" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </svg>
+  <div id="miniSocratesBubble"><span class="mini-socrates-tail"></span><span id="miniSocratesBubbleText"></span></div>
+</div>
+
+<script>
+/* =======================================================================
+   공통 로직 및 모달 제어
+   ======================================================================= */
+let hasReached100 = false;
+
+/* =======================================================================
+   🏛️ 소크라테스 알리미 — 자체 제작 대학 공시정보 뷰어
+   -----------------------------------------------------------------------
+   [데이터 출처]
+   실제 공시 수치는 '한국대학교육협의회_대학알리미 OpenAPI'에서 가져옵니다.
+     · 공공데이터포털(data.go.kr)에서 인증키 발급
+     · 대학 기본정보 : /BasicInformationService/getComparisonPubYear
+     · 학과 정보     : /SchoolMajorInfoService/getSchoolMajorInfo
+     · 학생 현황     : /StudentService/...
+   ※ 원본 엔드포인트가 http라서 https 페이지에서 직접 호출하면 브라우저가 차단합니다.
+     반드시 Azure Functions 프록시(인증키도 여기 숨김)를 거쳐야 합니다.
+
+   ▼ 프록시 주소를 넣는 순간 아래 화면 전체가 실제 공시값으로 바뀝니다.
+     비워두면 '샘플 데이터' 모드로 동작하며, 모든 숫자에 경고 표시가 붙습니다.
+   ======================================================================= */
+const ALIMI_CONFIG = {
+  proxyUrl: '',          // 예: 'https://socrates-api.azurewebsites.net'
+  year: 2025             // 조회할 공시연도(svyYr)
+};
+
+/* 국립·공립·과기원 구분 (그 외는 사립) */
+const PUBLIC_UNIVS = {
+  '국립': ['서울대학교','부산대학교','경북대학교','전남대학교','전북대학교','충남대학교','충북대학교',
+          '강원대학교(춘천)','경상국립대학교','제주대학교','인천대학교','창원대학교','공주대학교',
+          '한밭대학교','서울과학기술대학교','한국교원대학교','안동대학교','군산대학교','목포대학교',
+          '순천대학교','금오공과대학교','한국해양대학교','부경대학교','강릉원주대학교','한국교통대학교(충주)',
+          '한국체육대학교','서울교육대학교','한국기술교육대학교'],
+  '공립': ['서울시립대학교'],
+  '과학기술원': ['KAIST','GIST','DGIST','UNIST']
+};
+function getEstb(name) {
+  for (const k in PUBLIC_UNIVS) if (PUBLIC_UNIVS[k].includes(name)) return k;
+  return '사립';
+}
+
+/* 표시할 지표 정의 (라벨 / 단위 / 높을수록 좋은지) */
+const ALIMI_METRICS = [
+  { key: 'tuition',     label: '연간 등록금',     unit: '만원', higherBetter: false },
+  { key: 'students',    label: '재학생 수',       unit: '명',   higherBetter: null  },
+  { key: 'freshRate',   label: '신입생 충원율',   unit: '%',    higherBetter: true  },
+  { key: 'employRate',  label: '취업률',          unit: '%',    higherBetter: true  },
+  { key: 'facultyRate', label: '전임교원 확보율', unit: '%',    higherBetter: true  },
+  { key: 'scholarship', label: '1인당 장학금',    unit: '만원', higherBetter: true  }
+];
+
+let alimiTab = 'school';
+let alimiSelected = null;
+let alimiRegion = '전체';
+let alimiQuery = '';
+const alimiCache = {};   // { 대학명: statsObject }
+
+/* ---------- 데이터 어댑터 ---------- */
+async function getAlimiStats(univ) {
+  if (alimiCache[univ.n]) return alimiCache[univ.n];
+
+  let stats;
+  if (ALIMI_CONFIG.proxyUrl) {
+    try {
+      const res = await fetch(
+        `${ALIMI_CONFIG.proxyUrl}/api/alimi?schlNm=${encodeURIComponent(univ.n)}&svyYr=${ALIMI_CONFIG.year}`,
+        { cache: 'no-store' }
+      );
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      stats = { ...json, source: 'api' };      // 프록시가 아래 필드명으로 정규화해 내려줍니다
+    } catch (e) {
+      console.error('[알리미] API 호출 실패 → 샘플 데이터로 대체', e);
+      stats = demoStats(univ);
+    }
+  } else {
+    stats = demoStats(univ);
+  }
+  alimiCache[univ.n] = stats;
+  return stats;
+}
+
+/* ---------- 샘플 데이터 생성기 ----------
+   ⚠️ 실제 공시값이 아닙니다. 화면 배치를 확인하기 위한 자리표시용 숫자이며,
+      모든 값에 '샘플' 표시가 붙습니다. API를 연결하면 즉시 사라집니다. */
+function demoStats(univ) {
+  let h = 0;
+  for (let i = 0; i < univ.n.length; i++) h = (h * 31 + univ.n.charCodeAt(i)) >>> 0;
+  const pick = (min, max, salt) => min + ((h >>> salt) % (max - min + 1));
+  const estb = getEstb(univ.n);
+  const isPublic = estb !== '사립';
+  return {
+    source: 'demo',
+    estb,
+    tuition:     isPublic ? pick(380, 520, 2) : pick(620, 920, 2),
+    students:    pick(2000, 24000, 5),
+    freshRate:   pick(82, 100, 7),
+    employRate:  pick(52, 82, 11),
+    facultyRate: pick(60, 105, 13),
+    scholarship: pick(120, 380, 17),
+    majors: ['국어국문학과', '경영학과', '경제학과', '심리학과', '컴퓨터공학과',
+             '전자공학과', '기계공학과', '화학공학과', '생명과학과', '간호학과']
+             .slice(0, pick(5, 10, 3))
+  };
+}
+
+/* ---------- 전국 평균 (비교 막대용) ---------- */
+let alimiAverages = null;
+async function getAlimiAverages() {
+  if (alimiAverages) return alimiAverages;
+  const all = await Promise.all(UNIVERSITIES.map(u => getAlimiStats(u)));
+  alimiAverages = {};
+  ALIMI_METRICS.forEach(m => {
+    const vals = all.map(s => s[m.key]).filter(v => typeof v === 'number');
+    alimiAverages[m.key] = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+  });
+  return alimiAverages;
+}
+
+/* ---------- 모달 열기 ---------- */
+function openAcademyInfo(type) {
+  alimiTab = (type === 'region') ? 'region' : 'school';
+  document.getElementById('academyOverlay').classList.add('active');
+  renderAlimiBanner();
+  switchAlimiTab(alimiTab);
+}
+function closeAcademyModal() { document.getElementById('academyOverlay').classList.remove('active'); }
+
+function renderAlimiBanner() {
+  const el = document.getElementById('alimiBanner');
+  if (!el) return;
+  if (ALIMI_CONFIG.proxyUrl) {
+    el.className = 'alimi-banner live';
+    el.innerHTML = `✅ <b>대학알리미 OpenAPI 실시간 연동</b> · ${ALIMI_CONFIG.year}년 공시 기준 (출처: 한국대학교육협의회)`;
+  } else {
+    el.className = 'alimi-banner';
+    el.innerHTML = `⚠️ <b>샘플 데이터 모드 — 아래 숫자는 실제 공시값이 아닙니다.</b>
+      코드 상단 <code>ALIMI_CONFIG.proxyUrl</code> 에 Azure Functions 주소를 넣으면
+      대학알리미 공식 데이터로 자동 전환됩니다.`;
+  }
+}
+
+function switchAlimiTab(tab) {
+  alimiTab = tab;
+  document.querySelectorAll('.alimi-tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  document.getElementById('alimiTabSchool').classList.toggle('on', tab === 'school');
+  document.getElementById('alimiTabRegion').classList.toggle('on', tab === 'region');
+  document.getElementById('alimiTabApi').classList.toggle('on', tab === 'api');
+  if (tab === 'school') renderAlimiUnivList();
+  else if (tab === 'region') renderAlimiRegion();
+}
+
+/* ---------- 대학별 탭 ---------- */
+function onAlimiSearch(q) { alimiQuery = (q || '').trim(); renderAlimiUnivList(); }
+
+function renderAlimiUnivList() {
+  const box = document.getElementById('alimiUnivList');
+  if (!box) return;
+  const list = UNIVERSITIES.filter(u => {
+    const okR = alimiRegion === '전체' || u.r === alimiRegion;
+    const okQ = !alimiQuery || u.n.replace(/\s/g, '').includes(alimiQuery.replace(/\s/g, ''));
+    return okR && okQ;
+  });
+  box.innerHTML = list.length
+    ? list.map(u => `
+        <div class="alimi-univ-item ${alimiSelected === u.n ? 'on' : ''}" onclick="selectAlimiUniv('${u.n.replace(/'/g, '')}')">
+          <span>${u.n}</span><small>${u.r}</small>
+        </div>`).join('')
+    : `<p style="font-size:.82rem;color:var(--muted);padding:10px;">검색 결과가 없습니다.</p>`;
+}
+
+async function selectAlimiUniv(name) {
+  const univ = UNIVERSITIES.find(u => u.n === name);
+  if (!univ) return;
+  alimiSelected = name;
+  alimiTab = 'school';
+  switchAlimiTab('school');
+
+  const box = document.getElementById('alimiDetail');
+  box.innerHTML = `<p class="alimi-empty">📡 공시정보를 불러오는 중...</p>`;
+
+  const [s, avg] = await Promise.all([getAlimiStats(univ), getAlimiAverages()]);
+  const demo = s.source === 'demo';
+  const mark = demo ? '<sup>샘플</sup>' : '';
+
+  const statCards = ALIMI_METRICS.map(m => {
+    const v = s[m.key];
+    if (typeof v !== 'number') return '';
+    const a = avg[m.key] || 0;
+    const diff = a ? ((v - a) / a) * 100 : 0;
+    let cls = 'flat', txt = '전국 평균 수준';
+    if (Math.abs(diff) >= 3) {
+      const higher = diff > 0;
+      cls = higher ? 'up' : 'down';
+      txt = `전국 평균보다 ${Math.abs(diff).toFixed(0)}% ${higher ? '높음' : '낮음'}`;
+    }
+    return `
+      <div class="alimi-stat">
+        <div class="lb">${m.label}</div>
+        <div class="vl">${v.toLocaleString()}${mark}<span class="un">${m.unit}</span></div>
+        <div class="cmp ${cls}">${txt}</div>
+      </div>`;
+  }).join('');
+
+  const bars = ALIMI_METRICS.filter(m => m.higherBetter !== null).map(m => {
+    const v = s[m.key], a = avg[m.key] || 1;
+    const max = Math.max(v, a) * 1.35;
+    return `
+      <div class="alimi-bar-row">
+        <div class="cap"><span class="n">${m.label}</span>
+          <span class="a">${v.toLocaleString()}${m.unit} · 전국평균 ${a.toFixed(0)}${m.unit}</span></div>
+        <div class="alimi-bar-track">
+          <div class="alimi-bar-fill" style="width:${(v / max * 100).toFixed(1)}%"></div>
+          <div class="alimi-bar-avg" style="left:${(a / max * 100).toFixed(1)}%"></div>
+        </div>
+      </div>`;
+  }).join('');
+
+  box.innerHTML = `
+    <div class="alimi-head">
+      <div>
+        <h3>${univ.n}</h3>
+        <div class="tags"><span>${s.estb || getEstb(univ.n)}</span><span>📍 ${univ.r}</span><span>🎓 4년제</span></div>
+      </div>
+      <div class="yr">${ALIMI_CONFIG.year}년 공시</div>
     </div>
-  </div>
 
+    <div class="alimi-section-title">📊 주요 공시 지표</div>
+    <div class="alimi-stat-grid">${statCards}</div>
 
-  <!-- JAVASCRIPT -->
-  <script>
-    let hasReached100 = false;
-    let mapSmall, mapLarge;
+    <div class="alimi-section-title">📈 전국 평균과 비교</div>
+    <div class="alimi-bars">${bars}</div>
 
-    // Leaflet 맵 초기화 함수
-    function initLeafletMaps() {
-      if (document.getElementById('uniMap') && !mapSmall) {
-        mapSmall = L.map('uniMap').setView([37.5665, 126.9780], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap'
-        }).addTo(mapSmall);
-      }
-    }
+    <div class="alimi-section-title">🎓 개설 학과</div>
+    <div class="alimi-majors">
+      ${(s.majors && s.majors.length)
+        ? s.majors.map(m => `<span>${m}</span>`).join('')
+        : '<span class="none">학과 정보가 아직 연결되지 않았습니다.</span>'}
+    </div>
 
-    // 모달 내 지도 초기화/업데이트
-    function openMapModal() {
-      document.getElementById('mapOverlay').classList.add('active');
-      setTimeout(() => {
-        if (!mapLarge) {
-          mapLarge = L.map('uniMapLarge').setView([37.5665, 126.9780], 13);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
-          }).addTo(mapLarge);
-        } else {
-          mapLarge.invalidateSize(); // 디스플레이가 block으로 바뀐 뒤 반드시 호출
-        }
-      }, 100);
-    }
-    
-    function closeMapModal() {
-      document.getElementById('mapOverlay').classList.remove('active');
-    }
+    <div class="alimi-actions">
+      <button class="btn-download-action" onclick="askAlimiToAI('${univ.n.replace(/'/g, '')}')">
+        🤖 이 숫자가 무슨 뜻인지 AI에게 묻기
+      </button>
+      <button class="btn-download-action green" onclick="gotoUniFromAlimi('${univ.n.replace(/'/g, '')}')">
+        🗺️ 지도에서 위치 보기
+      </button>
+      <a class="btn-download-action" style="background:#475569;text-decoration:none;"
+         href="https://www.academyinfo.go.kr/" target="_blank" rel="noopener">
+        🔗 대학알리미 원문 확인
+      </a>
+    </div>`;
+  renderAlimiUnivList();
+}
 
-    // 내 위치 탐색
-    function locateMe() {
-      if (!navigator.geolocation) {
-        alert('이 브라우저에서는 위치 기능을 사용할 수 없습니다.');
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(pos => {
-        if (mapSmall) {
-          mapSmall.setView([pos.coords.latitude, pos.coords.longitude], 14);
-        }
-      });
-    }
+function askAlimiToAI(name) {
+  const s = alimiCache[name];
+  const ctx = s
+    ? `등록금 ${s.tuition}만원, 취업률 ${s.employRate}%, 전임교원 확보율 ${s.facultyRate}%`
+    : '';
+  const text = `${name}의 공시정보(${ctx})를 봤어요. 이 숫자들이 학교를 고를 때 어떤 의미인지, 저는 무엇을 더 살펴봐야 할까요?`;
+  if (window.__webChatStore) {
+    window.__webChatStore.dispatch({ type: 'WEB_CHAT/SEND_MESSAGE', payload: { text } });
+    closeAcademyModal();
+    document.querySelector('.chat-panel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    alert('AI 채팅이 아직 연결되지 않았습니다.\n\n질문 예시: ' + text);
+  }
+}
 
-    function locateMeModal() {
-      if (!navigator.geolocation) {
-        alert('이 브라우저에서는 위치 기능을 사용할 수 없습니다.');
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(pos => {
-        if (mapLarge) {
-          mapLarge.setView([pos.coords.latitude, pos.coords.longitude], 14);
-        }
-      });
-    }
+function gotoUniFromAlimi(name) {
+  closeAcademyModal();
+  openMapModal();
+  setTimeout(() => gotoUni(name), 300);
+}
 
-    window.addEventListener('DOMContentLoaded', () => {
-      initWebChat();
-      initLeafletMaps();
+/* ---------- 지역별 탭 ---------- */
+async function renderAlimiRegion() {
+  const box = document.getElementById('alimiTabRegion');
+  if (!box) return;
+  box.innerHTML = `<p class="alimi-empty">📡 지역별 공시정보를 집계하는 중...</p>`;
+
+  const regions = REGIONS.filter(r => r !== '전체');
+  const maxCnt = Math.max(...regions.map(r => UNIVERSITIES.filter(u => u.r === r).length));
+
+  const rows = [];
+  for (const r of regions) {
+    const list = UNIVERSITIES.filter(u => u.r === r);
+    const stats = await Promise.all(list.map(u => getAlimiStats(u)));
+    const avg = k => stats.reduce((a, s) => a + (s[k] || 0), 0) / (stats.length || 1);
+    rows.push({
+      region: r, count: list.length,
+      tuition: avg('tuition'), employRate: avg('employRate'),
+      facultyRate: avg('facultyRate'), students: avg('students'),
+      demo: stats.some(s => s.source === 'demo')
     });
+  }
 
-    /* ============================================================
-       대학 정보 API 기능
-       ============================================================ */
-    function openAcademyInfo(type) {
-      const titleEl = document.getElementById('academyModalTitle');
-      if (type === 'school') titleEl.textContent = '🏛️ 대학교별 공시정보 — API 검색';
-      else titleEl.textContent = '📍 지역별 공시정보 — API 검색';
-      document.getElementById('academyOverlay').classList.add('active');
+  const mark = rows.some(r => r.demo) ? '<sup style="color:#d97706;font-size:.5rem;">샘플</sup>' : '';
+
+  box.innerHTML = `
+    <div class="alimi-section-title">🗺️ 권역별 대학 분포</div>
+    <div class="alimi-region-grid">
+      ${rows.map(r => `
+        <div class="alimi-region-card ${alimiRegion === r.region ? 'on' : ''}" onclick="filterAlimiByRegion('${r.region}')">
+          <h4>${r.region}</h4>
+          <div class="cnt">${r.count}<small>개교</small></div>
+          <div class="mini-bar"><div style="width:${(r.count / maxCnt * 100).toFixed(0)}%"></div></div>
+        </div>`).join('')}
+    </div>
+
+    <div class="alimi-section-title">📊 권역별 평균 지표 비교</div>
+    <table class="alimi-table">
+      <thead><tr>
+        <th>권역</th><th style="text-align:right;">대학 수</th>
+        <th style="text-align:right;">평균 등록금${mark}</th>
+        <th style="text-align:right;">평균 취업률${mark}</th>
+        <th style="text-align:right;">평균 전임교원 확보율${mark}</th>
+        <th style="text-align:right;">평균 재학생 수${mark}</th>
+      </tr></thead>
+      <tbody>
+        ${rows.map(r => `
+          <tr>
+            <td><span class="lnk" onclick="filterAlimiByRegion('${r.region}')">${r.region}</span></td>
+            <td class="num">${r.count}</td>
+            <td class="num">${r.tuition.toFixed(0)}만원</td>
+            <td class="num">${r.employRate.toFixed(1)}%</td>
+            <td class="num">${r.facultyRate.toFixed(1)}%</td>
+            <td class="num">${Math.round(r.students).toLocaleString()}명</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <p style="font-size:.75rem;color:var(--muted);margin-top:12px;line-height:1.6;">
+      ※ 권역 구분은 지도와 동일한 기준입니다. 카드나 권역명을 누르면 해당 권역 대학만 추려서 '대학별' 탭으로 이동합니다.
+    </p>`;
+}
+
+function filterAlimiByRegion(r) {
+  alimiRegion = (alimiRegion === r) ? '전체' : r;
+  alimiQuery = '';
+  const inp = document.getElementById('alimiSearchInput');
+  if (inp) inp.value = '';
+  switchAlimiTab('school');
+}
+
+/* =======================================================================
+   🔎 실시간 학교정보 검색 (공공데이터포털 학교기본정보 API 직접 호출)
+   -----------------------------------------------------------------------
+   [데이터 출처] 공공데이터포털(data.go.kr) 학교기본정보서비스
+     https://apis.data.go.kr/B340014/SchoolInfoService/getSchoolInfo
+   위 '대학별/지역별' 탭의 등록금·취업률 등 세부 지표는 여전히 샘플 또는
+   ALIMI_CONFIG.proxyUrl 기준이며, 이 탭은 학교명·구분·설립형태·주소·
+   홈페이지 등 기본정보를 위 API로 실시간 직접 조회합니다.
+
+   ⚠️ serviceKey가 클라이언트 코드에 그대로 노출됩니다.
+      GitHub 등 공개 저장소에 올릴 경우 키가 노출될 수 있으니 주의하세요.
+   ======================================================================= */
+const UNIVERSITY_API_URL = 'https://apis.data.go.kr/B340014/SchoolInfoService/getSchoolInfo';
+const UNIVERSITY_API_KEY = 'QPBZdcotbcw1uD80r4ms6bEfD5pBs5KmxeW0lzhJy78uf0%2BjN7CK4rZrQCT1gvzqwGPfcZMPxeX01DWvn%2B30Nw%3D%3D';
+
+/* serviceKey는 이미 URL-Encoded 되어 있으므로 재인코딩하지 않고, svyYr/schlKrnNm만 인코딩한다 */
+function buildUniversityRequest(svyYr, schlKrnNm) {
+  const year = encodeURIComponent(String(svyYr));
+  const schoolName = encodeURIComponent(String(schlKrnNm));
+  return `${UNIVERSITY_API_URL}?serviceKey=${UNIVERSITY_API_KEY}&svyYr=${year}&schlKrnNm=${schoolName}`;
+}
+
+function setAcademyStatus(message, isError = false) {
+  const el = document.getElementById('academyStatus');
+  if (!el) return;
+  el.textContent = message || '';
+  el.style.color = isError ? '#dc2626' : 'var(--muted)';
+}
+
+function academyEscape(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function xmlText(node, names) {
+  for (const name of names) {
+    const el = node.querySelector(name);
+    if (el && el.textContent && el.textContent.trim()) return el.textContent.trim();
+  }
+  return '';
+}
+
+function normalizeAcademyXmlItem(node) {
+  return {
+    name: xmlText(node, ['schlKrnNm', 'SCHL_KRN_NM', 'schlNm', 'SCHL_NM', 'schoolName', 'univNm', 'universityName', 'collegeName']),
+    type: xmlText(node, ['schlKndNm', 'SCHL_KND_NM', 'schlKnd', 'SCHL_KND', 'schoolType', 'univType']),
+    establish: xmlText(node, ['fndnSeNm', 'FNDN_SE_NM', 'fndnSe', 'FNDN_SE', 'estbNm', 'establishmentType']),
+    region: xmlText(node, ['ctpvNm', 'CTPV_NM', 'sidoNm', 'SIDO_NM', 'lctnNm', 'LCTN_NM', 'region', 'regionName']),
+    address: xmlText(node, ['roadNmAddr', 'ROAD_NM_ADDR', 'lctnRoadNmAddr', 'LCTN_ROAD_NM_ADDR', 'addr', 'address', 'schoolAddress']),
+    homepage: xmlText(node, ['hmpgAddr', 'HMPG_ADDR', 'hmpg', 'HMPG', 'homepage', 'homepageUrl']),
+    telephone: xmlText(node, ['telno', 'TELNO', 'telephone', 'phone']),
+    schoolId: xmlText(node, ['schlId', 'SCHL_ID', 'schoolId'])
+  };
+}
+
+function parseAcademyXml(raw) {
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(raw, 'application/xml');
+
+  const parserError = xml.querySelector('parsererror');
+  if (parserError) {
+    console.error('XML parsing error:', parserError.textContent);
+    throw new Error('API 응답 XML을 해석하지 못했습니다.');
+  }
+
+  const resultCode = xml.querySelector('resultCode')?.textContent?.trim() || '';
+  const resultMsg = xml.querySelector('resultMsg')?.textContent?.trim() || '';
+  if (resultCode && resultCode !== '00' && resultCode !== '0' && resultCode.toLowerCase() !== 'success') {
+    throw new Error(resultMsg || `API 오류코드 ${resultCode}`);
+  }
+
+  const itemNodes = Array.from(xml.querySelectorAll('item'));
+  if (!itemNodes.length) return [];
+  return itemNodes.map(normalizeAcademyXmlItem);
+}
+
+function renderAcademyResults(items) {
+  const resultsEl = document.getElementById('academyResults');
+  if (!resultsEl) return;
+
+  if (!items.length) {
+    resultsEl.innerHTML = `
+      <div class="academy-empty"><div>
+        <div style="font-size:2rem;margin-bottom:10px;">🔍</div>
+        <b>검색 결과가 없습니다.</b>
+        <p style="margin-top:8px;">대학명과 조회 연도를 확인해 주세요.</p>
+      </div></div>`;
+    return;
+  }
+
+  resultsEl.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;">
+      <b>검색 결과 ${items.length}건</b>
+      <span style="font-size:.8rem;color:var(--muted);">공공데이터포털 API</span>
+    </div>
+    <div class="academy-grid">
+      ${items.map(item => `
+        <article class="academy-card">
+          <h3>${academyEscape(item.name || '대학명 미제공')}</h3>
+          <dl>
+            <dt>학교구분</dt><dd>${academyEscape(item.type || '정보 없음')}</dd>
+            <dt>설립형태</dt><dd>${academyEscape(item.establish || '정보 없음')}</dd>
+            <dt>지역</dt><dd>${academyEscape(item.region || '정보 없음')}</dd>
+            <dt>주소</dt><dd>${academyEscape(item.address || '정보 없음')}</dd>
+            ${item.telephone ? `<dt>전화</dt><dd>${academyEscape(item.telephone)}</dd>` : ''}
+            ${item.schoolId ? `<dt>학교 ID</dt><dd>${academyEscape(item.schoolId)}</dd>` : ''}
+          </dl>
+          ${item.homepage ? `<a class="academy-link" href="${academyEscape(item.homepage)}" target="_blank" rel="noopener noreferrer">학교 홈페이지</a>` : ''}
+        </article>`).join('')}
+    </div>`;
+}
+
+async function searchAcademyInfo() {
+  const schlKrnNm = document.getElementById('academySearchInput')?.value.trim() || '';
+  const svyYr = document.getElementById('academyYearFilter')?.value.trim() || '';
+
+  if (!schlKrnNm) { setAcademyStatus('대학명을 입력해 주세요.', true); return; }
+  if (!svyYr) { setAcademyStatus('조회 연도를 선택해 주세요.', true); return; }
+  if (!UNIVERSITY_API_KEY || UNIVERSITY_API_KEY.includes('여기에_')) {
+    setAcademyStatus('API 인증키가 입력되지 않았습니다.', true);
+    return;
+  }
+
+  setAcademyStatus(`${svyYr}년 ${schlKrnNm} 정보를 조회하는 중입니다…`);
+  const resultsEl = document.getElementById('academyResults');
+  if (resultsEl) {
+    resultsEl.innerHTML = `<div class="academy-empty"><div><div style="font-size:2rem;margin-bottom:10px;">⏳</div><b>데이터를 불러오는 중입니다.</b></div></div>`;
+  }
+
+  try {
+    const url = buildUniversityRequest(svyYr, schlKrnNm);
+    console.log('University API request:', url);
+
+    const response = await fetch(url, {
+      method: 'GET', mode: 'cors', cache: 'no-store',
+      headers: { 'Accept': 'application/xml,text/xml,*/*' }
+    });
+    const raw = await response.text();
+    console.log('University API response:', raw);
+
+    if (!response.ok) throw new Error(`HTTP ${response.status} — ${raw.slice(0, 180)}`);
+
+    const items = parseAcademyXml(raw);
+    if (!items.length) {
+      setAcademyStatus(`${svyYr}년 "${schlKrnNm}" 검색 결과가 없습니다.`, false);
+      renderAcademyResults([]);
+      return;
+    }
+
+    renderAcademyResults(items);
+    setAcademyStatus(`조회 완료 — ${items.length}건의 대학 정보를 받았습니다.`, false);
+
+  } catch (error) {
+    console.error('University API error:', error);
+    const message = error?.message || '알 수 없는 오류';
+
+    if (message.includes('Failed to fetch') || message.includes('NetworkError')) {
+      setAcademyStatus('API 호출에 실패했습니다. 공공데이터 API의 CORS 허용 여부 또는 GitHub Pages 환경을 확인해 주세요.', true);
+      renderAcademyResults([]);
+      return;
+    }
+    if (message.includes('SERVICE_KEY') || message.includes('SERVICE KEY') || message.includes('인증')) {
+      setAcademyStatus(`인증키 오류: ${message}`, true);
+      renderAcademyResults([]);
+      return;
+    }
+    setAcademyStatus(`조회 실패: ${message}`, true);
+    renderAcademyResults([]);
+  }
+}
+
+function updateProgress(percent) {
+  const currentPercent = Math.min(100, Math.max(0, percent));
+  document.getElementById('progressPercent').textContent = `${currentPercent}%`;
+  document.getElementById('progressBarFill').style.width = `${currentPercent}%`;
+
+  if (currentPercent >= 100) {
+    document.getElementById('navResult').classList.remove('disabled');
+    if (!hasReached100) {
+      hasReached100 = true;
       setTimeout(() => {
-        const input = document.getElementById('academySearchInput');
-        if (input) input.focus();
-      }, 100);
+        // AI가 보낸 [결과] 블록이 있으면 그것으로, 없으면 대화 로그로 리포트를 만든다
+        if (!REPORT_DATA) renderReport(buildFallbackData());
+        alert('🎉 대화가 100% 완료되었습니다!\n진로 마인드맵과 종합 보고서를 생성했습니다. 다운로드도 가능합니다.');
+        openResultModal();
+      }, 600);
     }
+  }
+}
 
-    function closeAcademyModal() {
-      document.getElementById('academyOverlay').classList.remove('active');
+/* =======================================================================
+   🎓 전국 대학교 전용 지도 엔진 (Leaflet + OpenStreetMap)
+   - 대학교 마커만 표시 (일반 상점/시설 등 잡다한 POI 없음)
+   - 지역 필터 / 대학명 검색
+   - 위치 권한 요청 → 내 주변 가까운 대학 10곳 자동 정렬
+   ▶ 좌표는 각 대학 대표 캠퍼스 기준 근사값입니다. 아래 배열만 고치면 됩니다.
+   ======================================================================= */
+const UNIVERSITIES = [
+  // ── 서울 ──────────────────────────────────────────────
+  { n: '서울대학교',        r: '서울', lat: 37.4601, lng: 126.9520 },
+  { n: '연세대학교',        r: '서울', lat: 37.5665, lng: 126.9388 },
+  { n: '고려대학교',        r: '서울', lat: 37.5894, lng: 127.0326 },
+  { n: '서강대학교',        r: '서울', lat: 37.5510, lng: 126.9410 },
+  { n: '성균관대학교(인문)', r: '서울', lat: 37.5878, lng: 126.9938 },
+  { n: '한양대학교(서울)',   r: '서울', lat: 37.5573, lng: 127.0454 },
+  { n: '중앙대학교',        r: '서울', lat: 37.5049, lng: 126.9573 },
+  { n: '경희대학교(서울)',   r: '서울', lat: 37.5966, lng: 127.0520 },
+  { n: '한국외국어대학교',   r: '서울', lat: 37.5975, lng: 127.0585 },
+  { n: '서울시립대학교',     r: '서울', lat: 37.5834, lng: 127.0587 },
+  { n: '건국대학교',        r: '서울', lat: 37.5403, lng: 127.0793 },
+  { n: '동국대학교',        r: '서울', lat: 37.5580, lng: 127.0000 },
+  { n: '홍익대학교',        r: '서울', lat: 37.5510, lng: 126.9250 },
+  { n: '숙명여자대학교',     r: '서울', lat: 37.5460, lng: 126.9645 },
+  { n: '이화여자대학교',     r: '서울', lat: 37.5620, lng: 126.9469 },
+  { n: '성신여자대학교',     r: '서울', lat: 37.5920, lng: 127.0220 },
+  { n: '덕성여자대학교',     r: '서울', lat: 37.6530, lng: 127.0160 },
+  { n: '동덕여자대학교',     r: '서울', lat: 37.6060, lng: 127.0420 },
+  { n: '서울여자대학교',     r: '서울', lat: 37.6280, lng: 127.0900 },
+  { n: '광운대학교',        r: '서울', lat: 37.6195, lng: 127.0590 },
+  { n: '국민대학교',        r: '서울', lat: 37.6110, lng: 126.9970 },
+  { n: '세종대학교',        r: '서울', lat: 37.5500, lng: 127.0740 },
+  { n: '숭실대학교',        r: '서울', lat: 37.4960, lng: 126.9570 },
+  { n: '상명대학교(서울)',   r: '서울', lat: 37.6020, lng: 126.9550 },
+  { n: '명지대학교(인문)',   r: '서울', lat: 37.5800, lng: 126.9230 },
+  { n: '삼육대학교',        r: '서울', lat: 37.6430, lng: 127.1050 },
+  { n: '서울과학기술대학교', r: '서울', lat: 37.6320, lng: 127.0770 },
+  { n: '한성대학교',        r: '서울', lat: 37.5820, lng: 127.0100 },
+  { n: '서경대학교',        r: '서울', lat: 37.6150, lng: 127.0140 },
+  { n: '한국체육대학교',     r: '서울', lat: 37.5190, lng: 127.1300 },
+  { n: '서울교육대학교',     r: '서울', lat: 37.4890, lng: 127.0160 },
+
+  // ── 경기·인천 ─────────────────────────────────────────
+  { n: '인하대학교',            r: '경기·인천', lat: 37.4500, lng: 126.6540 },
+  { n: '인천대학교',            r: '경기·인천', lat: 37.3750, lng: 126.6320 },
+  { n: '아주대학교',            r: '경기·인천', lat: 37.2800, lng: 127.0430 },
+  { n: '경기대학교(수원)',       r: '경기·인천', lat: 37.3010, lng: 127.0350 },
+  { n: '성균관대학교(자연)',      r: '경기·인천', lat: 37.2939, lng: 126.9749 },
+  { n: '경희대학교(국제)',       r: '경기·인천', lat: 37.2430, lng: 127.0800 },
+  { n: '한양대학교 ERICA',      r: '경기·인천', lat: 37.2960, lng: 126.8350 },
+  { n: '단국대학교(죽전)',       r: '경기·인천', lat: 37.3220, lng: 127.1260 },
+  { n: '가천대학교',            r: '경기·인천', lat: 37.4500, lng: 127.1330 },
+  { n: '명지대학교(자연)',       r: '경기·인천', lat: 37.2230, lng: 127.1880 },
+  { n: '한국항공대학교',         r: '경기·인천', lat: 37.6000, lng: 126.8650 },
+  { n: '가톨릭대학교(성심)',      r: '경기·인천', lat: 37.4870, lng: 126.7900 },
+  { n: '수원대학교',            r: '경기·인천', lat: 37.2050, lng: 126.9770 },
+  { n: '안양대학교',            r: '경기·인천', lat: 37.3930, lng: 126.9200 },
+  { n: '강남대학교',            r: '경기·인천', lat: 37.2760, lng: 127.1350 },
+  { n: '한신대학교',            r: '경기·인천', lat: 37.1930, lng: 127.0480 },
+  { n: '대진대학교',            r: '경기·인천', lat: 37.9550, lng: 127.1970 },
+  { n: '을지대학교(성남)',       r: '경기·인천', lat: 37.4200, lng: 127.1270 },
+  { n: '차의과학대학교',         r: '경기·인천', lat: 37.7480, lng: 127.1690 },
+
+  // ── 강원 ──────────────────────────────────────────────
+  { n: '강원대학교(춘천)',    r: '강원', lat: 37.8690, lng: 127.7440 },
+  { n: '한림대학교',         r: '강원', lat: 37.8860, lng: 127.7370 },
+  { n: '연세대학교(미래)',    r: '강원', lat: 37.2760, lng: 127.9110 },
+  { n: '상지대학교',         r: '강원', lat: 37.3780, lng: 127.9450 },
+  { n: '강릉원주대학교',      r: '강원', lat: 37.7710, lng: 128.8670 },
+  { n: '가톨릭관동대학교',    r: '강원', lat: 37.8020, lng: 128.8720 },
+  { n: '한라대학교',         r: '강원', lat: 37.3390, lng: 127.9250 },
+
+  // ── 충청·세종 ─────────────────────────────────────────
+  { n: 'KAIST',              r: '충청·세종', lat: 36.3720, lng: 127.3600 },
+  { n: '충남대학교',          r: '충청·세종', lat: 36.3670, lng: 127.3450 },
+  { n: '한밭대학교',          r: '충청·세종', lat: 36.3510, lng: 127.2980 },
+  { n: '한남대학교',          r: '충청·세종', lat: 36.3540, lng: 127.4200 },
+  { n: '배재대학교',          r: '충청·세종', lat: 36.3480, lng: 127.3760 },
+  { n: '목원대학교',          r: '충청·세종', lat: 36.3230, lng: 127.3410 },
+  { n: '우송대학교',          r: '충청·세종', lat: 36.3320, lng: 127.4300 },
+  { n: '충북대학교',          r: '충청·세종', lat: 36.6280, lng: 127.4570 },
+  { n: '청주대학교',          r: '충청·세종', lat: 36.6390, lng: 127.4930 },
+  { n: '서원대학교',          r: '충청·세종', lat: 36.6360, lng: 127.4630 },
+  { n: '한국교원대학교',       r: '충청·세종', lat: 36.7350, lng: 127.3480 },
+  { n: '한국교통대학교(충주)',  r: '충청·세종', lat: 36.9690, lng: 127.9200 },
+  { n: '세명대학교',          r: '충청·세종', lat: 37.1490, lng: 128.1900 },
+  { n: '공주대학교',          r: '충청·세종', lat: 36.4700, lng: 127.1370 },
+  { n: '단국대학교(천안)',     r: '충청·세종', lat: 36.8340, lng: 127.1720 },
+  { n: '상명대학교(천안)',     r: '충청·세종', lat: 36.8890, lng: 127.1750 },
+  { n: '한국기술교육대학교',    r: '충청·세종', lat: 36.7620, lng: 127.2830 },
+  { n: '순천향대학교',         r: '충청·세종', lat: 36.7700, lng: 126.9330 },
+  { n: '호서대학교(아산)',     r: '충청·세종', lat: 36.8010, lng: 126.9250 },
+  { n: '선문대학교',          r: '충청·세종', lat: 36.7990, lng: 127.0740 },
+  { n: '건양대학교(논산)',     r: '충청·세종', lat: 36.2050, lng: 127.0870 },
+  { n: '중부대학교',          r: '충청·세종', lat: 36.1440, lng: 127.2560 },
+  { n: '고려대학교(세종)',     r: '충청·세종', lat: 36.5220, lng: 127.2560 },
+  { n: '홍익대학교(세종)',     r: '충청·세종', lat: 36.5170, lng: 127.2660 },
+
+  // ── 전라 ──────────────────────────────────────────────
+  { n: '전남대학교',      r: '전라', lat: 35.1760, lng: 126.9060 },
+  { n: '조선대학교',      r: '전라', lat: 35.1400, lng: 126.9280 },
+  { n: 'GIST',           r: '전라', lat: 35.2280, lng: 126.8430 },
+  { n: '호남대학교',      r: '전라', lat: 35.1660, lng: 126.8010 },
+  { n: '광주대학교',      r: '전라', lat: 35.1170, lng: 126.8720 },
+  { n: '동신대학교',      r: '전라', lat: 35.0230, lng: 126.7160 },
+  { n: '전북대학교',      r: '전라', lat: 35.8460, lng: 127.1290 },
+  { n: '전주대학교',      r: '전라', lat: 35.8090, lng: 127.0870 },
+  { n: '원광대학교',      r: '전라', lat: 35.9670, lng: 126.9570 },
+  { n: '우석대학교',      r: '전라', lat: 35.9750, lng: 127.0900 },
+  { n: '군산대학교',      r: '전라', lat: 35.9440, lng: 126.6840 },
+  { n: '목포대학교',      r: '전라', lat: 34.9130, lng: 126.4370 },
+  { n: '순천대학교',      r: '전라', lat: 34.9700, lng: 127.4800 },
+
+  // ── 경상 ──────────────────────────────────────────────
+  { n: '부산대학교',        r: '경상', lat: 35.2330, lng: 129.0790 },
+  { n: '부경대학교',        r: '경상', lat: 35.1340, lng: 129.1050 },
+  { n: '동아대학교',        r: '경상', lat: 35.1200, lng: 129.0110 },
+  { n: '동의대학교',        r: '경상', lat: 35.1400, lng: 129.0230 },
+  { n: '경성대학교',        r: '경상', lat: 35.1400, lng: 129.0980 },
+  { n: '신라대학교',        r: '경상', lat: 35.1560, lng: 128.9930 },
+  { n: '한국해양대학교',     r: '경상', lat: 35.0760, lng: 129.0850 },
+  { n: '부산외국어대학교',   r: '경상', lat: 35.2200, lng: 129.0900 },
+  { n: '경북대학교',        r: '경상', lat: 35.8890, lng: 128.6100 },
+  { n: '영남대학교',        r: '경상', lat: 35.8340, lng: 128.7550 },
+  { n: '계명대학교',        r: '경상', lat: 35.8560, lng: 128.4870 },
+  { n: '대구대학교',        r: '경상', lat: 35.8990, lng: 128.8090 },
+  { n: '대구가톨릭대학교',   r: '경상', lat: 35.7900, lng: 128.7500 },
+  { n: 'DGIST',            r: '경상', lat: 35.7100, lng: 128.4560 },
+  { n: 'POSTECH',          r: '경상', lat: 36.0140, lng: 129.3220 },
+  { n: '한동대학교',        r: '경상', lat: 36.1030, lng: 129.3890 },
+  { n: '울산대학교',        r: '경상', lat: 35.5430, lng: 129.2570 },
+  { n: 'UNIST',            r: '경상', lat: 35.5720, lng: 129.1890 },
+  { n: '인제대학교',        r: '경상', lat: 35.2470, lng: 128.8100 },
+  { n: '창원대학교',        r: '경상', lat: 35.2470, lng: 128.6820 },
+  { n: '경남대학교',        r: '경상', lat: 35.2260, lng: 128.5450 },
+  { n: '경상국립대학교',     r: '경상', lat: 35.1530, lng: 128.0980 },
+  { n: '안동대학교',        r: '경상', lat: 36.5450, lng: 128.7970 },
+  { n: '금오공과대학교',     r: '경상', lat: 36.1450, lng: 128.3930 },
+
+  // ── 제주 ──────────────────────────────────────────────
+  { n: '제주대학교', r: '제주', lat: 33.4570, lng: 126.5620 }
+];
+
+const REGIONS = ['전체', '서울', '경기·인천', '강원', '충청·세종', '전라', '경상', '제주'];
+const REGION_COLOR = {
+  '서울': '#2563eb', '경기·인천': '#0ea5e9', '강원': '#14b8a6',
+  '충청·세종': '#f59e0b', '전라': '#8b5cf6', '경상': '#ef4444', '제주': '#16a34a'
+};
+
+let uniMap = null;
+let uniMarkers = [];      // { data, marker }
+let myLocation = null;    // { lat, lng }
+let myMarker = null, myCircle = null;
+let currentRegion = '전체';
+let currentQuery = '';
+let visibleList = [];
+
+/* ---------- 거리 계산(하버사인, km) ---------- */
+function distanceKm(a, b) {
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+  const s = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+const fmtDist = km => km < 1 ? `${Math.round(km * 1000)}m` : `${km.toFixed(1)}km`;
+
+/* ---------- 지도 초기화 ---------- */
+function initUniMap() {
+  if (uniMap || typeof L === 'undefined') return;
+
+  uniMap = L.map('uniMap', {
+    center: [36.5, 127.8], zoom: 7, minZoom: 6, maxZoom: 17,
+    scrollWheelZoom: true, zoomControl: true
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: 'abcd', maxZoom: 19
+  }).addTo(uniMap);
+
+  UNIVERSITIES.forEach(u => {
+    const marker = L.marker([u.lat, u.lng], { icon: makeUniIcon(u), title: u.n });
+    marker.bindTooltip(u.n, { direction: 'top', offset: [0, -12], opacity: 0.95 });
+    marker.on('click', () => openUniPopup(u, marker));
+    uniMarkers.push({ data: u, marker });
+  });
+
+  renderRegionChips();
+  applyFilters();
+
+  const cnt = document.getElementById('uniCount');
+  if (cnt) cnt.textContent = UNIVERSITIES.length;
+
+  askGeoPermissionSoftly();
+}
+
+function makeUniIcon(u, isNear) {
+  const color = REGION_COLOR[u.r] || '#2563eb';
+  return L.divIcon({
+    className: '',
+    html: `<div class="uni-pin${isNear ? ' is-near' : ''}" style="background:${color}"><span>🎓</span></div>`,
+    iconSize: [26, 26], iconAnchor: [13, 26], popupAnchor: [0, -26]
+  });
+}
+
+/* ---------- 마커 팝업 ---------- */
+function openUniPopup(u, marker) {
+  const d = myLocation ? distanceKm(myLocation, u) : null;
+  const html = `
+    <div class="uni-popup">
+      <b>${u.n}</b>
+      <div class="meta">📍 ${u.r}${d !== null ? ` · <span class="dist">내 위치에서 ${fmtDist(d)}</span>` : ''}</div>
+      <button onclick="askAboutUniversity('${u.n.replace(/'/g, '')}')">🤖 AI에게 이 대학 물어보기</button>
+    </div>`;
+  marker.bindPopup(html).openPopup();
+}
+
+/* ---------- 지도 → 채팅으로 질문 보내기 ---------- */
+function askAboutUniversity(name) {
+  const store = window.__webChatStore;
+  const text = `${name}에 대해 알려주세요. 어떤 학생에게 잘 맞는 학교인가요?`;
+  if (store) {
+    store.dispatch({ type: 'WEB_CHAT/SEND_MESSAGE', payload: { text } });
+    closeMapModal();
+    document.querySelector('.chat-panel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    alert(`AI 채팅이 아직 연결되지 않았습니다.\n\n질문 예시: ${text}`);
+  }
+}
+
+/* ---------- 지역 필터 칩 ---------- */
+function renderRegionChips() {
+  ['regionChipsCard', 'regionChipsModal'].forEach(id => {
+    const box = document.getElementById(id);
+    if (!box) return;
+    box.innerHTML = REGIONS.map(r =>
+      `<button data-region="${r}" class="${r === currentRegion ? 'on' : ''}" onclick="setRegion('${r}')">${r}</button>`
+    ).join('');
+  });
+}
+function setRegion(r) {
+  currentRegion = r;
+  renderRegionChips();
+  applyFilters();
+  if (visibleList.length) {
+    const g = L.featureGroup(visibleList.map(v => v.marker));
+    uniMap.fitBounds(g.getBounds().pad(0.2));
+  }
+}
+
+/* ---------- 검색 ---------- */
+function onUniSearch(q, from) {
+  currentQuery = (q || '').trim();
+  const other = from === 'card' ? 'uniSearchInputModal' : 'uniSearchInput';
+  const el = document.getElementById(other);
+  if (el && el.value !== currentQuery) el.value = currentQuery;
+  applyFilters();
+}
+function focusFirstResult() {
+  if (!visibleList.length) { alert('검색 결과가 없습니다. 대학명을 다시 확인해 주세요.'); return; }
+  const first = visibleList[0];
+  uniMap.setView([first.data.lat, first.data.lng], 15, { animate: true });
+  openUniPopup(first.data, first.marker);
+}
+
+function applyFilters() {
+  if (!uniMap) return;
+  visibleList = [];
+  uniMarkers.forEach(item => {
+    const u = item.data;
+    const okRegion = currentRegion === '전체' || u.r === currentRegion;
+    const okQuery = !currentQuery || u.n.replace(/\s/g, '').includes(currentQuery.replace(/\s/g, ''));
+    if (okRegion && okQuery) {
+      if (!uniMap.hasLayer(item.marker)) item.marker.addTo(uniMap);
+      visibleList.push(item);
+    } else if (uniMap.hasLayer(item.marker)) {
+      uniMap.removeLayer(item.marker);
     }
+  });
+}
 
-    const UNIVERSITY_API_URL = 'https://apis.data.go.kr/B340014/SchoolInfoService/getSchoolInfo';
-    const UNIVERSITY_API_KEY = 'QPBZdcotbcw1uD80r4ms6bEfD5pBs5KmxeW0lzhJy78uf0%2BjN7CK4rZrQCT1gvzqwGPfcZMPxeX01DWvn%2B30Nw%3D%3D';
+/* ---------- 위치 권한 요청 & 내 주변 대학 ---------- */
+function askGeoPermissionSoftly() {
+  if (!navigator.geolocation) return;
+  const btn = document.getElementById('btnLocate');
+  if (!navigator.permissions?.query) { btn?.classList.add('ask'); return; }
+  navigator.permissions.query({ name: 'geolocation' }).then(res => {
+    if (res.state === 'granted') findNearbyUniversities(true);   // 이미 허용됨 → 바로 표시
+    else if (res.state === 'prompt') btn?.classList.add('ask');  // 아직 안 물어봄 → 버튼 강조
+  }).catch(() => btn?.classList.add('ask'));
+}
 
-    function buildUniversityRequest(svyYr, schlKrnNm) {
-      const year = encodeURIComponent(String(svyYr));
-      const schoolName = encodeURIComponent(String(schlKrnNm));
-      return `${UNIVERSITY_API_URL}?serviceKey=${UNIVERSITY_API_KEY}&svyYr=${year}&schlKrnNm=${schoolName}`;
-    }
+function findNearbyUniversities(silent) {
+  const btn = document.getElementById('btnLocate');
+  if (!navigator.geolocation) { alert('이 브라우저는 위치 서비스를 지원하지 않습니다.'); return; }
 
-    function setAcademyStatus(message, isError = false) {
-      const el = document.getElementById('academyStatus');
-      if (!el) return;
-      el.textContent = message || '';
-      el.style.color = isError ? '#dc2626' : 'var(--muted)';
-    }
+  if (btn) { btn.classList.remove('ask'); btn.disabled = true; btn.textContent = '📡 내 위치를 확인하는 중...'; }
 
-    function academyEscape(value) {
-      return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      myLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      if (btn) { btn.disabled = false; btn.textContent = '📍 내 주변 대학 다시 찾기'; }
+      showNearby();
+    },
+    err => {
+      if (btn) { btn.disabled = false; btn.textContent = '📍 내 주변 대학 찾기'; }
+      if (silent) return;
+      const msg = {
+        1: '위치 권한이 거부되었습니다.\n주소창 왼쪽 자물쇠 아이콘 → 위치 → "허용"으로 바꾼 뒤 다시 시도해 주세요.',
+        2: '현재 위치를 확인할 수 없습니다. 잠시 후 다시 시도해 주세요.',
+        3: '위치 확인 시간이 초과되었습니다. 다시 시도해 주세요.'
+      }[err.code] || '위치 정보를 불러올 수 없습니다.';
+      alert(msg + '\n\n※ 위치 기능은 https 주소에서만 동작합니다.');
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+  );
+}
 
-    function xmlText(node, names) {
-      for (const name of names) {
-        const el = node.querySelector(name);
-        if (el && el.textContent && el.textContent.trim()) return el.textContent.trim();
+function showNearby() {
+  if (!myLocation || !uniMap) return;
+
+  // 내 위치 마커 + 반경 표시
+  if (myMarker) uniMap.removeLayer(myMarker);
+  if (myCircle) uniMap.removeLayer(myCircle);
+  myMarker = L.marker([myLocation.lat, myLocation.lng], {
+    icon: L.divIcon({ className: '', html: '<div class="me-pin"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }),
+    zIndexOffset: 1000
+  }).addTo(uniMap).bindTooltip('내 위치', { direction: 'top', offset: [0, -12] });
+  myCircle = L.circle([myLocation.lat, myLocation.lng], {
+    radius: 3000, color: '#2563eb', weight: 1, fillColor: '#2563eb', fillOpacity: 0.08
+  }).addTo(uniMap);
+
+  // 지역 필터 해제 후 거리순 정렬
+  currentRegion = '전체';
+  currentQuery = '';
+  ['uniSearchInput', 'uniSearchInputModal'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+  renderRegionChips();
+  applyFilters();
+
+  const sorted = uniMarkers
+    .map(item => ({ ...item, dist: distanceKm(myLocation, item.data) }))
+    .sort((a, b) => a.dist - b.dist);
+  const top10 = sorted.slice(0, 10);
+
+  // 가까운 10곳 마커 강조
+  uniMarkers.forEach(item => item.marker.setIcon(makeUniIcon(item.data, false)));
+  top10.forEach(item => item.marker.setIcon(makeUniIcon(item.data, true)));
+
+  renderNearbyLists(top10);
+
+  const group = L.featureGroup([myMarker, ...top10.slice(0, 5).map(t => t.marker)]);
+  uniMap.fitBounds(group.getBounds().pad(0.25));
+}
+
+function renderNearbyLists(top10) {
+  // 모달 : 전체 10곳
+  const panel = document.getElementById('nearbyList');
+  if (panel) {
+    panel.innerHTML =
+      `<p style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">📍 현재 위치 기준 가까운 대학 10곳</p>` +
+      top10.map((t, i) => `
+        <div class="nearby-item" onclick="gotoUni('${t.data.n.replace(/'/g, '')}')">
+          <div class="rank">${i + 1}</div>
+          <div class="nm">${t.data.n}<div class="rg">${t.data.r}</div></div>
+          <div class="ds">${fmtDist(t.dist)}</div>
+        </div>`).join('');
+  }
+  // 카드 : 상위 4곳 요약
+  const mini = document.getElementById('nearbyMini');
+  if (mini) {
+    mini.innerHTML = top10.slice(0, 4).map(t => `
+      <div class="row" onclick="gotoUni('${t.data.n.replace(/'/g, '')}')">
+        <b>${t.data.n}</b><span>${fmtDist(t.dist)}</span>
+      </div>`).join('');
+  }
+}
+
+function gotoUni(name) {
+  const item = uniMarkers.find(m => m.data.n === name);
+  if (!item) return;
+  if (!uniMap.hasLayer(item.marker)) item.marker.addTo(uniMap);
+  uniMap.setView([item.data.lat, item.data.lng], 15, { animate: true });
+  openUniPopup(item.data, item.marker);
+}
+
+/* ---------- 카드 ↔ 모달 : 지도 하나를 옮겨 담는 방식 ---------- */
+function openMapModal() {
+  const wrap = document.getElementById('uniMapWrap');
+  const slot = document.getElementById('mapSlotModal');
+  document.getElementById('mapOverlay').classList.add('active');
+  slot.appendChild(wrap);
+  setTimeout(() => { uniMap && uniMap.invalidateSize(); }, 220);
+}
+function closeMapModal() {
+  const wrap = document.getElementById('uniMapWrap');
+  const slot = document.getElementById('mapSlotCard');
+  slot.appendChild(wrap);
+  document.getElementById('mapOverlay').classList.remove('active');
+  setTimeout(() => { uniMap && uniMap.invalidateSize(); }, 220);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // 수업 시연용 : 진행률 바를 더블클릭하면 샘플 리포트 미리보기
+  document.querySelector('.progress-bar-bg')?.addEventListener('dblclick', previewReport);
+  initUniMap();
+  renderAlimiBanner();
+  renderAlimiUnivList();
+});
+
+const modalData = {
+  guide: { title: "📊 서비스 안내", html: `<h3>소크라테스 AI 진로탐색 서비스란?</h3><p>산파술 대화 기법을 기반으로 AI가 학생과의 자연스러운 대화를 통해 숨겨진 흥미와 적성을 발굴해 주는 서비스입니다.</p><ul><li><b>1단계:</b> AI 소크라테스의 질문에 솔직하게 답변하기</li><li><b>2단계:</b> 진행률 100% 달성하기</li><li><b>3단계:</b> 종합 결과 보고서 확인 및 다운로드</li></ul>` },
+  roadmap: { title: "📑 세특 로드맵 생성", html: `<h3>대화 기반 맞춤형 세특 로드맵</h3><p>진로 탐구 완료 후 소크라테스 AI와의 대화를 종합 분석하여 개인 고유의 진로 세특 가이드를 제시합니다.</p><ul><li>관심 분야 연계 전공 및 교과목 추천</li><li>연구 프로젝트 탐구 주제 제시</li><li>세특 리포트 발급을 통한 진학 관리</li></ul>` }
+};
+function openFeatureModal(type) {
+  if (modalData[type]) {
+    document.getElementById('featureModalTitle').textContent = modalData[type].title;
+    document.getElementById('featureModalBody').innerHTML = modalData[type].html;
+    document.getElementById('featureOverlay').classList.add('active');
+  }
+}
+function closeFeatureModal() { document.getElementById('featureOverlay').classList.remove('active'); }
+
+/* =======================================================================
+   📊 진로 결과 리포트 엔진
+   -----------------------------------------------------------------------
+   1) 대화 로그를 모아둔다
+   2) AI가 보낸 [결과] ... [/결과] 블록을 파싱한다
+   3) 파싱 결과로 마인드맵 SVG와 보고서를 '그때그때' 생성한다
+   4) PNG / PDF / HTML / TXT 로 내려받는다
+
+   ▣ 에이전트가 100%에서 보내야 하는 형식 (AGENTS.md 규약)
+     [결과]
+     한줄요약: 데이터로 사람의 마음을 읽고 싶어 하는 학생
+     추천진로: 데이터 분석가
+     흥미영역: 통계, 심리학, 시각화
+     가치관: 타인에 대한 이해, 꾸준함
+     강점: 패턴을 발견하는 관찰력, 끈기
+     추천학과: 응용통계학과, 심리학과, 데이터사이언스학과
+     실천과제: 교내 설문 데이터를 직접 분석해 보기
+     세특로드맵:
+     - 1학년: 통계 기초 개념을 정리하고 관심 주제 설문 설계
+     - 2학년: 수집한 데이터를 파이썬으로 분석해 보고서 작성
+     - 3학년: 분석 결과를 사회 문제와 연결한 심화 탐구 발표
+     [/결과]
+   ※ 키 이름은 아래 FIELD_ALIAS 에 등록된 표현이면 무엇이든 인식합니다.
+   ======================================================================= */
+
+const CONVERSATION_LOG = [];   // { who: 'ai'|'me', text }
+let REPORT_DATA = null;        // 파싱된 결과
+let reportIsSample = false;
+
+/* 키 이름 흔들림 흡수 */
+const FIELD_ALIAS = {
+  summary:   ['한줄요약', '요약', '총평', '핵심요약'],
+  career:    ['추천진로', '추천직업', '진로', '추천직군', '핵심진로'],
+  interest:  ['흥미영역', '흥미', '관심분야', '관심사'],
+  value:     ['가치관', '중요가치', '핵심가치'],
+  strength:  ['강점', '역량', '핵심역량', '장점'],
+  major:     ['추천학과', '학과', '연계전공', '전공'],
+  action:    ['실천과제', '다음행동', '실천', '액션플랜', '해볼것'],
+  roadmap:   ['세특로드맵', '로드맵', '탐구로드맵', '학년별로드맵']
+};
+function fieldKeyOf(raw) {
+  const k = raw.replace(/[\s*_·]/g, '');
+  for (const key in FIELD_ALIAS) if (FIELD_ALIAS[key].some(a => k === a || k.startsWith(a))) return key;
+  return null;
+}
+
+/* ---------- [결과] 블록 파싱 ---------- */
+function parseResultBlock(text) {
+  const m = text.match(/\[\s*결과\s*\]([\s\S]*?)\[\s*\/\s*결과\s*\]/)
+         || text.match(/\[\s*결과\s*\]([\s\S]*)$/);   // 닫는 태그 누락도 허용
+  if (!m) return null;
+
+  const data = { roadmap: [] };
+  const LISTY = ['interest', 'value', 'strength', 'major'];
+  const KV = /^[-•*#>\s]*([^:：]{1,20}?)[*\s]*[:：]\s*(.*)$/;   // "- **흥미영역** : ..." 까지 허용
+  let currentList = null;
+
+  m[1].split('\n').forEach(rawLine => {
+    const line = rawLine.trim();
+    if (!line || /^[-=*_]{3,}$/.test(line)) return;
+
+    const isBullet = /^(?:[-•]|\*(?!\*))\s+/.test(line);
+    const kv = line.match(KV);
+    const key = kv ? fieldKeyOf(kv[1]) : null;
+
+    // ① 알려진 키가 보이면 언제나 키-값으로 처리 (목록 기호가 앞에 붙어 있어도)
+    if (key) {
+      const val = (kv[2] || '').trim();
+      if (key === 'roadmap') { currentList = 'roadmap'; return; }
+      if (LISTY.includes(key)) {
+        data[key] = val ? val.split(/[,，·、/／]|\s\|\s/).map(x => x.trim()).filter(Boolean) : [];
+        currentList = val ? null : key;          // 값이 비었으면 다음 목록 줄들을 받는다
+      } else {
+        data[key] = val;
+        currentList = null;
       }
-      return '';
+      return;
     }
 
-    function normalizeAcademyXmlItem(node) {
-      return {
-        name: xmlText(node, ['schlKrnNm', 'SCHL_KRN_NM', 'schlNm', 'SCHL_NM']),
-        type: xmlText(node, ['schlKndNm', 'SCHL_KND_NM']),
-        establish: xmlText(node, ['fndnSeNm', 'FNDN_SE_NM']),
-        region: xmlText(node, ['ctpvNm', 'CTPV_NM']),
-        address: xmlText(node, ['roadNmAddr', 'ROAD_NM_ADDR']),
-        homepage: xmlText(node, ['hmpgAddr', 'HMPG_ADDR']),
-        telephone: xmlText(node, ['telno', 'TELNO']),
-        schoolId: xmlText(node, ['schlId', 'SCHL_ID'])
-      };
-    }
-
-    function parseAcademyXml(raw) {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(raw, 'application/xml');
-      const parserError = xml.querySelector('parsererror');
-      if (parserError) throw new Error('API 응답 XML을 해석하지 못했습니다.');
-      const resultCode = xml.querySelector('resultCode')?.textContent?.trim() || '';
-      const resultMsg = xml.querySelector('resultMsg')?.textContent?.trim() || '';
-      if (resultCode && resultCode !== '00' && resultCode !== '0' && resultCode.toLowerCase() !== 'success') {
-        throw new Error(resultMsg || `API 오류코드 ${resultCode}`);
-      }
-      const itemNodes = Array.from(xml.querySelectorAll('item'));
-      if (!itemNodes.length) return [];
-      return itemNodes.map(normalizeAcademyXmlItem);
-    }
-
-    function renderAcademyResults(items) {
-      const resultsEl = document.getElementById('academyResults');
-      if (!resultsEl) return;
-      if (!items.length) {
-        resultsEl.innerHTML = `<div class="academy-empty"><div><div style="font-size:2rem; margin-bottom:10px;">🔍</div><b>검색 결과가 없습니다.</b></div></div>`;
-        return;
-      }
-      resultsEl.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px;">
-          <b>검색 결과 ${items.length}건</b>
-        </div>
-        <div class="academy-grid">
-          ${items.map(item => `
-            <article class="academy-card">
-              <h3>${academyEscape(item.name || '대학명 미제공')}</h3>
-              <dl>
-                <dt>학교구분</dt><dd>${academyEscape(item.type || '정보 없음')}</dd>
-                <dt>설립형태</dt><dd>${academyEscape(item.establish || '정보 없음')}</dd>
-                <dt>지역</dt><dd>${academyEscape(item.region || '정보 없음')}</dd>
-                <dt>주소</dt><dd>${academyEscape(item.address || '정보 없음')}</dd>
-              </dl>
-              ${item.homepage ? `<a class="academy-link" href="${academyEscape(item.homepage)}" target="_blank" rel="noopener noreferrer">학교 홈페이지</a>` : ''}
-            </article>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    async function searchAcademyInfo() {
-      const schlKrnNm = document.getElementById('academySearchInput')?.value.trim() || '';
-      const svyYr = document.getElementById('academyYearFilter')?.value.trim() || '';
-      if (!schlKrnNm) { setAcademyStatus('대학명을 입력해 주세요.', true); return; }
-      if (!svyYr) { setAcademyStatus('조회 연도를 선택해 주세요.', true); return; }
-      setAcademyStatus(`${svyYr}년 ${schlKrnNm} 정보를 조회하는 중입니다…`);
-      const resultsEl = document.getElementById('academyResults');
-      if (resultsEl) resultsEl.innerHTML = `<div class="academy-empty"><div><div style="font-size:2rem; margin-bottom:10px;">⏳</div><b>데이터를 불러오는 중입니다.</b></div></div>`;
-      
-      try {
-        const url = buildUniversityRequest(svyYr, schlKrnNm);
-        const response = await fetch(url, { method: 'GET', mode: 'cors', cache: 'no-store', headers: { 'Accept': 'application/xml,text/xml,*/*' } });
-        const raw = await response.text();
-        if (!response.ok) throw new Error(`HTTP ${response.status} — ${raw.slice(0, 180)}`);
-        const items = parseAcademyXml(raw);
-        if (!items.length) { setAcademyStatus(`${svyYr}년 "${schlKrnNm}" 검색 결과가 없습니다.`, false); renderAcademyResults([]); return; }
-        renderAcademyResults(items);
-        setAcademyStatus(`조회 완료 — ${items.length}건의 대학 정보를 받았습니다.`, false);
-      } catch (error) {
-        setAcademyStatus(`조회 실패: ${error.message || '알 수 없는 오류'}`, true);
-        renderAcademyResults([]);
+    // ② 키가 없는 목록 줄 → 직전에 연 목록에 담는다
+    if (isBullet) {
+      const item = line.replace(/^(?:[-•]|\*(?!\*))\s+/, '');
+      if (currentList === 'roadmap') {
+        const rm = item.match(/^(.{1,12}?)\s*[:：]\s*(.+)$/);
+        data.roadmap.push(rm ? { when: rm[1].trim(), what: rm[2].trim() } : { when: '', what: item });
+      } else if (currentList && Array.isArray(data[currentList])) {
+        data[currentList].push(item);
       }
     }
+  });
 
-    const academySearchInput = document.getElementById('academySearchInput');
-    if (academySearchInput) {
-      academySearchInput.addEventListener('keydown', event => {
-        if (event.key === 'Enter') { event.preventDefault(); searchAcademyInfo(); }
-      });
-    }
+  if (!data.roadmap.length) delete data.roadmap;
+  return Object.keys(data).length ? data : null;
+}
 
-    /* ============================================================
-       WebChat 기능
-       ============================================================ */
-    const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
+/* ---------- 결과가 없을 때 : 대화 로그에서 최소한이라도 만들기 ---------- */
+function buildFallbackData() {
+  const mine = CONVERSATION_LOG.filter(t => t.who === 'me').map(t => t.text);
+  const words = {};
+  mine.join(' ').replace(/[^가-힣a-zA-Z\s]/g, ' ').split(/\s+/)
+    .filter(w => w.length >= 2)
+    .forEach(w => { words[w] = (words[w] || 0) + 1; });
+  const top = Object.entries(words).sort((a, b) => b[1] - a[1]).slice(0, 6).map(e => e[0]);
 
-    async function initWebChat() {
-      try {
-        const res = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
-        const { token } = await res.json();
-        const directLine = window.WebChat.createDirectLine({ token });
-        const webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
-          if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
-            const activity = action.payload.activity;
-            if (activity && activity.from && activity.from.id !== 'user') {
-              if (activity.channelData?.progressPercent !== undefined) {
-                updateProgress(activity.channelData.progressPercent);
-              } else if (activity.text) {
-                const match = activity.text.match(/(\d+)%/);
-                if (match) updateProgress(parseInt(match[1], 10));
-                if (/100%|검사 완료|분석이 완료/.test(activity.text)) updateProgress(100);
-              }
-            }
+  return {
+    summary: '아직 AI가 최종 분석 블록을 보내지 않아, 대화에서 자주 나온 표현만 정리했습니다.',
+    career: '(AI 분석 대기 중)',
+    interest: top.slice(0, 3),
+    value: top.slice(3, 5),
+    strength: [],
+    major: [],
+    action: '아래 버튼으로 AI에게 최종 결과 정리를 요청해 보세요.',
+    roadmap: [],
+    _fallback: true
+  };
+}
+
+/* ---------- 샘플 (수업 시연용) ---------- */
+function sampleReportData() {
+  return {
+    summary: '데이터를 통해 사람의 마음을 이해하고 싶어 하는 학생',
+    career: '데이터 분석가',
+    interest: ['통계', '심리학', '데이터 시각화'],
+    value: ['타인에 대한 이해', '꾸준함'],
+    strength: ['패턴을 찾는 관찰력', '끈기 있는 검증'],
+    major: ['응용통계학과', '심리학과', '데이터사이언스학과'],
+    action: '교내 설문을 직접 설계하고 분석해 보기',
+    roadmap: [
+      { when: '1학년', what: '통계 기초 개념을 정리하고 관심 주제로 설문을 설계한다' },
+      { when: '2학년', what: '수집한 데이터를 파이썬으로 분석해 탐구 보고서를 쓴다' },
+      { when: '3학년', what: '분석 결과를 사회 문제와 연결해 심화 탐구로 발표한다' }
+    ],
+    _sample: true
+  };
+}
+
+/* =======================================================================
+   🧠 마인드맵 SVG 동적 생성
+   ======================================================================= */
+function buildMindmapSVG(d) {
+  const W = 1200, H = 720, CX = 600, CY = 360;
+  const cut = (s, n) => (s || '').length > n ? (s || '').slice(0, n - 1) + '…' : (s || '');
+  const boxW = (t, min, max) => Math.max(min, Math.min(max, t.length * 15 + 34));
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const node = (x, y, text, fill, textFill, fs, minW, maxW, rx) => {
+    const t = cut(text, 16), w = boxW(t, minW, maxW), h = fs + 22;
+    return `<rect x="${x - w / 2}" y="${y - h / 2}" width="${w}" height="${h}" rx="${rx}" fill="${fill}"/>` +
+           `<text x="${x}" y="${y + fs * 0.36}" fill="${textFill}" font-size="${fs}" font-weight="bold" text-anchor="middle">${esc(t)}</text>`;
+  };
+  const link = (x1, y1, x2, y2, c, w) =>
+    `<path d="M${x1} ${y1} C ${(x1 + x2) / 2} ${y1}, ${(x1 + x2) / 2} ${y2}, ${x2} ${y2}" stroke="${c}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`;
+
+  const branches = [
+    { title: '흥미',     items: d.interest || [], color: '#2563eb', side: 'L', y: 190 },
+    { title: '강점',     items: d.strength || [], color: '#7c3aed', side: 'L', y: 540 },
+    { title: '가치관',   items: d.value    || [], color: '#0d9488', side: 'R', y: 190 },
+    { title: '추천학과', items: d.major    || [], color: '#d97706', side: 'R', y: 540 }
+  ].filter(b => b.items.length);
+
+  let svg = `<rect width="${W}" height="${H}" fill="#f8fafc"/>`;
+
+  branches.forEach(b => {
+    const catX = b.side === 'L' ? 400 : 800;
+    const leafX = b.side === 'L' ? 145 : 1055;
+    svg += link(CX, CY, catX, b.y, b.color, 3);
+
+    const items = b.items.slice(0, 3);
+    const gap = 62, start = b.y - ((items.length - 1) * gap) / 2;
+    items.forEach((it, i) => {
+      const ly = start + i * gap;
+      svg += link(catX, b.y, leafX, ly, b.color + '80', 2);
+    });
+    items.forEach((it, i) => {
+      const ly = start + i * gap;
+      svg += node(leafX, ly, it, '#ffffff', '#334155', 15, 130, 250, 10);
+      const t = cut(it, 16), w = boxW(t, 130, 250);
+      svg += `<rect x="${leafX - w / 2}" y="${ly - 18.5}" width="${w}" height="37" rx="10" fill="none" stroke="${b.color}" stroke-width="1.6"/>`;
+    });
+    svg += node(catX, b.y, b.title, b.color, '#ffffff', 17, 110, 190, 12);
+  });
+
+  // 중앙 노드
+  const center = d.career && d.career !== '(AI 분석 대기 중)' ? d.career : '나의 진로';
+  svg += node(CX, CY, center, '#1e3a8a', '#ffffff', 24, 240, 380, 30);
+
+  // 하단 한줄요약
+  if (d.summary) {
+    svg += `<text x="${CX}" y="${H - 26}" fill="#64748b" font-size="17" text-anchor="middle">${esc(cut('“' + d.summary + '”', 46))}</text>`;
+  }
+
+  return `<svg id="mindmapSvg" class="mindmap-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, 'Malgun Gothic', sans-serif">${svg}</svg>`;
+}
+
+/* =======================================================================
+   📄 보고서 렌더링
+   ======================================================================= */
+function renderReport(d) {
+  REPORT_DATA = d;
+  const box = document.getElementById('reportContentArea');
+  const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+  const list = a => (a && a.length) ? a.join(', ') : '—';
+
+  let warn = '';
+  if (d._sample) {
+    reportIsSample = true;
+    warn = `<div class="rpt-warn">🧪 <b>샘플 미리보기입니다.</b> 실제 학생의 대화 결과가 아니라 수업 시연용 예시 데이터입니다.</div>`;
+  } else if (d._fallback) {
+    reportIsSample = true;
+    warn = `<div class="rpt-warn">⚠️ <b>AI의 최종 분석 결과를 아직 받지 못했습니다.</b>
+      아래 내용은 대화에서 자주 등장한 표현만 뽑아 임시로 채운 것입니다.
+      <button class="btn-download-action" style="margin-top:8px;font-size:.8rem;padding:6px 12px;"
+        onclick="requestFinalResult()">🤖 AI에게 최종 결과 정리 요청하기</button></div>`;
+  } else {
+    reportIsSample = false;
+  }
+
+  const chips = (arr, cls) => (arr && arr.length)
+    ? `<div class="rpt-chips">${arr.map(x => `<span>${x}</span>`).join('')}</div>`
+    : `<span style="color:var(--muted);font-size:.85rem;">아직 정리되지 않았습니다.</span>`;
+
+  const roadmapHtml = (d.roadmap && d.roadmap.length)
+    ? `<div class="rpt-road">${d.roadmap.map(r => `
+        <div class="step"><b>${r.when || '다음 단계'}</b><p>${r.what}</p></div>`).join('')}</div>`
+    : `<p style="color:var(--muted);font-size:.88rem;">학년별 로드맵이 아직 생성되지 않았습니다.</p>`;
+
+  const talk = CONVERSATION_LOG.slice(-8);
+  const talkHtml = talk.length
+    ? `<div class="rpt-quote">${talk.map(t =>
+        `<div class="turn ${t.who === 'me' ? 'me' : ''}"><b>${t.who === 'me' ? '나' : '소크라테스'}</b> · ${t.text.replace(/\[[^\]]*\]/g, '').slice(0, 130)}</div>`
+      ).join('')}</div>`
+    : '';
+
+  box.innerHTML = `
+    ${warn}
+    <div class="rpt-cover">
+      <div class="who">소크라테스 AI 진로탐색 · 종합 결과 리포트</div>
+      <h3>${d.career || '나의 진로'}</h3>
+      <div class="sum">${d.summary || ''}</div>
+      <div class="meta">발급일 ${today} · 대화 ${CONVERSATION_LOG.length}턴 분석</div>
+    </div>
+
+    <div class="rpt-sec">
+      <h4>🧠 진로 마인드맵</h4>
+      <div class="mindmap-container">${buildMindmapSVG(d)}</div>
+    </div>
+
+    <div class="rpt-sec">
+      <h4>🔍 대화에서 드러난 나</h4>
+      <div class="rpt-grid">
+        <div class="rpt-card"><div class="lb">흥미 영역</div><div class="bd">${list(d.interest)}</div></div>
+        <div class="rpt-card teal"><div class="lb">중요하게 여기는 가치</div><div class="bd">${list(d.value)}</div></div>
+        <div class="rpt-card violet"><div class="lb">강점</div><div class="bd">${list(d.strength)}</div></div>
+        <div class="rpt-card amber"><div class="lb">지금 해볼 것</div><div class="bd">${d.action || '—'}</div></div>
+      </div>
+    </div>
+
+    <div class="rpt-sec">
+      <h4>🎓 연계 추천 학과</h4>
+      ${chips(d.major)}
+    </div>
+
+    <div class="rpt-sec">
+      <h4>📑 학년별 세특 탐구 로드맵</h4>
+      ${roadmapHtml}
+    </div>
+
+    ${talkHtml ? `<div class="rpt-sec"><h4>💬 대화 하이라이트</h4>${talkHtml}</div>` : ''}
+  `;
+}
+
+function requestFinalResult() {
+  const text = '지금까지의 대화를 정리해서 [결과] 블록 형식으로 최종 결과를 보내주세요.';
+  if (window.__webChatStore) {
+    window.__webChatStore.dispatch({ type: 'WEB_CHAT/SEND_MESSAGE', payload: { text } });
+    closeResultModal();
+  } else {
+    alert('AI 채팅이 연결되지 않았습니다.');
+  }
+}
+
+/* ---------- 모달 열고 닫기 ---------- */
+function openResultModal() {
+  if (!REPORT_DATA) renderReport(buildFallbackData());
+  document.getElementById('resultOverlay').classList.add('active');
+}
+function closeResultModal() { document.getElementById('resultOverlay').classList.remove('active'); }
+
+/* 수업 시연용 : 진행률 바를 더블클릭하면 샘플 리포트가 열립니다 */
+function previewReport() {
+  renderReport(sampleReportData());
+  document.getElementById('navResult').classList.remove('disabled');
+  document.getElementById('resultOverlay').classList.add('active');
+}
+
+/* =======================================================================
+   💾 다운로드
+   ======================================================================= */
+
+/* 1) 마인드맵 PNG */
+function downloadMindmap() {
+  const svg = document.getElementById('mindmapSvg');
+  if (!svg) { alert('마인드맵이 아직 생성되지 않았습니다.'); return; }
+  const clone = svg.cloneNode(true);
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  const str = new XMLSerializer().serializeToString(clone);
+  const url = URL.createObjectURL(new Blob([str], { type: 'image/svg+xml;charset=utf-8' }));
+
+  const img = new Image();
+  img.onload = () => {
+    const scale = 2, W = 1200, H = 720;
+    const canvas = document.createElement('canvas');
+    canvas.width = W * scale; canvas.height = H * scale;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(blob => {
+      saveBlob(blob, `진로마인드맵_${dateTag()}.png`);
+      URL.revokeObjectURL(url);
+    }, 'image/png');
+  };
+  img.onerror = () => { alert('마인드맵 이미지를 만들지 못했습니다.'); URL.revokeObjectURL(url); };
+  img.src = url;
+}
+
+/* 2) 보고서 PDF — 인쇄 대화상자에서 'PDF로 저장' 선택 */
+function downloadReportPDF() {
+  const html = buildStandaloneReportHTML();
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+  document.body.appendChild(iframe);
+  const doc = iframe.contentWindow.document;
+  doc.open(); doc.write(html); doc.close();
+  setTimeout(() => {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+    setTimeout(() => document.body.removeChild(iframe), 1500);
+  }, 400);
+}
+
+/* 3) 보고서 HTML 파일 (디자인 그대로, 오프라인 보관용) */
+function downloadReportHTML() {
+  const blob = new Blob([buildStandaloneReportHTML()], { type: 'text/html;charset=utf-8' });
+  saveBlob(blob, `진로결과보고서_${dateTag()}.html`);
+}
+
+/* 4) 텍스트 보고서 */
+function downloadReport() {
+  const d = REPORT_DATA || buildFallbackData();
+  const L = a => (a && a.length) ? a.join(', ') : '-';
+  const txt = [
+    '[소크라테스 AI 진로 탐색 종합 결과 리포트]',
+    '='.repeat(50),
+    `발급일 : ${new Date().toLocaleDateString('ko-KR')}`,
+    `분석량 : 대화 ${CONVERSATION_LOG.length}턴`,
+    reportIsSample ? '※ 주의 : 샘플/임시 데이터가 포함된 보고서입니다.' : '',
+    '',
+    `■ 한줄 요약`, `   ${d.summary || '-'}`, '',
+    `■ 추천 진로`, `   ${d.career || '-'}`, '',
+    `■ 흥미 영역`, `   ${L(d.interest)}`, '',
+    `■ 중요하게 여기는 가치`, `   ${L(d.value)}`, '',
+    `■ 강점`, `   ${L(d.strength)}`, '',
+    `■ 연계 추천 학과`, `   ${L(d.major)}`, '',
+    `■ 지금 해볼 것`, `   ${d.action || '-'}`, '',
+    `■ 학년별 세특 탐구 로드맵`,
+    ...(d.roadmap && d.roadmap.length ? d.roadmap.map(r => `   · ${r.when} : ${r.what}`) : ['   -']),
+    '',
+    '='.repeat(50),
+    '발급 : 소크라테스 AI 진로탐색'
+  ].join('\n');
+  saveBlob(new Blob([txt], { type: 'text/plain;charset=utf-8' }), `진로결과보고서_${dateTag()}.txt`);
+}
+
+/* 인쇄/저장용 단독 HTML 문서 만들기 */
+function buildStandaloneReportHTML() {
+  const inner = document.getElementById('reportContentArea').innerHTML
+    .replace(/<button[\s\S]*?<\/button>/g, '');   // 버튼은 제외
+  const css = Array.from(document.styleSheets)
+    .filter(s => !s.href)
+    .map(s => { try { return Array.from(s.cssRules).map(r => r.cssText).join('\n'); } catch (e) { return ''; } })
+    .join('\n');
+
+  return `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<title>소크라테스 AI 진로 결과 보고서</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+${css}
+body { background:#fff; padding:34px 40px; font-family:'Pretendard','Malgun Gothic',sans-serif; color:#1e293b; }
+.rpt-quote { max-height:none; overflow:visible; }
+h1.doc { font-size:1.15rem; color:#1a2e63; font-weight:800; margin-bottom:18px;
+         border-bottom:3px solid #1a2e63; padding-bottom:10px; }
+@page { size: A4; margin: 14mm; }
+@media print {
+  body { padding:0; }
+  .rpt-sec { break-inside: avoid; }
+  .rpt-cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rpt-card, .rpt-chips span, .rpt-road .step::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style></head><body>
+<h1 class="doc">📊 소크라테스 AI 진로탐색 종합 결과 리포트</h1>
+${inner}
+</body></html>`;
+}
+
+function saveBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function dateTag() {
+  const d = new Date();
+  return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+}
+
+/* =======================================================================
+   WebChat 세련된 UI 적용 및 아바타 변경
+   ======================================================================= */
+const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
+
+async function initWebChat() {
+  try {
+    const res = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
+    const { token } = await res.json();
+    const directLine = window.WebChat.createDirectLine({ token });
+
+    const webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+      // 내가 보낸 말도 기록
+      if (action.type === 'WEB_CHAT/SEND_MESSAGE' && action.payload?.text) {
+        CONVERSATION_LOG.push({ who: 'me', text: action.payload.text });
+      }
+
+      if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+        const activity = action.payload.activity;
+        if (activity && activity.from && activity.from.id !== 'user') {
+          if (activity.text) CONVERSATION_LOG.push({ who: 'ai', text: activity.text });
+
+          // ① 구조화된 최종 결과 블록 우선
+          const parsed = activity.text ? parseResultBlock(activity.text) : null;
+          if (parsed) renderReport(parsed);
+
+          // ② 진행률
+          if (activity.channelData?.progressPercent !== undefined) updateProgress(activity.channelData.progressPercent);
+          else if (activity.value?.progressPercent !== undefined) updateProgress(activity.value.progressPercent);
+          else if (activity.text) {
+            const match = activity.text.match(/\[?진행률[::]?\s*(\d+)%/) || activity.text.match(/(\d+)%/);
+            if (match) updateProgress(parseInt(match[1], 10));
+            if (/100%|검사 완료|분석이 완료/.test(activity.text)) updateProgress(100);
           }
-          return next(action);
-        });
-
-        const socratesAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='24' y='34' width='72' height='70' rx='28' fill='%231e3a8a'/%3E%3Cpath d='M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z' fill='%23111827'/%3E%3Cpolygon points='60,12 102,26 60,40 18,26' fill='%231e293b'/%3E%3Ccircle cx='60' cy='26' r='3' fill='%23fbbf24'/%3E%3Cpath d='M99 27 v14' stroke='%23fbbf24' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='99' cy='43' r='3.5' fill='%23fbbf24'/%3E%3Cellipse cx='47' cy='65' rx='10' ry='11' fill='%23fff'/%3E%3Cellipse cx='73' cy='65' rx='10' ry='11' fill='%23fff'/%3E%3Ccircle cx='47' cy='66' r='4.6' fill='%230f172a'/%3E%3Ccircle cx='73' cy='66' r='4.6' fill='%230f172a'/%3E%3Cpath d='M53 84 q7 6 14 0' fill='none' stroke='%23dbeafe' stroke-width='3' stroke-linecap='round'/%3E%3C/svg>";
-        const styleOptions = {
-          accent: '#2563eb', botAvatarImage: socratesAvatar, botAvatarInitials: 'AI', userAvatarInitials: 'Me',
-          bubbleBackground: '#f8fafc', bubbleBorderColor: '#e2e8f0', bubbleBorderRadius: 16, bubbleBorderWidth: 1,
-          bubbleTextColor: '#1e293b', bubbleFromUserBackground: '#2563eb', bubbleFromUserBorderRadius: 16,
-          bubbleFromUserTextColor: 'white', hideUploadButton: true, sendBoxBackground: '#ffffff',
-          sendBoxBorderTop: 'solid 1px #e2e8f0', sendBoxButtonColor: '#2563eb'
-        };
-
-        window.WebChat.renderWebChat(
-          { directLine, store: webChatStore, locale: 'ko-KR', styleOptions },
-          document.getElementById('webchat')
-        );
-      } catch (e) {
-        console.error('WebChat initialization error:', e);
+        }
       }
-    }
-
-    function updateProgress(value) {
-      let percent = Number(value);
-      if (!Number.isFinite(percent)) return;
-      percent = Math.max(0, Math.min(100, percent));
-      document.getElementById('progressPercent').textContent = `${percent}%`;
-      document.getElementById('progressBarFill').style.width = `${percent}%`;
-      if (percent >= 100) {
-        hasReached100 = true;
-        const navResult = document.getElementById('navResult');
-        if (navResult) navResult.classList.remove('disabled');
-      }
-    }
-
-    /* 카드 3D 효과 */
-    document.querySelectorAll('.feature-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const rotateX = -(y / rect.height - 0.5) * 15;
-        const rotateY = (x / rect.width - 0.5) * 15;
-        card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1,1.1,1.1)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-      });
+      return next(action);
     });
 
-    /* 미니 소크라테스 (간소화) */
-    (() => {
-      const socrates = document.getElementById('miniSocrates');
-      const bubble = document.getElementById('miniSocratesBubble');
-      const bubbleText = document.getElementById('miniSocratesBubbleText');
-      let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-      let targetX = mouseX + 45, targetY = mouseY + 45;
-      let currentX = targetX, currentY = targetY;
+    const socratesAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='24' y='34' width='72' height='70' rx='28' fill='%231e3a8a'/%3E%3Cpath d='M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z' fill='%23111827'/%3E%3Cpolygon points='60,12 102,26 60,40 18,26' fill='%231e293b'/%3E%3Ccircle cx='60' cy='26' r='3' fill='%23fbbf24'/%3E%3Cpath d='M99 27 v14' stroke='%23fbbf24' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='99' cy='43' r='3.5' fill='%23fbbf24'/%3E%3Cellipse cx='47' cy='65' rx='10' ry='11' fill='%23fff'/%3E%3Cellipse cx='73' cy='65' rx='10' ry='11' fill='%23fff'/%3E%3Ccircle cx='47' cy='66' r='4.6' fill='%230f172a'/%3E%3Ccircle cx='73' cy='66' r='4.6' fill='%230f172a'/%3E%3Cpath d='M53 84 q7 6 14 0' fill='none' stroke='%23dbeafe' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E";
+
+    const styleOptions = {
+      accent: '#2563eb',
+      botAvatarImage: socratesAvatar,
+      botAvatarInitials: 'AI',
+      userAvatarInitials: 'Me',
+      bubbleBackground: '#f8fafc',
+      bubbleBorderColor: '#e2e8f0',
+      bubbleBorderRadius: 16,
+      bubbleBorderWidth: 1,
+      bubbleTextColor: '#1e293b',
+      bubbleFromUserBackground: '#2563eb',
+      bubbleFromUserBorderRadius: 16,
+      bubbleFromUserTextColor: 'white',
+      hideUploadButton: true,
+      sendBoxBackground: '#ffffff',
+      sendBoxBorderTop: 'solid 1px #e2e8f0',
+      sendBoxButtonColor: '#2563eb'
+    };
+
+    window.__webChatStore = webChatStore; // 지도 팝업에서 채팅으로 질문을 보내기 위해 전역 노출
+
+    window.WebChat.renderWebChat({
+      directLine, store: webChatStore, locale: 'ko-KR', styleOptions
+    }, document.getElementById('webchat'));
+  } catch (e) { console.error(e); }
+}
+window.addEventListener('DOMContentLoaded', initWebChat);
+
+/* 카드 입체 효과 */
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    const rotateX = -(y / rect.height - 0.5) * 15, rotateY = (x / rect.width - 0.5) * 15;
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`;
+  });
+  card.addEventListener('mouseleave', () => card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+});
+
+/* =======================================================================
+   미니 소크라테스 로직 (채팅/지도 영역 진입 시 즉시 멈춤 및 투명화)
+   ======================================================================= */
+(() => {
+  const socrates = document.getElementById('miniSocrates');
+  const bubble = document.getElementById('miniSocratesBubble');
+  const bubbleText = document.getElementById('miniSocratesBubbleText');
+  
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let targetX = mouseX + 45, targetY = mouseY + 45;
+  let currentX = targetX, currentY = targetY;
+  let activeElement = null;
+  let mode = 'follow'; // 'follow' (마우스 추적), 'hide' (정지 및 투명화)
+
+  document.addEventListener('mousemove', e => { 
+    mouseX = e.clientX; 
+    mouseY = e.clientY; 
+  });
+
+  const comments = {
+    '서비스 안내': ['이용 방법과 전체적인 서비스 흐름을 확인할 수 있어요.'],
+    '대학교별 공시정보': ['전국 대학교의 정확한 공시정보를 비교하고 찾아보세요.'],
+    '지역별 진로정보': ['원하는 지역을 기준으로 대학과 진로 정보를 탐색해 보세요.'],
+    '세특 로드맵 생성': ['탐색이 끝나면 나만의 맞춤형 생기부 세특 로드맵을 만들어 드려요.']
+  };
+
+  const getComment = (el) => {
+    const name = el.dataset.buddy;
+    if (name && comments[name]) return comments[name][Math.floor(Math.random() * comments[name].length)];
+    const text = (el.innerText || el.value || el.getAttribute('aria-label') || '').trim();
+    if (text.includes('검색')) return '직접 검색해서 정보를 바로 찾아보세요.';
+    if (text.includes('크게 보기')) return '지도를 더 넓은 화면에서 자세히 살펴볼 수 있어요.';
+    if (text.includes('내 주변 대학')) return '위치 접근을 허용하시면 지금 계신 곳에서 가까운 대학부터 보여드릴게요.';
+    if (text.includes('위치')) return '현재 계신 곳 주변의 유용한 진로 정보를 탐색해 드릴게요.';
+    return '한번 클릭해서 유용한 기능인지 확인해 보세요.';
+  };
+
+  const getInteractive = target => target instanceof Element ? target.closest('[data-buddy], button, a, input, select, [role="button"]') : null;
+
+  document.addEventListener('mouseover', e => {
+    if (mode !== 'follow') return;
+    
+    const el = getInteractive(e.target);
+    if (!el || el === activeElement) return;
+    activeElement = el;
+    const rect = el.getBoundingClientRect();
+    if (mouseX < rect.left + rect.width / 2) { targetX = rect.left - 10; targetY = rect.top - 25; bubble.className = 'right'; }
+    else { targetX = rect.right + 10; targetY = rect.top - 25; bubble.className = 'left'; }
+    bubbleText.textContent = getComment(el);
+    bubble.classList.add('show');
+  });
+
+  document.addEventListener('mouseout', e => {
+    const el = getInteractive(e.target);
+    if (!el || el !== activeElement) return;
+    if (e.relatedTarget instanceof Node && el.contains(e.relatedTarget)) return;
+    activeElement = null;
+    bubble.classList.remove('show');
+  });
+
+  // 채팅창, 구글 지도, 공시정보 창 등 모든 숨김 영역 처리
+  const hideAreas = document.querySelectorAll('.chat-panel, .map-floating-card, .academy-modal-box, .map-modal-box');
+  
+  hideAreas.forEach(area => {
+    area.addEventListener('mouseenter', () => {
+      mode = 'hide';
+      socrates.style.opacity = '0'; // 즉시 투명해짐
+      bubble.classList.remove('show');
       
-      document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-
-      function animate() {
-        targetX = mouseX + 45; targetY = mouseY + 45;
-        currentX += (targetX - currentX) * 0.12; currentY += (targetY - currentY) * 0.12;
-        if(socrates) socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-
-    /* ESC 키로 모달 닫기 */
-    document.addEventListener('keydown', event => {
-      if (event.key !== 'Escape') return;
-      closeAcademyModal(); closeMapModal();
-      document.getElementById('featureOverlay')?.classList.remove('active');
-      document.getElementById('resultOverlay')?.classList.remove('active');
+      // 진입 순간 현재 위치로 목표 좌표를 강제 고정하여 완전히 멈추게 함 (모서리로 끌려감 방지)
+      targetX = currentX;
+      targetY = currentY;
     });
+    
+    area.addEventListener('mouseleave', (e) => {
+      mode = 'follow';
+      socrates.style.opacity = '1';
+      
+      // 마우스가 다시 나올 때, 엉뚱한 곳에서 날아오지 않도록 현재 마우스 좌표로 위치 동기화
+      currentX = e.clientX + 45;
+      currentY = e.clientY + 45;
+      targetX = currentX;
+      targetY = currentY;
+    });
+  });
 
-    /* 기능 안내 모달 */
-    function openFeatureModal(type) {
-      const overlay = document.getElementById('featureOverlay');
-      const title = document.getElementById('featureModalTitle');
-      const body = document.getElementById('featureModalBody');
-      if (type === 'guide') {
-        title.textContent = '📌 소크라테스란';
-        body.innerHTML = `<h3 style="margin-bottom:12px;">AI 기반 진로 탐색 서비스</h3><p style="line-height:1.7;">소크라테스는 학생과의 대화를 통해 관심사와 가치관을 탐색하고, 스스로 자신의 진로 방향을 생각할 수 있도록 돕는 진로 탐색 서비스입니다.</p>`;
-      } else if (type === 'roadmap') {
-        title.textContent = '📑 세특 로드맵 생성';
-        body.innerHTML = `<h3 style="margin-bottom:12px;">맞춤형 세특 로드맵</h3><p style="line-height:1.7;">진로 탐색 대화가 완료되면 대화 과정에서 발견된 관심 분야와 키워드를 바탕으로 탐구 주제와 활동 방향을 구성할 수 있습니다.</p>`;
+  // 애니메이션 루프
+  function animate() {
+    if (mode === 'follow') {
+      if (!activeElement) { 
+        targetX = mouseX + 45; 
+        targetY = mouseY + 45; 
       }
-      overlay.classList.add('active');
-    }
-    function closeFeatureModal() { document.getElementById('featureOverlay').classList.remove('active'); }
+    } 
+    // mode === 'hide' 일 때는 targetX, targetY가 마우스를 따라 업데이트되지 않고 멈춰 있음
 
-    /* 결과 모달 */
-    function openResultModal() {
-      if (!hasReached100) return;
-      document.getElementById('resultOverlay').classList.add('active');
-    }
-    function closeResultModal() { document.getElementById('resultOverlay').classList.remove('active'); }
-
-    /* 다운로드 */
-    function downloadReport() {
-      const text = document.getElementById('reportContentArea')?.innerText || '소크라테스 진로 탐색 종합 결과 보고서';
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = '소크라테스_진로탐색_종합보고서.txt'; a.click(); URL.revokeObjectURL(url);
-    }
-    function downloadMindmap() {
-      const svg = document.getElementById('mindmapSvg');
-      if (!svg) return;
-      const serializer = new XMLSerializer();
-      const source = serializer.serializeToString(svg);
-      const svgBlob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 1400; canvas.height = 600;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const a = document.createElement('a');
-        a.download = '소크라테스_진로_마인드맵.png'; a.href = canvas.toDataURL('image/png');
-        a.click(); URL.revokeObjectURL(url);
-      };
-      img.src = url;
-    }
-  </script>
+    currentX += (targetX - currentX) * 0.12; 
+    currentY += (targetY - currentY) * 0.12;
+    socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+})();
+</script>
 </body>
 </html>
