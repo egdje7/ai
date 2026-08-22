@@ -742,6 +742,45 @@ const regionData = [
   }
 ];
 
+/* 인터페이스별 도우미 대사 (각각 5개씩) */
+const buddyDialogues = {
+  "채팅창": [
+    "소크라테스와 진솔한 대화를 나누며 내면의 흥미를 찾아보세요!",
+    "질문에 솔직하게 답변할수록 더 정교한 분석 결과가 만들어져요.",
+    "대화 진행률이 100%에 도달하면 맞춤형 리포트가 열립니다!",
+    "어떤 진로 방향이 고민인지 편하게 대화창에 입력해 주세요.",
+    "산파술 대화 기법으로 당신의 숨은 적성을 깨워드릴게요."
+  ],
+  "지역별 진로정보": [
+    "구글 지도를 활용하여 원하는 지역과 대학교를 탐색해 보세요.",
+    "내 위치를 중심으로 주변 진로 인프라를 한눈에 확인할 수 있어요.",
+    "궁금한 지역이나 기관명을 직접 검색해 보실 수 있습니다.",
+    "우측 상단의 '크기 보기'를 누르면 더 넓은 지도를 보게 돼요.",
+    "지역별 거점 대학 및 산학협력 네트워크 정보를 살펴보세요."
+  ],
+  "서비스 안내": [
+    "소크라테스 AI 진로탐색 서비스 이용 가이드를 확인해 보세요!",
+    "어떻게 이용해야 할지 궁금하시다면 이 코너를 참고해 주세요.",
+    "대화 참여부터 최종 마인드맵 다운로드까지 단계별로 안내해 드려요.",
+    "나만의 맞춤형 진로 로드맵을 완성하는 첫걸음입니다.",
+    "처음 방문하셨다면 서비스 안내를 통해 전체 흐름을 파악해 보세요."
+  ],
+  "대학교별 공시정보": [
+    "전국 대학교의 다양한 공시정보를 정확하고 쉽게 검색해 보세요.",
+    "재학생 수, 교원 수, 취업률 등 핵심 지표를 비교할 수 있어요.",
+    "원하는 대학교의 세부 전공 과정 정보를 확인해 보세요.",
+    "관심 있는 대학을 선택하면 상세 정보와 위치가 표시됩니다.",
+    "어떤 학과와 학술 연구회가 운영되는지 살펴보세요."
+  ],
+  "세특 로드맵 생성": [
+    "대화가 마무리되면 맞춤형 세특(학교생활기록부) 로드맵이 생성돼요.",
+    "학생 개인만의 고유한 진로 세특 가이드를 자동으로 제시해 드립니다.",
+    "연계 전공 탐색 및 교과목 과제 주제를 추천받아 보세요!",
+    "진학 관리 전략을 수립할 때 아주 든든한 조력자가 될 거예요.",
+    "생성된 리포트는 텍스트 파일로 언제든 간편하게 다운로드할 수 있어요."
+  ]
+};
+
 /* 진행률 업데이트 함수 */
 function updateProgress(percent) {
   const currentPercent = Math.min(100, Math.max(0, percent));
@@ -1209,7 +1248,7 @@ async function initWebChat() {
 
 window.addEventListener('DOMContentLoaded', initWebChat);
 
-/* 캐릭터 제어 및 인터페이스 근접 이동 & 말풍선 기능 */
+/* 캐릭터 제어 및 인터페이스 근접 이동, 좌우 분할 모서리 이동 & 대사 랜덤 출력 기능 */
 const buddy = document.getElementById('buddy');
 const buddySizeSlider = document.getElementById('buddySizeSlider');
 const buddySizeLabel = document.getElementById('buddySizeLabel');
@@ -1220,6 +1259,9 @@ const bubbleText = document.getElementById('bubbleText');
 let currentBuddySize = 80;
 let mouse = { x: innerWidth * 0.5, y: innerHeight * 0.5 };
 let pos = { x: mouse.x + 50, y: mouse.y + 50 };
+
+let activeBuddyEl = null;
+let currentDialogue = "";
 
 buddySizeSlider.addEventListener('input', (e) => {
   currentBuddySize = parseInt(e.target.value);
@@ -1238,7 +1280,6 @@ addEventListener('mousemove', e => {
 });
 
 function tick(){
-  // 가장 가까운 [data-buddy] 인터페이스 요소 탐색
   const buddyElements = document.querySelectorAll('[data-buddy]');
   let closestEl = null;
   let minDst = Infinity;
@@ -1257,24 +1298,39 @@ function tick(){
   let targetX = mouse.x + (currentBuddySize * 0.5);
   let targetY = mouse.y + (currentBuddySize * 0.4);
 
-  // 마우스가 인터페이스 요소 근처(280px 이내)에 있으면 해당 요소의 모서리로 가까이 이동하며 말풍선 표시
   if (closestEl && minDst < 280) {
+    const el = closestEl.el;
     const rect = closestEl.rect;
-    // 요소의 우측 상단 모서리 부근으로 밀착 유도
-    targetX = rect.right - 10;
-    targetY = rect.top - 10;
+    const buddyName = el.getAttribute('data-buddy');
 
-    const buddyName = closestEl.el.getAttribute('data-buddy');
-    bubbleText.textContent = `💡 [${buddyName}] 코너입니다!`;
+    // 인터페이스를 반으로 나눠 마우스가 더 가까운 좌/우 모서리로 이동
+    const cx = rect.left + rect.width / 2;
+    if (mouse.x < cx) {
+      targetX = rect.left + 15; // 좌측 모서리
+      targetY = rect.top - 10;
+    } else {
+      targetX = rect.right - 15; // 우측 모서리
+      targetY = rect.top - 10;
+    }
+
+    // 다른 요소로 진입할 때마다 해당 인터페이스의 5개 대사 중 하나를 무작위 선택
+    if (activeBuddyEl !== el) {
+      activeBuddyEl = el;
+      const dialogs = buddyDialogues[buddyName] || ["반가워요! 진로를 함께 찾아봐요."];
+      currentDialogue = dialogs[Math.floor(Math.random() * dialogs.length)];
+    }
+
+    bubbleText.textContent = currentDialogue;
     bubble.classList.add('show');
     
-    // 말풍선 방향 조절
-    if (targetX > innerWidth - 200) {
-      bubble.className = 'left';
+    // 말풍선은 소크라테스와 마우스의 위치 관계에서 마우스가 있는 반대 방향으로 표시
+    if (mouse.x < pos.x) {
+      bubble.className = 'right'; // 마우스가 왼쪽에 있으면 말풍선은 오른쪽에 위치
     } else {
-      bubble.className = 'right';
+      bubble.className = 'left';  // 마우스가 오른쪽에 있으면 말풍선은 왼쪽에 위치
     }
   } else {
+    activeBuddyEl = null;
     bubble.classList.remove('show');
   }
 
