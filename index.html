@@ -295,7 +295,6 @@
     box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
   }
 
-  /* 2번 파일에서 잘린 부분 완성 (1번 파일 코드 병합) */
   .modal-top-header { 
     display: flex; justify-content: space-between; align-items: center; 
     border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; 
@@ -313,7 +312,7 @@
     padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
   }
 
-  /* 마인드맵 (1번 파일) */
+  /* 마인드맵 */
   .mindmap-container {
     background: #f8fafc; border: 1px solid var(--line); border-radius: 16px;
     padding: 16px; margin: 16px 0; text-align: center;
@@ -328,7 +327,9 @@
   .btn-download-action.green { background: #16a34a; }
   .btn-download-action.green:hover { background: #15803d; }
 
-  /* 미니 소크라테스 (1번 파일) */
+  /* ============================================================
+     미니 소크라테스 & 말풍선 (완벽 복구)
+     ============================================================ */
   #miniSocrates {
     position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
     pointer-events: none; will-change: transform; transition: opacity 0.3s ease-in-out;
@@ -340,13 +341,17 @@
   #miniSocratesBubble {
     position: absolute; bottom: 72%; left: 110%; width: max-content; max-width: 220px;
     background: #fff; border: 2px solid #1a2e63; border-radius: 12px; padding: 10px 14px;
-    color: #1e293b; font-size: .8rem; font-weight: 700; line-height: 1.4;
+    color: #1e293b; font-size: .85rem; font-weight: 700; line-height: 1.4;
     box-shadow: 0 8px 20px rgba(30, 58, 138, .16); opacity: 0; transform: translateY(6px) scale(.94);
     transition: opacity .18s ease, transform .18s cubic-bezier(.2, 1.4, .4, 1); pointer-events: none;
+    z-index: 2001;
   }
   #miniSocratesBubble.show { opacity: 1; transform: translateY(0) scale(1); }
+  
+  /* 화면 우측에 가까울 때 말풍선 좌우 반전 처리 */
   #miniSocratesBubble.left { left: auto; right: 110%; transform-origin: bottom right; }
   #miniSocratesBubble.right { left: 110%; right: auto; transform-origin: bottom left; }
+  
   .mini-socrates-tail {
     position: absolute; bottom: -7px; width: 12px; height: 12px; background: #fff;
     border-right: 2px solid #1a2e63; border-bottom: 2px solid #1a2e63; transform: rotate(45deg);
@@ -354,7 +359,7 @@
   #miniSocratesBubble.left .mini-socrates-tail { right: 14px; }
   #miniSocratesBubble.right .mini-socrates-tail { left: 14px; }
 
-  /* 대학 API 검색 UI (1번 파일) */
+  /* 대학 API 검색 UI */
   .academy-search-panel { display: flex; flex-direction: column; gap: 14px; height: 100%; min-height: 0; }
   .academy-search-bar { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
   .academy-search-bar input {
@@ -415,7 +420,7 @@
     <section class="hero-section">
       <!-- AI 채팅 -->
       <div class="chat-hero-container">
-        <div class="chat-panel" data-buddy="채팅창">
+        <div class="chat-panel" data-buddy="채팅 분석">
           <div class="panel-header">
             <h3>
               <svg viewBox="0 0 120 120" width="28" height="28">
@@ -447,8 +452,8 @@
         </div>
       </div>
 
-      <!-- 지도 (2번 파일의 구조 활용) -->
-      <div class="map-floating-card" data-buddy="지역별 진로정보">
+      <!-- 지도 -->
+      <div class="map-floating-card" data-buddy="지역별 대학 지도">
         <div class="map-card-header">
           <div>
             <h3>대학교/진로 지도 탐색</h3>
@@ -506,7 +511,7 @@
 
   <!-- 대학 정보 모달 -->
   <div class="academy-overlay" id="academyOverlay">
-    <div class="academy-modal-box" data-buddy="대학교 공시정보">
+    <div class="academy-modal-box" data-buddy="전국 대학교 공시정보 API">
       <div class="modal-top-header">
         <h2 id="academyModalTitle">🏛️ 소크라테스 알리미 — 대학 정보 검색</h2>
         <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
@@ -538,9 +543,9 @@
     </div>
   </div>
 
-  <!-- 지도 크게보기 (2번 파일의 구조 활용) -->
+  <!-- 지도 크게보기 모달 -->
   <div class="map-overlay" id="mapOverlay">
-    <div class="map-modal-box" data-buddy="지도 크게보기">
+    <div class="map-modal-box" data-buddy="지도 넓게보기">
       <div class="modal-top-header">
         <h2>🗺️ 지도 크게 보기</h2>
         <button class="close-btn" onclick="closeMapModal()">&times;</button>
@@ -570,7 +575,7 @@
 
   <!-- 서비스 안내 -->
   <div class="feature-overlay" id="featureOverlay">
-    <div class="modal-box">
+    <div class="modal-box" data-buddy="안내 가이드">
       <div class="modal-top-header">
         <h2 id="featureModalTitle">📌 서비스 안내</h2>
         <button class="close-btn" onclick="closeFeatureModal()">&times;</button>
@@ -581,7 +586,7 @@
 
   <!-- 결과 보고서 -->
   <div class="result-overlay" id="resultOverlay">
-    <div class="modal-box">
+    <div class="modal-box" data-buddy="종합 결과 리포트">
       <div class="modal-top-header">
         <h2>📊 소크라테스 진로 탐색 종합 결과 리포트</h2>
         <button class="close-btn" onclick="closeResultModal()">&times;</button>
@@ -617,7 +622,7 @@
     </div>
   </div>
 
-  <!-- 미니 소크라테스 -->
+  <!-- 미니 소크라테스 (인터페이스 모서리 도킹 & 말풍선 기능 통합) -->
   <div id="miniSocrates">
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <defs>
@@ -678,7 +683,7 @@
             attribution: '&copy; OpenStreetMap'
           }).addTo(mapLarge);
         } else {
-          mapLarge.invalidateSize(); // 디스플레이가 block으로 바뀐 뒤 반드시 호출
+          mapLarge.invalidateSize(); 
         }
       }, 100);
     }
@@ -922,24 +927,110 @@
       });
     });
 
-    /* 미니 소크라테스 (간소화) */
+    /* ============================================================
+       미니 소크라테스 인공지능 도우미 로직 (모서리 도킹 & 말풍선)
+       ============================================================ */
     (() => {
       const socrates = document.getElementById('miniSocrates');
       const bubble = document.getElementById('miniSocratesBubble');
       const bubbleText = document.getElementById('miniSocratesBubbleText');
-      let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-      let targetX = mouseX + 45, targetY = mouseY + 45;
-      let currentX = targetX, currentY = targetY;
       
-      document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+      let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+      let targetX = mouseX + 25, targetY = mouseY + 25;
+      let currentX = targetX, currentY = targetY;
+      let dockedElement = null;
+      let bubbleTimeout;
 
+      // 말풍선 제어 함수
+      window.showMiniSocratesMessage = function(msg, duration = 3000) {
+        if (!bubble || !bubbleText) return;
+        bubbleText.innerHTML = msg;
+        bubble.classList.add('show');
+        
+        // 화면 오른쪽에 너무 가까우면 말풍선 방향 좌우 반전
+        if (currentX > window.innerWidth - 280) {
+          bubble.classList.remove('right');
+          bubble.classList.add('left');
+        } else {
+          bubble.classList.remove('left');
+          bubble.classList.add('right');
+        }
+
+        clearTimeout(bubbleTimeout);
+        if (duration > 0) {
+          bubbleTimeout = setTimeout(() => {
+            bubble.classList.remove('show');
+          }, duration);
+        }
+      };
+      
+      document.addEventListener('mousemove', e => { 
+        mouseX = e.clientX; 
+        mouseY = e.clientY; 
+      });
+
+      // 주요 인터페이스 호버 시 모서리 도킹 & 투명화 & 말풍선 처리
+      const interactiveAreas = document.querySelectorAll('.chat-panel, .map-floating-card, .map-modal-box, .academy-modal-box, .modal-box');
+      
+      interactiveAreas.forEach(area => {
+        area.addEventListener('mouseenter', () => {
+          dockedElement = area;
+          socrates.style.opacity = '0.35'; // 마우스 올릴 시 투명화 기능
+          const buddyName = area.getAttribute('data-buddy');
+          if (buddyName) showMiniSocratesMessage(`현재 <b>${buddyName}</b> 영역입니다.`, 2500);
+        });
+        
+        area.addEventListener('mouseleave', () => {
+          dockedElement = null;
+          socrates.style.opacity = '1'; // 다시 원래 불투명도로 복구
+          bubble.classList.remove('show');
+        });
+      });
+
+      // 기능 카드 호버 시 말풍선 안내
+      document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          const buddyName = card.getAttribute('data-buddy');
+          if (buddyName) showMiniSocratesMessage(`<b>${buddyName}</b> 기능을 알아볼까요?`, 2000);
+        });
+        card.addEventListener('mouseleave', () => {
+          bubble.classList.remove('show');
+        });
+      });
+
+      // 애니메이션 메인 루프
       function animate() {
-        targetX = mouseX + 45; targetY = mouseY + 45;
-        currentX += (targetX - currentX) * 0.12; currentY += (targetY - currentY) * 0.12;
-        if(socrates) socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
+        if (dockedElement) {
+          // 호버된 주요 요소의 우측 하단 모서리로 부드럽게 이동 (도킹 기능)
+          const rect = dockedElement.getBoundingClientRect();
+          targetX = rect.right - 90; // 소크라테스 넓이 고려한 좌표
+          targetY = rect.bottom - 90;
+        } else {
+          // 기본적으로 마우스를 따라다니기
+          targetX = mouseX + 25;
+          targetY = mouseY + 25;
+        }
+
+        // 화면 밖으로 나가지 않도록 경계 제한
+        targetX = Math.max(0, Math.min(window.innerWidth - 80, targetX));
+        targetY = Math.max(0, Math.min(window.innerHeight - 80, targetY));
+
+        currentX += (targetX - currentX) * 0.12; 
+        currentY += (targetY - currentY) * 0.12;
+        
+        if (socrates) {
+          socrates.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        }
+        
         requestAnimationFrame(animate);
       }
+      
       animate();
+
+      // 시작 시 환영 메시지
+      setTimeout(() => {
+        showMiniSocratesMessage('안녕하세요! 진로탐색을 도와드릴 소크라테스입니다.', 4000);
+      }, 1000);
     })();
 
     /* ESC 키로 모달 닫기 */
