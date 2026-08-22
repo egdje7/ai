@@ -495,11 +495,10 @@
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
           <h3>🤖 소크라테스 대화방</h3>
-          <button onclick="testFillProgress()" style="font-size:0.75rem; background:#cbd5e1; border:none; padding:2px 8px; border-radius:4px; cursor:pointer;">⚡ 진행률 100% 채우기</button>
         </div>
         <div id="webchat"></div>
         
-        <!-- 대화창 밑 퍼센트 진행률 바 -->
+        <!-- 대화창 하단 퍼센트 진행률 바 -->
         <div class="progress-container">
           <div class="progress-info">
             <span>대화 진행률</span>
@@ -788,8 +787,6 @@ function updateProgress(percent) {
     }
   }
 }
-
-function testFillProgress() { updateProgress(100); }
 
 /* 구글 지도 연동 */
 function searchGoogleLocation() {
@@ -1188,10 +1185,9 @@ function toggleControlPanel() {
   panel.classList.toggle('collapsed');
 }
 
-/* WebChat 연동 */
+/* WebChat 연동 (진행률 바 수동 증가 로직 제거 및 봇 메시지 기준 적용) */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
-let currentProgress = 0;
 
 async function getDirectLineToken() {
   const response = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
@@ -1207,6 +1203,7 @@ async function initWebChat() {
     webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
+        // 봇이 보낸 메시지인 경우에만 진행률 조건 검사
         if (activity && activity.from && activity.from.id !== 'user') {
           if (activity.channelData && typeof activity.channelData.progressPercent === 'number') {
             updateProgress(activity.channelData.progressPercent);
@@ -1219,11 +1216,9 @@ async function initWebChat() {
             if (percentMatch) {
               const parsedPercent = parseInt(percentMatch[1], 10);
               updateProgress(parsedPercent);
-            } else {
-              currentProgress += 20;
-              updateProgress(currentProgress);
             }
 
+            // 완료 키워드가 포함된 경우 100% 처리
             if (activity.text.includes('100%') || activity.text.includes('검사 완료') || activity.text.includes('분석이 완료')) {
               updateProgress(100);
             }
