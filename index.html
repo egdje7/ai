@@ -421,7 +421,12 @@
   .buddy-toggle-btn:hover { background: #e2e8f0; }
 
   /* 미니 캐릭터 */
-  #buddy { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 1000; pointer-events: none; will-change: transform; }
+  #buddy { 
+    position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 1000; 
+    pointer-events: none; will-change: transform; 
+    transition: opacity 0.3s ease; 
+  }
+  #buddy.transparent { opacity: 0; }
   #buddy.off { display: none !important; }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
@@ -465,7 +470,7 @@
 
 <main style="display: flex; flex-direction: column; flex: 1;">
   <section class="hero-section">
-    <!-- AI 채팅창 (data-buddy="채팅창" -> 제외됨) -->
+    <!-- AI 채팅창 -->
     <div class="chat-hero-container">
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
@@ -486,7 +491,7 @@
       </div>
     </div>
 
-    <!-- 구글 지도 플로팅 카드 (data-buddy="지도" -> 제외됨) -->
+    <!-- 구글 지도 플로팅 카드 -->
     <div class="map-floating-card" data-buddy="지도">
       <div class="map-card-header">
         <div>
@@ -1273,6 +1278,17 @@ addEventListener('mousemove', e => {
 });
 
 function tick(){
+  // 💡 마우스가 구글 지도 영역 위에 있는지 판별
+  const elementUnderMouse = document.elementFromPoint(mouse.x, mouse.y);
+  const mapCard = document.querySelector('[data-buddy="지도"]');
+  const isOverMap = mapCard && (mapCard === elementUnderMouse || mapCard.contains(elementUnderMouse));
+
+  if (isOverMap) {
+    buddy.classList.add('transparent');
+  } else {
+    buddy.classList.remove('transparent');
+  }
+
   const buddyElements = document.querySelectorAll('[data-buddy]');
   let closestEl = null;
   let minDst = Infinity;
@@ -1280,7 +1296,7 @@ function tick(){
   buddyElements.forEach(el => {
     const buddyName = el.getAttribute('data-buddy');
     
-    // 💡 채팅 인터페이스 및 구글 지도 플로팅 카드인 경우 캐릭터가 반응하지 않도록 제외
+    // 채팅창 및 구글 지도 영역 제외
     if (buddyName === "채팅창" || buddyName === "지도") return;
 
     const rect = el.getBoundingClientRect();
@@ -1301,17 +1317,15 @@ function tick(){
     const rect = closestEl.rect;
     const buddyName = el.getAttribute('data-buddy');
 
-    // 인터페이스를 반으로 나눠 마우스가 더 가까운 좌/우 모서리로 이동
     const cx = rect.left + rect.width / 2;
     if (mouse.x < cx) {
-      targetX = rect.left + 15; // 좌측 모서리
+      targetX = rect.left + 15;
       targetY = rect.top - 10;
     } else {
-      targetX = rect.right - 15; // 우측 모서리
+      targetX = rect.right - 15;
       targetY = rect.top - 10;
     }
 
-    // 다른 요소로 진입할 때마다 해당 인터페이스의 5개 대사 중 하나를 무작위 선택
     if (activeBuddyEl !== el) {
       activeBuddyEl = el;
       const dialogs = buddyDialogues[buddyName] || ["반가워요! 진로를 함께 찾아봐요."];
@@ -1321,11 +1335,10 @@ function tick(){
     bubbleText.textContent = currentDialogue;
     bubble.classList.add('show');
     
-    // 말풍선은 소크라테스와 마우스의 위치 관계에서 마우스가 있는 반대 방향으로 표시
     if (mouse.x < pos.x) {
-      bubble.className = 'right'; // 마우스가 왼쪽에 있으면 말풍선은 오른쪽에 위치
+      bubble.className = 'right';
     } else {
-      bubble.className = 'left';  // 마우스가 오른쪽에 있으면 말풍선은 왼쪽에 위치
+      bubble.className = 'left';
     }
   } else {
     activeBuddyEl = null;
