@@ -259,9 +259,9 @@
 <header>
   <div class="logo">🎓 소크라테스 AI</div>
   <nav><ul>
-    <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
-    <li><a onclick="openAcademyInfo('school')">전국대학교정보</a></li>
-    <li><a onclick="openAcademyInfo('region')">진로 소식</a></li>
+    <li><a data-no-buddy onclick="openFeatureModal('guide')">소크라테스란</a></li>
+    <li><a data-no-buddy onclick="openAcademyInfo('school')">전국대학교정보</a></li>
+    <li><a data-no-buddy onclick="openAcademyInfo('region')">진로 소식</a></li>
     <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서</a></li>
   </ul></nav>
 </header>
@@ -644,7 +644,7 @@ document.querySelectorAll('.feature-card').forEach(card => {
 });
 
 /* =======================================================================
-   미니 소크라테스 로직 (채팅/지도 영역 진입 시 즉시 멈춤 및 투명화)
+   미니 소크라테스 로직 (상단 특정 메뉴 제외 및 영역 진입 시 즉시 투명화)
    ======================================================================= */
 (() => {
   const socrates = document.getElementById('miniSocrates');
@@ -655,7 +655,7 @@ document.querySelectorAll('.feature-card').forEach(card => {
   let targetX = mouseX + 45, targetY = mouseY + 45;
   let currentX = targetX, currentY = targetY;
   let activeElement = null;
-  let mode = 'follow'; // 'follow' (마우스 추적), 'hide' (정지 및 투명화)
+  let mode = 'follow';
 
   document.addEventListener('mousemove', e => { 
     mouseX = e.clientX; 
@@ -679,7 +679,13 @@ document.querySelectorAll('.feature-card').forEach(card => {
     return '한번 클릭해서 유용한 기능인지 확인해 보세요.';
   };
 
-  const getInteractive = target => target instanceof Element ? target.closest('[data-buddy], button, a, input, select, [role="button"]') : null;
+  // data-no-buddy 속성이 있는 상단 메뉴들은 인터랙션 대상에서 제외
+  const getInteractive = target => {
+    if (!(target instanceof Element)) return null;
+    const el = target.closest('[data-buddy], button, a, input, select, [role="button"]');
+    if (el && el.hasAttribute('data-no-buddy')) return null;
+    return el;
+  };
 
   document.addEventListener('mouseover', e => {
     if (mode !== 'follow') return;
@@ -702,16 +708,13 @@ document.querySelectorAll('.feature-card').forEach(card => {
     bubble.classList.remove('show');
   });
 
-  // 채팅창, 구글 지도, 공시정보 창 등 모든 숨김 영역 처리
   const hideAreas = document.querySelectorAll('.chat-panel, .map-floating-card, .academy-modal-box, .map-modal-box');
   
   hideAreas.forEach(area => {
     area.addEventListener('mouseenter', () => {
       mode = 'hide';
-      socrates.style.opacity = '0'; // 즉시 투명해짐
+      socrates.style.opacity = '0';
       bubble.classList.remove('show');
-      
-      // 진입 순간 현재 위치로 목표 좌표를 강제 고정하여 완전히 멈추게 함 (모서리로 끌려감 방지)
       targetX = currentX;
       targetY = currentY;
     });
@@ -719,8 +722,6 @@ document.querySelectorAll('.feature-card').forEach(card => {
     area.addEventListener('mouseleave', (e) => {
       mode = 'follow';
       socrates.style.opacity = '1';
-      
-      // 마우스가 다시 나올 때, 엉뚱한 곳에서 날아오지 않도록 현재 마우스 좌표로 위치 동기화
       currentX = e.clientX + 45;
       currentY = e.clientY + 45;
       targetX = currentX;
@@ -728,15 +729,13 @@ document.querySelectorAll('.feature-card').forEach(card => {
     });
   });
 
-  // 애니메이션 루프
   function animate() {
     if (mode === 'follow') {
       if (!activeElement) { 
         targetX = mouseX + 45; 
         targetY = mouseY + 45; 
       }
-    } 
-    // mode === 'hide' 일 때는 targetX, targetY가 마우스를 따라 업데이트되지 않고 멈춰 있음
+    }
 
     currentX += (targetX - currentX) * 0.12; 
     currentY += (targetY - currentY) * 0.12;
