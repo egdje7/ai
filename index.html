@@ -221,11 +221,11 @@
   }
 
   /* 모달 레이어 공통 스타일 */
-  .result-overlay, .feature-overlay, .map-overlay {
+  .result-overlay, .feature-overlay, .map-overlay, .academy-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
   }
-  .result-overlay.active, .feature-overlay.active, .map-overlay.active { display: flex; }
+  .result-overlay.active, .feature-overlay.active, .map-overlay.active, .academy-overlay.active { display: flex; }
 
   .modal-box {
     background: #fff; width: 90%; max-width: 1000px; max-height: 88vh; border-radius: 24px;
@@ -236,8 +236,8 @@
   .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); }
   .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
 
-  /* 지도 확대 모달 전용 스타일 */
-  .map-modal-box {
+  /* 지도 및 소크라테스 알리미 확대 모달 전용 스타일 */
+  .map-modal-box, .academy-modal-box {
     background: #fff;
     width: 95%;
     max-width: 1200px;
@@ -248,139 +248,6 @@
     flex-direction: column;
     box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
-
-  /* 통합 UI 전용 스타일 */
-  .tab-container {
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 2px solid var(--line);
-    margin-bottom: 20px;
-  }
-  .tab-btn {
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--muted);
-    border: none;
-    background: none;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s ease;
-  }
-  .tab-btn.active {
-    color: var(--blue);
-    border-bottom-color: var(--blue);
-  }
-
-  .view-panel { display: none; flex-direction: column; gap: 16px; }
-  .view-panel.active { display: flex; }
-
-  .search-card {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid var(--line);
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .search-card select, .search-card input {
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    font-size: 0.9rem;
-    outline: none;
-  }
-  .search-card input { flex: 1; min-width: 180px; }
-  .search-card button {
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .search-card button:hover { background: #1d4ed8; }
-
-  .grid-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 20px;
-  }
-
-  .list-box {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    padding: 12px;
-    max-height: 480px;
-    overflow-y: auto;
-  }
-  .list-item {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #f1f5f9;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .list-item:hover, .list-item.selected {
-    background: #eff6ff;
-    border-color: var(--blue);
-  }
-  .list-item h4 { font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; }
-  .list-item p { font-size: 0.78rem; color: var(--muted); }
-
-  .detail-box {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .detail-header {
-    border-bottom: 2px solid #f1f5f9;
-    padding-bottom: 12px;
-  }
-  .detail-header h2 { font-size: 1.3rem; color: var(--navy); margin-bottom: 4px; }
-  .detail-header .badge {
-    display: inline-block;
-    padding: 3px 8px;
-    background: #eff6ff;
-    color: var(--blue);
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    margin-bottom: 6px;
-  }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-  }
-  .info-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 12px 14px;
-  }
-  .info-card h5 { font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
-  .info-card p { font-size: 1rem; font-weight: bold; color: var(--ink); }
-
-  .modal-map-container {
-    width: 100%;
-    height: 220px;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-  }
-  .modal-map-container iframe { width: 100%; height: 100%; border: 0; }
 
   /* 마인드맵 및 다운로드 스타일 */
   .mindmap-container {
@@ -421,12 +288,7 @@
   .buddy-toggle-btn:hover { background: #e2e8f0; }
 
   /* 미니 캐릭터 */
-  #buddy { 
-    position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 1000; 
-    pointer-events: none; will-change: transform; 
-    transition: opacity 0.3s ease; 
-  }
-  #buddy.transparent { opacity: 0; }
+  #buddy { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 1000; pointer-events: none; will-change: transform; }
   #buddy.off { display: none !important; }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
 
@@ -462,8 +324,8 @@
   <div class="logo">🎓 소크라테스 AI</div>
   <nav><ul>
     <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
-    <li><a onclick="openFeatureModal('integrated')">전국대학교정보</a></li>
-    <li><a onclick="openFeatureModal('integrated')">진로 소식</a></li>
+    <li><a onclick="openAcademyInfo('school')">전국대학교정보</a></li>
+    <li><a onclick="openAcademyInfo('region')">진로 소식</a></li>
     <li><a id="navResult" class="disabled" onclick="openResultModal()">📊 종합 결과 보고서</a></li>
   </ul></nav>
 </header>
@@ -492,7 +354,7 @@
     </div>
 
     <!-- 구글 지도 플로팅 카드 -->
-    <div class="map-floating-card" data-buddy="지도">
+    <div class="map-floating-card" data-buddy="지역별 진로정보">
       <div class="map-card-header">
         <div>
           <h3>Google Maps 기반<br>대학교/진로 지도 탐색</h3>
@@ -525,16 +387,16 @@
         <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
       </div>
 
-      <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openFeatureModal('school')">
+      <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
         <div class="icon-box">🏛️</div>
         <h4>대학교별 공시정보</h4>
-        <p>전국 대학교 공시정보를 정확하고 알기 쉽게 검색</p>
+        <p>소크라테스 알리미에서 전국 대학교 공시정보를 정확하게 검색</p>
       </div>
 
-      <div class="feature-card" data-buddy="지역별 진로정보" onclick="openFeatureModal('region')">
+      <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
         <div class="icon-box">📍</div>
         <h4>지역별 공시정보</h4>
-        <p>관심지역의 진로 인프라 공시정보를 한눈에 확인</p>
+        <p>소크라테스 알리미에서 관심지역의 대학 공시정보를 한눈에 확인</p>
       </div>
 
       <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
@@ -545,6 +407,19 @@
     </div>
   </section>
 </main>
+
+<!-- 소크라테스 알리미 창 모달 레이어 -->
+<div class="academy-overlay" id="academyOverlay">
+  <div class="academy-modal-box">
+    <div class="modal-top-header">
+      <h2 id="academyModalTitle">🏛️ 소크라테스 알리미 공시정보 탐색</h2>
+      <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
+    </div>
+    <div style="flex: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);">
+      <iframe id="academyIframe" src="https://www.academyinfo.go.kr/index.do" style="width: 100%; height: 100%; border: 0;"></iframe>
+    </div>
+  </div>
+</div>
 
 <!-- 지도 확대용 모달 레이어 -->
 <div class="map-overlay" id="mapOverlay">
@@ -564,7 +439,7 @@
   </div>
 </div>
 
-<!-- 카드 안내 및 공시정보 모달 레이어 -->
+<!-- 카드 안내 모달 레이어 -->
 <div class="feature-overlay" id="featureOverlay">
   <div class="modal-box">
     <div class="modal-top-header">
@@ -680,75 +555,15 @@
 <script>
 let hasReached100 = false;
 
-/* 데이터 정의 */
-const schoolData = [
-  {
-    id: 1,
-    name: "서울대학교",
-    type: "대학교",
-    address: "서울특별시 관악구 관악로 1",
-    students: "28,000명",
-    teachers: "2,200명",
-    curriculum: "AI·데이터 사이언스 융합 학부 및 인공지능 전문 과정",
-    clubs: "AI 학술 연구회, 로봇공학 동아리, 빅데이터 분석 학회 등 50여 개",
-    achievement: "취업률 71.2% / 연구 실적 최우수 S등급"
-  },
-  {
-    id: 2,
-    name: "한국과학기술원 (KAIST)",
-    type: "대학교",
-    address: "대전광역시 유성구 대학로 291",
-    students: "10,500명",
-    teachers: "1,100명",
-    curriculum: "첨단 공학, 전산학부 심화 과정 및 AI 대학원 연계",
-    clubs: "인공지능 연구회, 자율주행 알고리즘 연구반",
-    achievement: "취업률 85.4% / 글로벌 연구 산학협력 최우수"
-  },
-  {
-    id: 3,
-    name: "포항공과대학교 (POSTECH)",
-    type: "대학교",
-    address: "경상북도 포항시 남구 청암로 77",
-    students: "3,500명",
-    teachers: "450명",
-    curriculum: "컴퓨터공학과 중심 SW·AI 융합 중심 대학 과제 운영",
-    clubs: "알고리즘 연구회, 딥러닝 응용 개발 프로젝트반",
-    achievement: "취업 및 진학률 88.0%"
-  }
-];
-
-const regionData = [
-  {
-    id: 1,
-    region: "서울",
-    title: "서울특별시교육청 진로직업교육체험지원센터",
-    schoolsCount: "54개 대학 연계",
-    programs: "자치구별 진로직업체험지원센터 연계 프로그램, 대학생 멘토링, AI 미래직업 체험관",
-    location: "서울특별시 종로구 송월길 48",
-    infra: "25개 자치구 진로직업체험지원센터 및 권역별 대학 연계 인프라"
-  },
-  {
-    id: 2,
-    region: "부산",
-    title: "부산진로진학지원센터",
-    schoolsCount: "22개 대학 연계",
-    programs: "해양 AI 및 첨단기술 융합 전공 오픈 캠퍼스, 맞춤형 진로진학 컨설팅",
-    location: "부산광역시 부산진구 중앙대로 945",
-    infra: "지역 거점 국립대 및 사립대 산학협력 네트워크"
-  },
-  {
-    id: 3,
-    region: "경기",
-    title: "경기도교육청 진로교육원",
-    schoolsCount: "68개 대학 연계",
-    programs: "하이테크 진로체험, 반도체·S/W 대학 오픈랩 탐방, 시·군 진로체험지원센터 연계 사업",
-    location: "경기도 수원시 영통구 도청로 28",
-    infra: "31개 시·군 진로체험지원센터 및 경기 권역 대학 교육 센터 연계"
-  }
-];
-
-/* 인터페이스별 도우미 대사 (각각 5개씩) */
+/* 인터페이스별 도우미 대사 */
 const buddyDialogues = {
+  "지역별 진로정보": [
+    "구글 지도를 활용하여 원하는 지역과 대학교를 탐색해 보세요.",
+    "내 위치를 중심으로 주변 진로 인프라를 한눈에 확인할 수 있어요.",
+    "궁금한 지역이나 기관명을 직접 검색해 보실 수 있습니다.",
+    "우측 상단의 '크기 보기'를 누르면 더 넓은 지도를 보게 돼요.",
+    "소크라테스 알리미 사이트를 통해 지역별 공시정보를 확인할 수 있어요."
+  ],
   "서비스 안내": [
     "소크라테스 AI 진로탐색 서비스 이용 가이드를 확인해 보세요!",
     "어떻게 이용해야 할지 궁금하시다면 이 코너를 참고해 주세요.",
@@ -757,18 +572,11 @@ const buddyDialogues = {
     "처음 방문하셨다면 서비스 안내를 통해 전체 흐름을 파악해 보세요."
   ],
   "대학교별 공시정보": [
-    "전국 대학교의 다양한 공시정보를 정확하고 쉽게 검색해 보세요.",
-    "재학생 수, 교원 수, 취업률 등 핵심 지표를 비교할 수 있어요.",
-    "원하는 대학교의 세부 전공 과정 정보를 확인해 보세요.",
-    "관심 있는 대학을 선택하면 상세 정보와 위치가 표시됩니다.",
-    "어떤 학과와 학술 연구회가 운영되는지 살펴보세요."
-  ],
-  "지역별 진로정보": [
-    "관심 있는 지역의 진로 인프라 공시정보를 한눈에 확인해 보세요.",
-    "지역 거점 대학 및 산학협력 네트워크 정보를 살펴보세요.",
-    "진로체험지원센터의 다양한 프로그램 정보를 찾아보실 수 있어요.",
-    "지역별 맞춤형 진로진학 지원 센터의 위치와 현황을 확인하세요.",
-    "궁금한 지역이나 지원기관명을 검색해 보세요."
+    "소크라테스 알리미로 이동하여 전국 대학의 공시정보를 조회해 보세요.",
+    "재학생 수, 교원 수, 취업률 등 공식 지표를 확인하실 수 있습니다.",
+    "원하는 대학교의 세부 정보와 학부 현황을 둘러보세요.",
+    "클릭하시면 소크라테스 알리미 창이 화면 앞에 크게 표시됩니다.",
+    "궁금한 대학을 직접 검색해 보세요!"
   ],
   "세특 로드맵 생성": [
     "대화가 마무리되면 맞춤형 세특(학교생활기록부) 로드맵이 생성돼요.",
@@ -778,6 +586,21 @@ const buddyDialogues = {
     "생성된 리포트는 텍스트 파일로 언제든 간편하게 다운로드할 수 있어요."
   ]
 };
+
+/* 소크라테스 알리미 모달 레이어 제어 */
+function openAcademyInfo(type) {
+  const titleEl = document.getElementById('academyModalTitle');
+  if (type === 'school') {
+    titleEl.textContent = '🏛️ 대학교별 공시정보 (소크라테스 알리미)';
+  } else if (type === 'region') {
+    titleEl.textContent = '📍 지역별 공시정보 (소크라테스 알리미)';
+  }
+  document.getElementById('academyOverlay').classList.add('active');
+}
+
+function closeAcademyModal() {
+  document.getElementById('academyOverlay').classList.remove('active');
+}
 
 /* 진행률 업데이트 함수 */
 function updateProgress(percent) {
@@ -865,55 +688,6 @@ const modalData = {
       </ul>
     `
   },
-  integrated: {
-    title: "🏛️ 전국 대학교 및 지역별 공시정보 통합 조회",
-    html: `
-      <div class="tab-container">
-        <button class="tab-btn active" onclick="switchTab('schoolTab')">🏛️ 대학교별 공시정보</button>
-        <button class="tab-btn" onclick="switchTab('regionTab')">📍 지역별 공시정보</button>
-      </div>
-
-      <!-- 1. 대학교별 공시정보 탭 -->
-      <section id="schoolTab" class="view-panel active">
-        <div class="search-card">
-          <select id="schoolTypeSelect">
-            <option value="전체">구분 전체</option>
-            <option value="대학교">대학교</option>
-          </select>
-          <input type="text" id="schoolSearchInput" placeholder="대학교명 입력 (예: 서울대, KAIST)" onkeypress="if(event.key==='Enter') filterSchools()">
-          <button onclick="filterSchools()">검색</button>
-        </div>
-
-        <div class="grid-layout">
-          <div class="list-box" id="schoolList"></div>
-          <div class="detail-box" id="schoolDetail">
-            <p style="color: var(--muted); text-align: center; margin: auto;">대학교를 선택하시면 상세 공시정보가 표시됩니다.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. 지역별 공시정보 탭 -->
-      <section id="regionTab" class="view-panel">
-        <div class="search-card">
-          <select id="regionSelect" onchange="filterRegions()">
-            <option value="전체">지역 전체</option>
-            <option value="서울">서울특별시</option>
-            <option value="부산">부산광역시</option>
-            <option value="경기">경기도</option>
-          </select>
-          <input type="text" id="regionSearchInput" placeholder="관심 지역/기관명 입력" onkeypress="if(event.key==='Enter') filterRegions()">
-          <button onclick="filterRegions()">검색</button>
-        </div>
-
-        <div class="grid-layout">
-          <div class="list-box" id="regionList"></div>
-          <div class="detail-box" id="regionDetail">
-            <p style="color: var(--muted); text-align: center; margin: auto;">지역 또는 기관을 선택하시면 진로 인프라 정보가 표시됩니다.</p>
-          </div>
-        </div>
-      </section>
-    `
-  },
   roadmap: {
     title: "📑 세특 로드맵 생성",
     html: `
@@ -930,191 +704,14 @@ const modalData = {
 };
 
 function openFeatureModal(type) {
-  let targetType = type;
-  if (type === 'school' || type === 'region') {
-    targetType = 'integrated';
-  }
-
-  const data = modalData[targetType];
+  const data = modalData[type];
   if (data) {
     document.getElementById('featureModalTitle').textContent = data.title;
     document.getElementById('featureModalBody').innerHTML = data.html;
     document.getElementById('featureOverlay').classList.add('active');
-
-    if (targetType === 'integrated') {
-      setTimeout(() => {
-        renderSchools(schoolData);
-        renderRegions(regionData);
-        if (type === 'region') {
-          switchTab('regionTab');
-        } else {
-          switchTab('schoolTab');
-        }
-      }, 50);
-    }
   }
 }
 function closeFeatureModal() { document.getElementById('featureOverlay').classList.remove('active'); }
-
-/* 탭 전환 및 검색 로직 */
-function switchTab(tabId) {
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
-
-  if (tabId === 'schoolTab') {
-    document.querySelectorAll('.tab-btn')[0].classList.add('active');
-  } else {
-    document.querySelectorAll('.tab-btn')[1].classList.add('active');
-  }
-  document.getElementById(tabId).classList.add('active');
-}
-
-function renderSchools(list) {
-  const container = document.getElementById('schoolList');
-  if(!container) return;
-  container.innerHTML = '';
-  if (list.length === 0) {
-    container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">검색 결과가 없습니다.</p>';
-    return;
-  }
-
-  list.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'list-item';
-    div.innerHTML = `
-      <h4>${item.name}</h4>
-      <p>${item.type} | ${item.address.split(' ')[0]}</p>
-    `;
-    div.onclick = () => selectSchool(item, div);
-    container.appendChild(div);
-  });
-}
-
-function selectSchool(item, element) {
-  document.querySelectorAll('#schoolList .list-item').forEach(el => el.classList.remove('selected'));
-  if (element) element.classList.add('selected');
-
-  const encodedAddr = encodeURIComponent(item.address);
-  document.getElementById('schoolDetail').innerHTML = `
-    <div class="detail-header">
-      <span class="badge">${item.type}</span>
-      <h2>${item.name}</h2>
-      <p style="color: var(--muted); font-size: 0.85rem;">📍 ${item.address}</p>
-    </div>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <h5>재학생 수 / 교원 수</h5>
-        <p>${item.students} / ${item.teachers}</p>
-      </div>
-      <div class="info-card">
-        <h5>취업률 / 성과</h5>
-        <p>${item.achievement}</p>
-      </div>
-    </div>
-
-    <div class="info-card">
-      <h5>전공 과정 및 교육과정 편성</h5>
-      <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.curriculum}</p>
-    </div>
-
-    <div class="info-card">
-      <h5>동아리 및 학술 연구회 현황</h5>
-      <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.clubs}</p>
-    </div>
-
-    <div>
-      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 대학교 위치 지도 (Google Maps)</h5>
-      <div class="modal-map-container">
-        <iframe src="https://maps.google.com/maps?q=${encodedAddr}&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
-      </div>
-    </div>
-  `;
-}
-
-function filterSchools() {
-  const type = document.getElementById('schoolTypeSelect').value;
-  const keyword = document.getElementById('schoolSearchInput').value.trim().toLowerCase();
-
-  const filtered = schoolData.filter(item => {
-    const matchType = (type === '전체' || item.type === type);
-    const matchKey = item.name.toLowerCase().includes(keyword) || item.address.toLowerCase().includes(keyword);
-    return matchType && matchKey;
-  });
-
-  renderSchools(filtered);
-}
-
-function renderRegions(list) {
-  const container = document.getElementById('regionList');
-  if(!container) return;
-  container.innerHTML = '';
-  if (list.length === 0) {
-    container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">검색 결과가 없습니다.</p>';
-    return;
-  }
-
-  list.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'list-item';
-    div.innerHTML = `
-      <h4>${item.title}</h4>
-      <p>관할지역: ${item.region} | 연계 대학/기관: ${item.schoolsCount}</p>
-    `;
-    div.onclick = () => selectRegion(item, div);
-    container.appendChild(div);
-  });
-}
-
-function selectRegion(item, element) {
-  document.querySelectorAll('#regionList .list-item').forEach(el => el.classList.remove('selected'));
-  if (element) element.classList.add('selected');
-
-  const encodedAddr = encodeURIComponent(item.location);
-  document.getElementById('regionDetail').innerHTML = `
-    <div class="detail-header">
-      <span class="badge" style="background:#dcfce7; color:#15803d;">지역 공시</span>
-      <h2>${item.title}</h2>
-      <p style="color: var(--muted); font-size: 0.85rem;">📍 위치: ${item.location}</p>
-    </div>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <h5>관내 대학교/기관 연계</h5>
-        <p>${item.schoolsCount}</p>
-      </div>
-      <div class="info-card">
-        <h5>진로 인프라 연계</h5>
-        <p style="font-size: 0.88rem;">${item.infra}</p>
-      </div>
-    </div>
-
-    <div class="info-card">
-      <h5>주요 진로 체험 및 지원 프로그램</h5>
-      <p style="font-size: 0.9rem; font-weight: normal; margin-top: 4px;">${item.programs}</p>
-    </div>
-
-    <div>
-      <h5 style="margin-bottom: 6px; color: var(--navy); font-size: 0.85rem;">🗺️ 지원 센터 위치</h5>
-      <div class="modal-map-container">
-        <iframe src="https://maps.google.com/maps?q=${encodedAddr}&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
-      </div>
-    </div>
-  `;
-}
-
-function filterRegions() {
-  const region = document.getElementById('regionSelect').value;
-  const keyword = document.getElementById('regionSearchInput').value.trim().toLowerCase();
-
-  const filtered = regionData.filter(item => {
-    const matchRegion = (region === '전체' || item.region === region);
-    const matchKey = item.title.toLowerCase().includes(keyword) || item.programs.toLowerCase().includes(keyword);
-    return matchRegion && matchKey;
-  });
-
-  renderRegions(filtered);
-}
 
 /* 결과 모달 */
 function openResultModal() {
@@ -1246,7 +843,7 @@ async function initWebChat() {
 
 window.addEventListener('DOMContentLoaded', initWebChat);
 
-/* 캐릭터 제어 및 인터페이스 근접 이동, 좌우 분할 모서리 이동 & 대사 랜덤 출력 기능 */
+/* 캐릭터 제어 및 인터페이스 근접 이동 기능 */
 const buddy = document.getElementById('buddy');
 const buddySizeSlider = document.getElementById('buddySizeSlider');
 const buddySizeLabel = document.getElementById('buddySizeLabel');
@@ -1278,17 +875,6 @@ addEventListener('mousemove', e => {
 });
 
 function tick(){
-  // 💡 마우스가 구글 지도 영역 위에 있는지 판별
-  const elementUnderMouse = document.elementFromPoint(mouse.x, mouse.y);
-  const mapCard = document.querySelector('[data-buddy="지도"]');
-  const isOverMap = mapCard && (mapCard === elementUnderMouse || mapCard.contains(elementUnderMouse));
-
-  if (isOverMap) {
-    buddy.classList.add('transparent');
-  } else {
-    buddy.classList.remove('transparent');
-  }
-
   const buddyElements = document.querySelectorAll('[data-buddy]');
   let closestEl = null;
   let minDst = Infinity;
@@ -1296,8 +882,7 @@ function tick(){
   buddyElements.forEach(el => {
     const buddyName = el.getAttribute('data-buddy');
     
-    // 채팅창 및 구글 지도 영역 제외
-    if (buddyName === "채팅창" || buddyName === "지도") return;
+    if (buddyName === "채팅창") return;
 
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
