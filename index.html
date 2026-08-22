@@ -68,13 +68,32 @@
     height: 520px;
     display: flex;
     flex-direction: column;
-    transition: opacity 0.3s ease-in-out;
   }
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
     padding-bottom: 12px; border-bottom: 2px solid #f1f5f9; margin-bottom: 12px;
   }
   .panel-header h3 { font-size: 1.1rem; color: var(--navy); display: flex; align-items: center; gap: 8px; font-weight: 800; }
+  
+  /* 생각 중 표시기 스타일 */
+  #thinkingIndicator {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--blue);
+    background: #eff6ff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    animation: fadeInOut 1.5s infinite alternate;
+  }
+  @keyframes fadeInOut {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+  }
+
   #webchat { flex: 1; border-radius: 12px; overflow: hidden; }
 
   /* 대화창 하단 퍼센트 진행률 바 스타일 */
@@ -121,7 +140,6 @@
     flex-direction: column;
     justify-content: space-between;
     height: 580px;
-    transition: opacity 0.3s ease-in-out;
   }
   .map-card-header {
     display: flex;
@@ -283,7 +301,7 @@
   /* 미니 소크라테스 스타일 */
   #miniSocrates {
     position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
-    pointer-events: none; will-change: transform; transition: opacity 0.3s ease-in-out;
+    pointer-events: none; will-change: transform; transition: opacity 0.25s ease-in-out;
   }
   #miniSocrates svg { width: 100%; height: 100%; overflow: visible; }
   .mini-socrates-body { transform-box: fill-box; transform-origin: 50% 90%; animation: miniSocratesFloat 2.6s ease-in-out infinite; }
@@ -385,6 +403,10 @@
               </svg>
               소크라테스 진로 심리 검사
             </h3>
+          </div>
+          <!-- 봇 생각 중 표시기 -->
+          <div id="thinkingIndicator">
+            <span>💭</span> 소크라테스가 깊이 생각 중입니다...
           </div>
           <div id="webchat"></div>
           <div class="progress-container">
@@ -798,7 +820,7 @@
       });
     }
 
-    /* WebChat 기능 */
+    /* WebChat 기능 및 생각 중 표시기 연동 */
     const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 
     async function initWebChat() {
@@ -807,7 +829,16 @@
         const { token } = await res.json();
         const directLine = window.WebChat.createDirectLine({ token });
         const webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
-          if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+          const thinkingEl = document.getElementById('thinkingIndicator');
+
+          // 사용자가 메시지를 보냈을 때 (생각 중 표시기 활성화)
+          if (action.type === 'DIRECT_LINE/POST_ACTIVITY') {
+            if (thinkingEl) thinkingEl.style.display = 'flex';
+          } 
+          // 봇으로부터 응답이 도착했을 때 (생각 중 표시기 숨김)
+          else if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+            if (thinkingEl) thinkingEl.style.display = 'none';
+
             const activity = action.payload.activity;
             if (activity && activity.from && activity.from.id !== 'user') {
               if (activity.channelData?.progressPercent !== undefined) {
@@ -860,77 +891,85 @@
       const bubbleText = document.getElementById('miniSocratesBubbleText');
       
       let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-      let targetX = mouseX + 45, targetY = mouseY + 45;
-      let currentX = targetX, currentY = targetY;
+      let currentX = mouseX + 45, currentY = mouseY + 45;
+      let isHoveringChatOrMap = false;
+      let isHoveringFeatureCard = false;
+      const cornerPos = { x: window.innerWidth - 110, y: 100 }; // 우측 상단 모서리 좌표
       
       document.addEventListener('mousemove', e => { 
         mouseX = e.clientX; 
         mouseY = e.clientY; 
       });
 
-      function animate() {
-        targetX = mouseX + 45; 
-        targetY = mouseY + 45;
-        currentX += (targetX - currentX) * 0.12; 
-        currentY += (targetY - currentY) * 0.12;
-        if(socrates) {
-          socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
-
-      // 1. 채팅창 및 지도 인터페이스 투명화 (마우스 진입 시 숨김, 이탈 시 복원)
-      const transparentPanels = document.querySelectorAll('.chat-panel, .map-floating-card');
-      transparentPanels.forEach(panel => {
+      // 1. 채팅창 또는 지도창에 마우스 진입 시 소크라테스 숨김
+      const chatMapPanels = document.querySelectorAll('.chat-panel, .map-floating-card');
+      chatMapPanels.forEach(panel => {
         panel.addEventListener('mouseenter', () => {
-          panel.style.opacity = '0';
+          isHoveringChatOrMap = true;
+          if (socrates) socrates.style.opacity = '0';
+          if (bubble) bubble.classList.remove('show');
         });
         panel.addEventListener('mouseleave', () => {
-          panel.style.opacity = '1';
+          isHoveringChatOrMap = false;
+          if (socrates) socrates.style.opacity = '1';
         });
       });
 
-      // 2. 채팅 아래 정보 카드들 (feature-card) 분할 및 모서리 이동, 말풍선 제어
+      // 2. 하단 정보 카드들 호버 시 소크라테스가 모서리로 이동하며 말풍선 출력
       const buddyCards = document.querySelectorAll('.feature-card');
       buddyCards.forEach(card => {
         const buddyName = card.getAttribute('data-buddy') || '정보 카드';
         card.style.transition = 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
         card.addEventListener('mouseenter', (e) => {
+          isHoveringFeatureCard = true;
           const rect = card.getBoundingClientRect();
           const relX = e.clientX - rect.left;
           const relY = e.clientY - rect.top;
 
-          // 인터페이스를 반으로 나누어 더 가까운 모서리 방향으로 이동
           let moveX = relX < rect.width / 2 ? -12 : 12;
           let moveY = relY < rect.height / 2 ? -12 : 12;
-
           card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.02)`;
 
-          // 도우미 말풍선 텍스트 설정 및 표시
           if (bubble && bubbleText) {
             bubbleText.textContent = `"${buddyName}" 영역입니다. 도움말을 확인해보세요!`;
             bubble.classList.add('show');
-
-            // 커서를 가리지 않는 방향으로 말풍선 위치 자동 조절 (좌/우)
-            if (mouseX > window.innerWidth / 2) {
-              bubble.classList.add('left');
-              bubble.classList.remove('right');
-            } else {
-              bubble.classList.add('right');
-              bubble.classList.remove('left');
-            }
+            bubble.classList.add('left');
+            bubble.classList.remove('right');
           }
         });
 
         card.addEventListener('mouseleave', () => {
+          isHoveringFeatureCard = false;
           card.style.transform = 'translate(0, 0) scale(1)';
           if (bubble) {
             bubble.classList.remove('show');
           }
         });
       });
+
+      function animate() {
+        let targetX, targetY;
+        if (isHoveringFeatureCard) {
+          targetX = cornerPos.x;
+          targetY = cornerPos.y;
+        } else if (!isHoveringChatOrMap) {
+          targetX = mouseX + 45;
+          targetY = mouseY + 45;
+        } else {
+          targetX = currentX;
+          targetY = currentY;
+        }
+
+        currentX += (targetX - currentX) * 0.12; 
+        currentY += (targetY - currentY) * 0.12;
+        
+        if (socrates && !isHoveringChatOrMap) {
+          socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
     })();
 
     /* ESC 키로 모달 닫기 */
