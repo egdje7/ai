@@ -74,7 +74,48 @@
     padding-bottom: 12px; border-bottom: 2px solid #f1f5f9; margin-bottom: 12px;
   }
   .panel-header h3 { font-size: 1.1rem; color: var(--navy); display: flex; align-items: center; gap: 8px; font-weight: 800; }
+  /* 채팅 영역 래퍼 (생각중 표시를 입력란 위에 띄우기 위해 position 기준점 역할) */
+  #chatWrap { flex: 1; position: relative; display: flex; min-height: 0; }
   #webchat { flex: 1; border-radius: 12px; overflow: hidden; }
+
+  /* AI가 응답을 만드는 중임을 알려주는 인디케이터 */
+  #thinkingBar {
+    position: absolute;
+    left: 12px;
+    bottom: 56px;               /* JS가 실제 입력창 높이에 맞춰 다시 계산 */
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.10);
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.10);
+    z-index: 20;
+    pointer-events: none;
+  }
+  #thinkingBar.show { display: inline-flex; animation: thinkPop .22s ease-out; }
+  @keyframes thinkPop {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  #thinkingBar .think-dots { display: inline-flex; gap: 4px; }
+  #thinkingBar .think-dots i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #2563eb; display: block;
+    animation: thinkBounce 1.1s infinite ease-in-out;
+  }
+  #thinkingBar .think-dots i:nth-child(2) { animation-delay: .18s; }
+  #thinkingBar .think-dots i:nth-child(3) { animation-delay: .36s; }
+  @keyframes thinkBounce {
+    0%, 70%, 100% { transform: translateY(0); opacity: .45; }
+    35%           { transform: translateY(-5px); opacity: 1; }
+  }
 
   /* 대화창 하단 퍼센트 진행률 바 스타일 */
   .progress-container {
@@ -595,7 +636,13 @@
             소크라테스 진로 심리 검사
           </h3>
         </div>
-        <div id="webchat"></div>
+        <div id="chatWrap">
+          <div id="webchat"></div>
+          <div id="thinkingBar" role="status" aria-live="polite">
+            <span class="think-dots"><i></i><i></i><i></i></span>
+            <span id="thinkingText">소크라테스가 생각중....</span>
+          </div>
+        </div>
         
         <div class="progress-container">
           <div class="progress-info">
@@ -1995,6 +2042,64 @@ function dateTag() {
    ======================================================================= */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 
+/* -----------------------------------------------------------------------
+   "생각중...." 인디케이터 : AI가 멈춘 게 아니라 답을 만드는 중임을 알려줌
+   ----------------------------------------------------------------------- */
+const THINK_MESSAGES = [
+  '소크라테스가 생각중....',
+  '질문을 곱씹는 중....',
+  '답변을 정리하는 중....',
+  '조금만 기다려 주세요....'
+];
+let thinkTimer = null;      // 문구 순환용
+let thinkSafety = null;     // 응답이 끊겼을 때 자동 해제용
+
+/* 실제 입력창(send box) 높이를 재서 인디케이터를 그 바로 위에 붙인다 */
+function positionThinkingBar() {
+  const bar = document.getElementById('thinkingBar');
+  const wrap = document.getElementById('chatWrap');
+  if (!bar || !wrap) return;
+  const sendBox = wrap.querySelector('.webchat__send-box, [class*="send-box"], form');
+  if (sendBox) {
+    const h = sendBox.getBoundingClientRect().height;
+    if (h > 0) bar.style.bottom = (h + 8) + 'px';
+  }
+}
+
+function showThinking() {
+  const bar = document.getElementById('thinkingBar');
+  const txt = document.getElementById('thinkingText');
+  if (!bar || bar.classList.contains('show')) return;
+
+  let i = 0;
+  txt.textContent = THINK_MESSAGES[0];
+  positionThinkingBar();
+  bar.classList.add('show');
+
+  // 4초마다 문구를 바꿔서 "살아있다"는 느낌을 준다
+  clearInterval(thinkTimer);
+  thinkTimer = setInterval(() => {
+    i = (i + 1) % THINK_MESSAGES.length;
+    txt.textContent = THINK_MESSAGES[i];
+  }, 4000);
+
+  // 90초가 넘도록 응답이 없으면 영원히 도는 걸 막고 안내
+  clearTimeout(thinkSafety);
+  thinkSafety = setTimeout(() => {
+    txt.textContent = '응답이 늦어지고 있어요. 잠시 후 다시 시도해 주세요.';
+    clearInterval(thinkTimer);
+    setTimeout(hideThinking, 5000);
+  }, 90000);
+}
+
+function hideThinking() {
+  const bar = document.getElementById('thinkingBar');
+  if (!bar) return;
+  bar.classList.remove('show');
+  clearInterval(thinkTimer);
+  clearTimeout(thinkSafety);
+}
+
 async function initWebChat() {
   try {
     const res = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
@@ -2005,11 +2110,22 @@ async function initWebChat() {
       // 내가 보낸 말도 기록
       if (action.type === 'WEB_CHAT/SEND_MESSAGE' && action.payload?.text) {
         CONVERSATION_LOG.push({ who: 'me', text: action.payload.text });
+        showThinking();                       // 내가 말을 보낸 순간부터 "생각중"
       }
+      // 카드 클릭 등 다른 경로로 활동이 전송될 때도 동일하게 처리
+      if (action.type === 'DIRECT_LINE/POST_ACTIVITY') showThinking();
+      // 전송 실패·연결 끊김이면 "생각중"을 계속 띄워두지 않는다
+      if (action.type === 'DIRECT_LINE/POST_ACTIVITY_REJECTED' ||
+          action.type === 'DIRECT_LINE/DISCONNECT' ||
+          action.type === 'DIRECT_LINE/CONNECT_REJECTED') hideThinking();
 
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user') {
+          // 봇이 typing 신호를 주면 계속 "생각중" 유지, 실제 메시지가 오면 해제
+          if (activity.type === 'typing') showThinking();
+          else if (activity.type === 'message') hideThinking();
+
           if (activity.text) CONVERSATION_LOG.push({ who: 'ai', text: activity.text });
 
           // ① 구조화된 최종 결과 블록 우선
@@ -2055,7 +2171,11 @@ async function initWebChat() {
     window.WebChat.renderWebChat({
       directLine, store: webChatStore, locale: 'ko-KR', styleOptions
     }, document.getElementById('webchat'));
-  } catch (e) { console.error(e); }
+
+    // WebChat이 그려진 뒤 입력창 높이에 맞춰 인디케이터 위치 보정
+    setTimeout(positionThinkingBar, 600);
+    window.addEventListener('resize', positionThinkingBar);
+  } catch (e) { console.error(e); hideThinking(); }
 }
 window.addEventListener('DOMContentLoaded', initWebChat);
 
