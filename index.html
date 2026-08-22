@@ -223,11 +223,12 @@
   .btn-download-action.green:hover { background: #15803d; }
 
   /* =======================================================================
-     미니 소크라테스 (대사 시스템) CSS
+     미니 소크라테스 (대사 시스템) CSS 내장
      ======================================================================= */
   #miniSocrates {
     position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
     pointer-events: none; will-change: transform;
+    /* 투명도 전환 효과 애니메이션 */
     transition: opacity 0.2s ease-in-out;
   }
   #miniSocrates svg { width: 100%; height: 100%; overflow: visible; }
@@ -433,7 +434,9 @@
   </div>
 </div>
 
-<!-- 미니 소크라테스 SVG & 말풍선 -->
+<!-- =======================================================================
+     미니 소크라테스 대사 시스템 (본문에 직접 병합)
+     ======================================================================= -->
 <div id="miniSocrates">
   <svg viewBox="0 0 120 120" aria-hidden="true">
     <defs>
@@ -574,7 +577,9 @@ function downloadMindmap() {
   image.src = blobURL;
 }
 
-/* WebChat 초기화 */
+/* =======================================================================
+   WebChat 세련된 UI 적용 및 아바타 변경
+   ======================================================================= */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 
 async function initWebChat() {
@@ -639,7 +644,7 @@ document.querySelectorAll('.feature-card').forEach(card => {
 });
 
 /* =======================================================================
-   미니 소크라테스 로직 (Y축 상단 고정 + X축 마우스 추적)
+   미니 소크라테스 로직 (채팅/지도 영역 진입 시 즉시 멈춤 및 투명화)
    ======================================================================= */
 (() => {
   const socrates = document.getElementById('miniSocrates');
@@ -650,6 +655,7 @@ document.querySelectorAll('.feature-card').forEach(card => {
   let targetX = mouseX + 45, targetY = mouseY + 45;
   let currentX = targetX, currentY = targetY;
   let activeElement = null;
+  let mode = 'follow'; // 'follow' (마우스 추적), 'hide' (정지 및 투명화)
 
   document.addEventListener('mousemove', e => { 
     mouseX = e.clientX; 
@@ -673,14 +679,17 @@ document.querySelectorAll('.feature-card').forEach(card => {
     return '한번 클릭해서 유용한 기능인지 확인해 보세요.';
   };
 
-  // 탐색 대상 요소 (카드, 버튼, 링크, 입력창 및 채팅/지도 패널 전체)
-  const getInteractive = target => target instanceof Element ? target.closest('[data-buddy], button, a, input, select, [role="button"], .chat-panel, .map-floating-card, .academy-modal-box, .map-modal-box') : null;
+  const getInteractive = target => target instanceof Element ? target.closest('[data-buddy], button, a, input, select, [role="button"]') : null;
 
   document.addEventListener('mouseover', e => {
+    if (mode !== 'follow') return;
+    
     const el = getInteractive(e.target);
     if (!el || el === activeElement) return;
     activeElement = el;
-    
+    const rect = el.getBoundingClientRect();
+    if (mouseX < rect.left + rect.width / 2) { targetX = rect.left - 10; targetY = rect.top - 25; bubble.className = 'right'; }
+    else { targetX = rect.right + 10; targetY = rect.top - 25; bubble.className = 'left'; }
     bubbleText.textContent = getComment(el);
     bubble.classList.add('show');
   });
@@ -693,31 +702,45 @@ document.querySelectorAll('.feature-card').forEach(card => {
     bubble.classList.remove('show');
   });
 
+  // 채팅창, 구글 지도, 공시정보 창 등 모든 숨김 영역 처리
+  const hideAreas = document.querySelectorAll('.chat-panel, .map-floating-card, .academy-modal-box, .map-modal-box');
+  
+  hideAreas.forEach(area => {
+    area.addEventListener('mouseenter', () => {
+      mode = 'hide';
+      socrates.style.opacity = '0'; // 즉시 투명해짐
+      bubble.classList.remove('show');
+      
+      // 진입 순간 현재 위치로 목표 좌표를 강제 고정하여 완전히 멈추게 함 (모서리로 끌려감 방지)
+      targetX = currentX;
+      targetY = currentY;
+    });
+    
+    area.addEventListener('mouseleave', (e) => {
+      mode = 'follow';
+      socrates.style.opacity = '1';
+      
+      // 마우스가 다시 나올 때, 엉뚱한 곳에서 날아오지 않도록 현재 마우스 좌표로 위치 동기화
+      currentX = e.clientX + 45;
+      currentY = e.clientY + 45;
+      targetX = currentX;
+      targetY = currentY;
+    });
+  });
+
   // 애니메이션 루프
   function animate() {
-    if (activeElement) {
-      // UI 요소 위일 때: Y축은 UI의 상단 위치로 고정(-25px), X축은 마우스 커서를 따라 슬라이딩
-      const rect = activeElement.getBoundingClientRect();
-      targetY = rect.top - 25;
-      targetX = mouseX;
-
-      // 마우스 위치에 따라 말풍선 꼬리 방향 조정
-      if (mouseX < rect.left + rect.width / 2) {
-        bubble.className = 'right';
-      } else {
-        bubble.className = 'left';
+    if (mode === 'follow') {
+      if (!activeElement) { 
+        targetX = mouseX + 45; 
+        targetY = mouseY + 45; 
       }
-    } else {
-      // 일반 배경 위일 때: 마우스 우하단을 자연스럽게 추적
-      targetX = mouseX + 45; 
-      targetY = mouseY + 45; 
-    }
+    } 
+    // mode === 'hide' 일 때는 targetX, targetY가 마우스를 따라 업데이트되지 않고 멈춰 있음
 
-    // 보간 애니메이션으로 미끄러지는 듯한 부드러운 유영 효과 연출
     currentX += (targetX - currentX) * 0.12; 
     currentY += (targetY - currentY) * 0.12;
     socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
-    
     requestAnimationFrame(animate);
   }
   
