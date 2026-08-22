@@ -55,42 +55,46 @@
     justify-content: center;
   }
 
+  /* 더 세련된 채팅 패널 UI */
   .chat-panel {
     background: #fff;
     border-radius: 20px;
     border: 1px solid var(--line);
-    box-shadow: 0 10px 25px rgba(26, 46, 99, 0.08);
-    padding: 16px;
+    box-shadow: 0 10px 30px rgba(26, 46, 99, 0.12);
+    padding: 20px;
     height: 520px;
     display: flex;
     flex-direction: column;
   }
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 10px;
+    padding-bottom: 12px; border-bottom: 2px solid #f1f5f9; margin-bottom: 12px;
   }
-  .panel-header h3 { font-size: 1.05rem; color: var(--navy); display: flex; align-items: center; gap: 6px; }
-  #webchat { flex: 1; border: 1px solid #f1f5f9; border-radius: 12px; overflow: hidden; }
+  .panel-header h3 { font-size: 1.1rem; color: var(--navy); display: flex; align-items: center; gap: 8px; font-weight: 800; }
+  #webchat { flex: 1; border-radius: 12px; overflow: hidden; }
 
   /* 대화창 하단 퍼센트 진행률 바 스타일 */
   .progress-container {
-    margin-top: 12px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 12px;
   }
   .progress-info {
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.85rem;
+    font-weight: 800;
     color: var(--navy);
   }
   .progress-bar-bg {
     width: 100%;
-    height: 10px;
+    height: 8px;
     background-color: #e2e8f0;
-    border-radius: 5px;
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
   }
@@ -98,7 +102,7 @@
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #2563eb, #16a34a);
-    border-radius: 5px;
+    border-radius: 4px;
     transition: width 0.4s ease-in-out;
   }
 
@@ -122,7 +126,6 @@
   .map-card-header h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
   .map-card-header p { font-size: 0.85rem; color: #93c5fd; }
   
-  /* 지도 창키우기 버튼 */
   .btn-expand-map {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
@@ -135,10 +138,7 @@
     transition: all 0.2s ease;
     white-space: nowrap;
   }
-  .btn-expand-map:hover {
-    background: var(--blue);
-    border-color: var(--blue);
-  }
+  .btn-expand-map:hover { background: var(--blue); border-color: var(--blue); }
 
   .map-search-mini { margin: 12px 0; display: flex; gap: 6px; }
   .map-search-mini input {
@@ -149,75 +149,42 @@
   }
 
   .map-card-canvas {
-    flex: 1;
-    background: #e2e8f0;
-    border-radius: 14px;
-    overflow: hidden;
-    position: relative;
+    flex: 1; background: #e2e8f0; border-radius: 14px; overflow: hidden; position: relative;
   }
-  #googleMapIframe, #googleMapIframeLarge {
-    width: 100%; height: 100%; border: 0;
-  }
+  #googleMapIframe, #googleMapIframeLarge { width: 100%; height: 100%; border: 0; }
 
   /* 하단 주요 카드 패널 */
   .feature-section-wrapper {
-    background: var(--bg-blue);
-    padding: 60px 10%;
-    flex: 1;
-    perspective: 1200px;
+    background: var(--bg-blue); padding: 60px 10%; flex: 1; perspective: 1200px;
   }
   .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1400px; margin: 0 auto;
   }
   .feature-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 32px 20px;
-    text-align: center;
-    border: 3px solid transparent;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform-style: preserve-3d;
-    will-change: transform, box-shadow, border-color;
+    background: #fff; border-radius: 20px; padding: 32px 20px; text-align: center;
+    border: 3px solid transparent; box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    cursor: pointer; display: flex; flex-direction: column; align-items: center;
+    transform-style: preserve-3d; will-change: transform, box-shadow, border-color;
     transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                box-shadow 0.25s ease, 
-                border-color 0.25s ease;
-    position: relative;
-    z-index: 1;
+                box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative; z-index: 1;
   }
-
   .feature-card:hover {
-    z-index: 10;
-    border-color: #f59e0b;
-    box-shadow: 0 0 15px var(--gold-glow),
-                0 0 30px rgba(245, 158, 11, 0.5),
-                0 15px 35px rgba(0, 0, 0, 0.3);
+    z-index: 10; border-color: #f59e0b;
+    box-shadow: 0 0 15px var(--gold-glow), 0 0 30px rgba(245, 158, 11, 0.5), 0 15px 35px rgba(0, 0, 0, 0.3);
   }
-
   .feature-card .icon-box {
-    width: 68px; height: 68px;
-    background: #eff6ff; border-radius: 50%;
+    width: 68px; height: 68px; background: #eff6ff; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 2rem; margin-bottom: 16px;
-    pointer-events: none;
-    transform: translateZ(30px);
+    font-size: 2rem; margin-bottom: 16px; pointer-events: none; transform: translateZ(30px);
   }
   .feature-card h4 {
     font-size: 1.15rem; color: var(--navy); margin-bottom: 8px; font-weight: 800;
-    pointer-events: none;
-    transform: translateZ(20px);
+    pointer-events: none; transform: translateZ(20px);
   }
   .feature-card p {
     font-size: 0.85rem; color: var(--muted); line-height: 1.4; word-break: keep-all;
-    pointer-events: none;
-    transform: translateZ(10px);
+    pointer-events: none; transform: translateZ(10px);
   }
 
   /* 모달 레이어 공통 스타일 */
@@ -226,40 +193,26 @@
     backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
   }
   .result-overlay.active, .feature-overlay.active, .map-overlay.active, .academy-overlay.active { display: flex; }
-
   .modal-box {
     background: #fff; width: 90%; max-width: 1000px; max-height: 88vh; border-radius: 24px;
     padding: 32px; display: flex; flex-direction: column; position: relative;
     box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
   }
   .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
-  .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); }
-  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
-
-  /* 지도 및 소크라테스 알리미 확대 모달 전용 스타일 */
+  .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); font-weight: 800; }
+  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
+  .close-btn:hover { background: #e2e8f0; }
   .map-modal-box, .academy-modal-box {
-    background: #fff;
-    width: 95%;
-    max-width: 1200px;
-    height: 85vh;
-    border-radius: 24px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    background: #fff; width: 95%; max-width: 1200px; height: 85vh; border-radius: 24px;
+    padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
 
   /* 마인드맵 및 다운로드 스타일 */
   .mindmap-container {
-    background: #f8fafc;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 16px;
-    margin: 16px 0;
-    text-align: center;
+    background: #f8fafc; border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px; margin: 16px 0; text-align: center;
   }
   .mindmap-svg { width: 100%; max-height: 260px; }
-
   .btn-download-action {
     background: var(--blue); color: #fff; border: none; padding: 10px 18px;
     border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
@@ -269,6 +222,36 @@
   .btn-download-action.green { background: #16a34a; }
   .btn-download-action.green:hover { background: #15803d; }
 
+  /* =======================================================================
+     미니 소크라테스 (대사 시스템) CSS 내장
+     ======================================================================= */
+  #miniSocrates {
+    position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
+    pointer-events: none; will-change: transform;
+    /* 추가: 투명도 전환 효과 애니메이션 */
+    transition: opacity 0.25s ease-in-out;
+  }
+  #miniSocrates svg { width: 100%; height: 100%; overflow: visible; }
+  .mini-socrates-body { transform-box: fill-box; transform-origin: 50% 90%; animation: miniSocratesFloat 2.6s ease-in-out infinite; }
+  @keyframes miniSocratesFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+  #miniSocratesBubble {
+    position: absolute; bottom: 72%; left: 110%; width: max-content; max-width: 220px;
+    background: #fff; border: 2px solid #1a2e63; border-radius: 12px; padding: 10px 14px;
+    color: #1e293b; font-size: .8rem; font-weight: 700; line-height: 1.4;
+    box-shadow: 0 8px 20px rgba(30,58,138,.16); opacity: 0;
+    transform: translateY(6px) scale(.94);
+    transition: opacity .18s ease, transform .18s cubic-bezier(.2,1.4,.4,1);
+    pointer-events: none;
+  }
+  #miniSocratesBubble.show { opacity: 1; transform: translateY(0) scale(1); }
+  #miniSocratesBubble.left { left: auto; right: 110%; transform-origin: bottom right; }
+  #miniSocratesBubble.right { left: 110%; right: auto; transform-origin: bottom left; }
+  .mini-socrates-tail {
+    position: absolute; bottom: -7px; width: 12px; height: 12px; background: #fff;
+    border-right: 2px solid #1a2e63; border-bottom: 2px solid #1a2e63; transform: rotate(45deg);
+  }
+  #miniSocratesBubble.left .mini-socrates-tail { right: 14px; }
+  #miniSocratesBubble.right .mini-socrates-tail { left: 14px; }
 </style>
 </head>
 <body>
@@ -289,14 +272,29 @@
     <div class="chat-hero-container">
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
-          <h3>🤖 소크라테스 대화방</h3>
+          <!-- 채팅 타이틀 미니 소크라테스 아이콘으로 변경 -->
+          <h3>
+            <svg viewBox="0 0 120 120" width="28" height="28">
+              <rect x="24" y="34" width="72" height="70" rx="28" fill="#1e3a8a"/>
+              <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827"/>
+              <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b"/>
+              <circle cx="60" cy="26" r="3" fill="#fbbf24"/>
+              <path d="M99 27 v14" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="99" cy="43" r="3.5" fill="#fbbf24"/>
+              <ellipse cx="47" cy="65" rx="10" ry="11" fill="#fff"/>
+              <ellipse cx="73" cy="65" rx="10" ry="11" fill="#fff"/>
+              <circle cx="47" cy="66" r="4.6" fill="#0f172a"/>
+              <circle cx="73" cy="66" r="4.6" fill="#0f172a"/>
+              <path d="M53 84 q7 6 14 0" fill="none" stroke="#dbeafe" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            소크라테스 진로 심리 검사
+          </h3>
         </div>
         <div id="webchat"></div>
         
-        <!-- 대화창 하단 퍼센트 진행률 바 -->
         <div class="progress-container">
           <div class="progress-info">
-            <span>대화 진행률</span>
+            <span>진단 프로세스 진행률</span>
             <span id="progressPercent">0%</span>
           </div>
           <div class="progress-bar-bg">
@@ -339,19 +337,16 @@
         <h4>서비스 안내</h4>
         <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
       </div>
-
       <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
         <div class="icon-box">🏛️</div>
         <h4>대학교별 공시정보</h4>
         <p>소크라테스 알리미에서 전국 대학교 공시정보를 정확하게 검색</p>
       </div>
-
       <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
         <div class="icon-box">📍</div>
         <h4>지역별 공시정보</h4>
-        <p>소크라테스 알리미에서 관심지역의 대학 공시정보를 한눈에 확인</p>
+        <p>관심지역의 대학 공시정보를 한눈에 확인</p>
       </div>
-
       <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
         <div class="icon-box">📑</div>
         <h4>세특 로드맵 생성</h4>
@@ -361,9 +356,9 @@
   </section>
 </main>
 
-<!-- 소크라테스 알리미 창 모달 레이어 -->
+<!-- 모달 레이어들 -->
 <div class="academy-overlay" id="academyOverlay">
-  <div class="academy-modal-box">
+  <div class="academy-modal-box" data-buddy="대학교 공시정보">
     <div class="modal-top-header">
       <h2 id="academyModalTitle">🏛️ 소크라테스 알리미 공시정보 탐색</h2>
       <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
@@ -374,9 +369,8 @@
   </div>
 </div>
 
-<!-- 지도 확대용 모달 레이어 -->
 <div class="map-overlay" id="mapOverlay">
-  <div class="map-modal-box">
+  <div class="map-modal-box" data-buddy="지도 크게보기">
     <div class="modal-top-header">
       <h2>🗺️ 구글 지도 크게 보기</h2>
       <button class="close-btn" onclick="closeMapModal()">&times;</button>
@@ -392,7 +386,6 @@
   </div>
 </div>
 
-<!-- 카드 안내 모달 레이어 -->
 <div class="feature-overlay" id="featureOverlay">
   <div class="modal-box">
     <div class="modal-top-header">
@@ -403,7 +396,6 @@
   </div>
 </div>
 
-<!-- 종합 결과 보고서 및 진로 마인드맵 모달 레이어 -->
 <div class="result-overlay" id="resultOverlay">
   <div class="modal-box">
     <div class="modal-top-header">
@@ -425,62 +417,79 @@
 
           <rect x="260" y="125" width="180" height="50" rx="25" fill="#1e3a8a"/>
           <text x="350" y="155" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">AI / SW 엔지니어</text>
-
           <rect x="70" y="45" width="160" height="45" rx="12" fill="#2563eb"/>
           <text x="150" y="72" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">컴퓨팅 사고력</text>
-
           <rect x="470" y="45" width="160" height="45" rx="12" fill="#2563eb"/>
           <text x="550" y="72" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">인공지능 모델링</text>
-
           <rect x="70" y="205" width="160" height="45" rx="12" fill="#0d9488"/>
           <text x="150" y="232" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">수학 & 데이터 분석</text>
-
           <rect x="470" y="205" width="160" height="45" rx="12" fill="#0d9488"/>
           <text x="550" y="232" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">융합 탐구 세특</text>
         </svg>
       </div>
     </div>
-
     <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
-      <button class="btn-download-action" onclick="downloadReport()">
-        📄 종합 보고서 다운로드 (.txt)
-      </button>
-      <button class="btn-download-action green" onclick="downloadMindmap()">
-        🖼️ 진로 마인드맵 다운로드 (.png)
-      </button>
+      <button class="btn-download-action" onclick="downloadReport()">📄 종합 보고서 다운로드 (.txt)</button>
+      <button class="btn-download-action green" onclick="downloadMindmap()">🖼️ 진로 마인드맵 다운로드 (.png)</button>
     </div>
   </div>
 </div>
 
+<!-- =======================================================================
+     미니 소크라테스 대사 시스템 및 마우스 추적 (본문에 직접 병합)
+     ======================================================================= -->
+<div id="miniSocrates">
+  <svg viewBox="0 0 120 120" aria-hidden="true">
+    <defs>
+      <linearGradient id="miniSocratesBodyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3b82f6"/>
+        <stop offset="100%" stop-color="#1e3a8a"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="110" rx="24" ry="5" fill="#1e293b" opacity=".13"/>
+    <g class="mini-socrates-body">
+      <rect x="24" y="34" width="72" height="70" rx="28" fill="url(#miniSocratesBodyGrad)"/>
+      <rect x="24" y="34" width="72" height="70" rx="28" fill="none" stroke="#0f2461" stroke-opacity=".25" stroke-width="1.5"/>
+      <g>
+        <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827"/>
+        <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b"/>
+        <circle cx="60" cy="26" r="3" fill="#fbbf24"/>
+        <path d="M99 27 v14" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="99" cy="43" r="3.5" fill="#fbbf24"/>
+      </g>
+      <g>
+        <ellipse cx="47" cy="65" rx="10" ry="11" fill="#fff"/>
+        <ellipse cx="73" cy="65" rx="10" ry="11" fill="#fff"/>
+        <circle cx="47" cy="66" r="4.6" fill="#0f172a"/>
+        <circle cx="73" cy="66" r="4.6" fill="#0f172a"/>
+      </g>
+      <path d="M53 84 q7 6 14 0" fill="none" stroke="#dbeafe" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </svg>
+  <div id="miniSocratesBubble"><span class="mini-socrates-tail"></span><span id="miniSocratesBubbleText"></span></div>
+</div>
+
 <script>
+/* =======================================================================
+   공통 로직 및 모달 제어
+   ======================================================================= */
 let hasReached100 = false;
 
-
-/* 소크라테스 알리미 모달 레이어 제어 */
 function openAcademyInfo(type) {
   const titleEl = document.getElementById('academyModalTitle');
-  if (type === 'school') {
-    titleEl.textContent = '🏛️ 대학교별 공시정보 (소크라테스 알리미)';
-  } else if (type === 'region') {
-    titleEl.textContent = '📍 지역별 공시정보 (소크라테스 알리미)';
-  }
+  if (type === 'school') titleEl.textContent = '🏛️ 대학교별 공시정보 (소크라테스 알리미)';
+  else if (type === 'region') titleEl.textContent = '📍 지역별 공시정보 (소크라테스 알리미)';
   document.getElementById('academyOverlay').classList.add('active');
 }
+function closeAcademyModal() { document.getElementById('academyOverlay').classList.remove('active'); }
 
-function closeAcademyModal() {
-  document.getElementById('academyOverlay').classList.remove('active');
-}
-
-/* 진행률 업데이트 함수 */
 function updateProgress(percent) {
   const currentPercent = Math.min(100, Math.max(0, percent));
   document.getElementById('progressPercent').textContent = `${currentPercent}%`;
   document.getElementById('progressBarFill').style.width = `${currentPercent}%`;
 
   if (currentPercent >= 100) {
-    const navResult = document.getElementById('navResult');
-    navResult.classList.remove('disabled');
-    
+    document.getElementById('navResult').classList.remove('disabled');
     if (!hasReached100) {
       hasReached100 = true;
       setTimeout(() => {
@@ -491,288 +500,229 @@ function updateProgress(percent) {
   }
 }
 
-/* 구글 지도 연동 */
 function searchGoogleLocation() {
   const query = document.getElementById('mapSearchInput').value.trim();
   if (!query) return;
-  const encodedQuery = encodeURIComponent(query);
-  document.getElementById('googleMapIframe').src = `https://maps.google.com/maps?q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  document.getElementById('googleMapIframe').src = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 }
-
 function setGoogleLocationCenter() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      document.getElementById('googleMapIframe').src = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    navigator.geolocation.getCurrentPosition(pos => {
+      document.getElementById('googleMapIframe').src = `https://maps.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
     }, () => alert('위치 정보를 불러올 수 없습니다.'));
-  } else {
-    alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
-  }
+  } else alert('위치 서비스를 지원하지 않습니다.');
 }
-
-/* 지도 모달 제어 */
 function openMapModal() {
-  const currentSrc = document.getElementById('googleMapIframe').src;
-  document.getElementById('googleMapIframeLarge').src = currentSrc;
+  document.getElementById('googleMapIframeLarge').src = document.getElementById('googleMapIframe').src;
   document.getElementById('mapOverlay').classList.add('active');
 }
 function closeMapModal() { document.getElementById('mapOverlay').classList.remove('active'); }
-
 function searchGoogleLocationModal() {
   const query = document.getElementById('mapModalSearchInput').value.trim();
   if (!query) return;
-  const encodedQuery = encodeURIComponent(query);
-  const newSrc = `https://maps.google.com/maps?q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  const newSrc = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
   document.getElementById('googleMapIframeLarge').src = newSrc;
   document.getElementById('googleMapIframe').src = newSrc;
 }
-
 function setGoogleLocationCenterModal() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      const newSrc = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    navigator.geolocation.getCurrentPosition(pos => {
+      const newSrc = `https://maps.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
       document.getElementById('googleMapIframeLarge').src = newSrc;
       document.getElementById('googleMapIframe').src = newSrc;
     }, () => alert('위치 정보를 불러올 수 없습니다.'));
-  } else {
-    alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
-  }
+  } else alert('위치 서비스를 지원하지 않습니다.');
 }
 
-/* 모달 데이터 처리 */
 const modalData = {
-  guide: {
-    title: "📊 서비스 안내",
-    html: `
-      <h3>소크라테스 AI 진로탐색 서비스란?</h3>
-      <p>산파술 대화 기법을 기반으로 AI가 학생과의 자연스러운 대화를 통해 숨겨진 흥미와 적성을 발굴해 주는 서비스입니다.</p>
-      <h3>이용 단계 안내</h3>
-      <ul>
-        <li><b>1단계 (대화 진행):</b> AI 소크라테스의 질문에 솔직하게 답변하며 대화를 이어갑니다.</li>
-        <li><b>2단계 (진행률 확인):</b> 대화창 하단의 진행률 바가 100%가 되면 분석이 완료됩니다.</li>
-        <li><b>3단계 (결과 보고서):</b> 상단 메뉴의 '종합 결과 보고서'를 클릭하여 맞춤형 진로 세특 로드맵 및 마인드맵을 확인하고 다운로드합니다.</li>
-      </ul>
-    `
-  },
-  roadmap: {
-    title: "📑 세특 로드맵 생성",
-    html: `
-      <h3>대화 기반 맞춤형 세특(학교생활기록부) 로드맵</h3>
-      <p>진로 탐구가 완료된 후 '세특 로드맵 생성해줘'와 같이 요청하면, 소크라테스 AI와의 대화를 종합 분석하여 학생 개인만의 고유한 진로 세특 가이드를 자동으로 제시해 드립니다.</p>
-      <h3>로드맵 활용 팁</h3>
-      <ul>
-        <li>학생의 관심 분야와 연계된 대학 전공 탐색 및 교과목 추천</li>
-        <li>학부 연계 및 연구 프로젝트와 결합할 수 있는 탐구 주제 제시</li>
-        <li>생성된 리포트를 활용해 진학 관리 전략 수립</li>
-      </ul>
-    `
-  }
+  guide: { title: "📊 서비스 안내", html: `<h3>소크라테스 AI 진로탐색 서비스란?</h3><p>산파술 대화 기법을 기반으로 AI가 학생과의 자연스러운 대화를 통해 숨겨진 흥미와 적성을 발굴해 주는 서비스입니다.</p><ul><li><b>1단계:</b> AI 소크라테스의 질문에 솔직하게 답변하기</li><li><b>2단계:</b> 진행률 100% 달성하기</li><li><b>3단계:</b> 종합 결과 보고서 확인 및 다운로드</li></ul>` },
+  roadmap: { title: "📑 세특 로드맵 생성", html: `<h3>대화 기반 맞춤형 세특 로드맵</h3><p>진로 탐구 완료 후 소크라테스 AI와의 대화를 종합 분석하여 개인 고유의 진로 세특 가이드를 제시합니다.</p><ul><li>관심 분야 연계 전공 및 교과목 추천</li><li>연구 프로젝트 탐구 주제 제시</li><li>세특 리포트 발급을 통한 진학 관리</li></ul>` }
 };
-
 function openFeatureModal(type) {
-  const data = modalData[type];
-  if (data) {
-    document.getElementById('featureModalTitle').textContent = data.title;
-    document.getElementById('featureModalBody').innerHTML = data.html;
+  if (modalData[type]) {
+    document.getElementById('featureModalTitle').textContent = modalData[type].title;
+    document.getElementById('featureModalBody').innerHTML = modalData[type].html;
     document.getElementById('featureOverlay').classList.add('active');
   }
 }
 function closeFeatureModal() { document.getElementById('featureOverlay').classList.remove('active'); }
 
-/* 결과 모달 */
 function openResultModal() {
-  const navResult = document.getElementById('navResult');
-  if (navResult.classList.contains('disabled')) {
-    alert('대화 진행률 100%를 달성하면 종합 결과 보고서와 마인드맵을 보실 수 있습니다.');
-    return;
+  if (document.getElementById('navResult').classList.contains('disabled')) {
+    alert('대화 진행률 100%를 달성해야 열람할 수 있습니다.'); return;
   }
   document.getElementById('resultOverlay').classList.add('active');
 }
 function closeResultModal() { document.getElementById('resultOverlay').classList.remove('active'); }
 
-/* 보고서 및 마인드맵 다운로드 */
 function downloadReport() {
-  const reportText = `[소크라테스 AI 진로 탐색 종합 결과 리포트]
---------------------------------------------------
-탐색 대상: 학생 맞춤형 AI 대화 분석 완료
-분석 일시: ${new Date().toLocaleDateString('ko-KR')}
-
-1. 주요 추천 직군
-   - 소프트웨어 및 인공지능 연구원
-   - 시스템 데이터 엔지니어
-
-2. 추천 진로 로드맵
-   - 연계 전공 및 AI/정보 분야 심화 학부 과정 집중 이수
-   - 대학 연구실 연계 프로젝트 참여
-
-3. 세부 역량 키워드
-   - 컴퓨팅 사고력
-   - 인공지능 모델링
-   - 수학 & 데이터 분석
-   - 융합 탐구 세특
---------------------------------------------------
-발급기관: 소크라테스 AI 진로탐색 센터`;
-
+  const reportText = `[소크라테스 AI 진로 탐색 종합 결과 리포트]\n--------------------------------------------------\n탐색 대상: 학생 맞춤형 AI 대화 분석 완료\n분석 일시: ${new Date().toLocaleDateString('ko-KR')}\n\n1. 주요 추천 직군\n   - 소프트웨어 및 인공지능 연구원\n   - 시스템 데이터 엔지니어\n\n2. 추천 진로 로드맵\n   - 연계 전공 및 AI 심화 학부 과정 이수\n   - 대학 연구실 연계 프로젝트 참여\n\n3. 세부 역량 키워드\n   - 컴퓨팅 사고력, 인공지능 모델링, 수학 & 데이터 분석\n--------------------------------------------------\n발급기관: 소크라테스 AI 진로탐색 센터`;
   const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = '소크라테스_진로_종합결과보고서.txt';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  a.href = url; a.download = '진로_결과보고서.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
 function downloadMindmap() {
   const svg = document.getElementById('mindmapSvg');
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(svg);
-  const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-  const URLObj = window.URL || window.webkitURL || window;
-  const blobURL = URLObj.createObjectURL(svgBlob);
-
+  const svgString = new XMLSerializer().serializeToString(svg);
+  const blobURL = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
   const image = new Image();
-  image.onload = function() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1400;
-    canvas.height = 600;
-    const context = canvas.getContext('2d');
-    context.fillStyle = '#f8fafc';
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-    const png = canvas.toDataURL('image/png');
-    const a = document.createElement('a');
-    a.download = '진로_마인드맵.png';
-    a.href = png;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  image.onload = () => {
+    const canvas = document.createElement('canvas'); canvas.width = 1400; canvas.height = 600;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const a = document.createElement('a'); a.download = '진로_마인드맵.png'; a.href = canvas.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
   };
   image.src = blobURL;
 }
 
-
-/* WebChat 연동 */
+/* =======================================================================
+   WebChat 세련된 UI 적용 및 아바타 변경
+   ======================================================================= */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
-let webChatStore = null;
-
-async function getDirectLineToken() {
-  const response = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
-  if (!response.ok) throw new Error('토큰 발급 실패');
-  return await response.json();
-}
 
 async function initWebChat() {
   try {
-    const { token } = await getDirectLineToken();
+    const res = await fetch(DIRECT_LINE_TOKEN_URL, { method: 'POST', cache: 'no-store' });
+    const { token } = await res.json();
     const directLine = window.WebChat.createDirectLine({ token });
 
-    webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+    const webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
         if (activity && activity.from && activity.from.id !== 'user') {
-          if (activity.channelData && typeof activity.channelData.progressPercent === 'number') {
-            updateProgress(activity.channelData.progressPercent);
-          }
-          else if (activity.value && typeof activity.value.progressPercent === 'number') {
-            updateProgress(activity.value.progressPercent);
-          }
+          if (activity.channelData?.progressPercent !== undefined) updateProgress(activity.channelData.progressPercent);
+          else if (activity.value?.progressPercent !== undefined) updateProgress(activity.value.progressPercent);
           else if (activity.text) {
-            const percentMatch = activity.text.match(/(\d+)%/);
-            if (percentMatch) {
-              const parsedPercent = parseInt(percentMatch[1], 10);
-              updateProgress(parsedPercent);
-            }
-
-            if (activity.text.includes('100%') || activity.text.includes('검사 완료') || activity.text.includes('분석이 완료')) {
-              updateProgress(100);
-            }
+            const match = activity.text.match(/(\d+)%/);
+            if (match) updateProgress(parseInt(match[1], 10));
+            if (/100%|검사 완료|분석이 완료/.test(activity.text)) updateProgress(100);
           }
         }
       }
       return next(action);
     });
 
+    // 소크라테스 SVG 아바타 인코딩
+    const socratesAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='24' y='34' width='72' height='70' rx='28' fill='%231e3a8a'/%3E%3Cpath d='M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z' fill='%23111827'/%3E%3Cpolygon points='60,12 102,26 60,40 18,26' fill='%231e293b'/%3E%3Ccircle cx='60' cy='26' r='3' fill='%23fbbf24'/%3E%3Cpath d='M99 27 v14' stroke='%23fbbf24' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='99' cy='43' r='3.5' fill='%23fbbf24'/%3E%3Cellipse cx='47' cy='65' rx='10' ry='11' fill='%23fff'/%3E%3Cellipse cx='73' cy='65' rx='10' ry='11' fill='%23fff'/%3E%3Ccircle cx='47' cy='66' r='4.6' fill='%230f172a'/%3E%3Ccircle cx='73' cy='66' r='4.6' fill='%230f172a'/%3E%3Cpath d='M53 84 q7 6 14 0' fill='none' stroke='%23dbeafe' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E";
+
+    // UI 스타일 세련되게 재정의
+    const styleOptions = {
+      accent: '#2563eb',
+      botAvatarImage: socratesAvatar,
+      botAvatarInitials: 'AI',
+      userAvatarInitials: 'Me',
+      bubbleBackground: '#f8fafc',
+      bubbleBorderColor: '#e2e8f0',
+      bubbleBorderRadius: 16,
+      bubbleBorderWidth: 1,
+      bubbleTextColor: '#1e293b',
+      bubbleFromUserBackground: '#2563eb',
+      bubbleFromUserBorderRadius: 16,
+      bubbleFromUserTextColor: 'white',
+      hideUploadButton: true,
+      sendBoxBackground: '#ffffff',
+      sendBoxBorderTop: 'solid 1px #e2e8f0',
+      sendBoxButtonColor: '#2563eb'
+    };
+
     window.WebChat.renderWebChat({
-      directLine, store: webChatStore, locale: 'ko-KR',
-      styleOptions: { accent: '#1e3a8a', hideUploadButton: true }
+      directLine, store: webChatStore, locale: 'ko-KR', styleOptions
     }, document.getElementById('webchat'));
   } catch (e) { console.error(e); }
 }
-
 window.addEventListener('DOMContentLoaded', initWebChat);
-
 
 /* 카드 입체 효과 */
 document.querySelectorAll('.feature-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
+  card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = x / rect.width - 0.5;
-    const centerY = y / rect.height - 0.5;
-    
-    const rotateX = -centerY * 15; 
-    const rotateY = centerX * 15;   
-    
-    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.2, 1.2, 1.2)`;
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    const rotateX = -(y / rect.height - 0.5) * 15, rotateY = (x / rect.width - 0.5) * 15;
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`;
   });
-
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-  });
+  card.addEventListener('mouseleave', () => card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
 });
- /* =========================================================
-    MINI SOCRATES 외부 모듈 로더
-    GitHub Pages 같은 저장소의 mini_socrates.html을
-    메인 페이지에 동적으로 삽입한다.
-    ========================================================= */
- async function loadMiniSocrates() {
-   try {
-     const response = await fetch('./mini_socrates.html', { cache: 'no-cache' });
 
-     if (!response.ok) {
-       throw new Error(`mini_socrates.html 로드 실패: ${response.status}`);
-     }
+/* =======================================================================
+   미니 소크라테스 로직 (투명도 처리 및 모서리 끼임 방지)
+   ======================================================================= */
+(() => {
+  const socrates = document.getElementById('miniSocrates');
+  const bubble = document.getElementById('miniSocratesBubble');
+  const bubbleText = document.getElementById('miniSocratesBubbleText');
+  
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let targetX = mouseX + 45, targetY = mouseY + 45;
+  let currentX = targetX, currentY = targetY;
+  let activeElement = null;
 
-     const html = await response.text();
-     const template = document.createElement('template');
-     template.innerHTML = html;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
-     Array.from(template.content.childNodes).forEach(node => {
-       if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SCRIPT') {
-         const script = document.createElement('script');
+  const comments = {
+    '채팅창': ['심층 대화를 통해 진로와 적성을 분석해 드릴게요.', '무엇이든 편하게 이야기해 보세요.'],
+    '지역별 진로정보': ['원하는 지역을 기준으로 대학과 진로 정보를 탐색해 보세요.'],
+    '서비스 안내': ['이용 방법과 전체적인 서비스 흐름을 확인할 수 있어요.'],
+    '대학교별 공시정보': ['전국 대학교의 정확한 공시정보를 비교하고 찾아보세요.'],
+    '세특 로드맵 생성': ['탐색이 끝나면 나만의 맞춤형 생기부 세특 로드맵을 만들어 드려요.']
+  };
 
-         if (node.src) {
-           script.src = node.src;
-         } else {
-           script.textContent = node.textContent;
-         }
+  const getComment = (el) => {
+    const name = el.dataset.buddy;
+    if (name && comments[name]) return comments[name][Math.floor(Math.random() * comments[name].length)];
+    const text = (el.innerText || el.value || el.getAttribute('aria-label') || '').trim();
+    if (text.includes('검색')) return '직접 검색해서 정보를 바로 찾아보세요.';
+    if (text.includes('크게 보기')) return '지도를 더 넓은 화면에서 자세히 살펴볼 수 있어요.';
+    if (text.includes('위치')) return '현재 계신 곳 주변의 유용한 진로 정보를 탐색해 드릴게요.';
+    return '한번 클릭해서 유용한 기능인지 확인해 보세요.';
+  };
 
-         Array.from(node.attributes).forEach(attr => {
-           if (attr.name !== 'src') {
-             script.setAttribute(attr.name, attr.value);
-           }
-         });
+  const getInteractive = target => target instanceof Element ? target.closest('[data-buddy], button, a, input, select, [role="button"]') : null;
 
-         document.body.appendChild(script);
-       } else {
-         document.body.appendChild(node);
-       }
-     });
-   } catch (error) {
-     console.error('[Mini Socrates]', error);
-   }
- }
+  document.addEventListener('mouseover', e => {
+    const el = getInteractive(e.target);
+    if (!el || el === activeElement) return;
+    activeElement = el;
+    const rect = el.getBoundingClientRect();
+    if (mouseX < rect.left + rect.width / 2) { targetX = rect.left - 10; targetY = rect.top - 25; bubble.className = 'right'; }
+    else { targetX = rect.right + 10; targetY = rect.top - 25; bubble.className = 'left'; }
+    bubbleText.textContent = getComment(el);
+    bubble.classList.add('show');
+  });
 
- window.addEventListener('DOMContentLoaded', loadMiniSocrates);
+  document.addEventListener('mouseout', e => {
+    const el = getInteractive(e.target);
+    if (!el || el !== activeElement) return;
+    if (e.relatedTarget instanceof Node && el.contains(e.relatedTarget)) return;
+    activeElement = null;
+    bubble.classList.remove('show');
+  });
 
+  // [핵심 변경] 지도/채팅 iframe 영역 위로 마우스가 올라갈 경우 모서리 끼임 방지 및 투명도 조절 적용
+  const hideAreas = document.querySelectorAll('.chat-panel, .map-floating-card, .academy-modal-box, .map-modal-box');
+  hideAreas.forEach(area => {
+    area.addEventListener('mouseenter', () => {
+      socrates.style.opacity = '0'; // iframe 위에선 투명하게
+      bubble.classList.remove('show');
+    });
+    area.addEventListener('mouseleave', (e) => {
+      socrates.style.opacity = '1'; // 다시 돌아오면 보이게
+      // 마우스가 떠났을 때 즉시 목표 좌표로 초기화하여 부자연스러운 날아옴 방지
+      currentX = e.clientX + 45;
+      currentY = e.clientY + 45;
+    });
+  });
+
+  function animate() {
+    if (!activeElement) { targetX = mouseX + 45; targetY = mouseY + 45; }
+    currentX += (targetX - currentX) * 0.12; currentY += (targetY - currentY) * 0.12;
+    socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
 </script>
 </body>
 </html>
