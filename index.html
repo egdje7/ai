@@ -29,11 +29,6 @@
   body { background: #fff; color: var(--ink); min-height: 100vh;
          display: flex; flex-direction: column; overflow-x: hidden; }
 
-  /* GNB 상단 바 */
-  .top-bar { background: #f8fafc; padding: 6px 10%; display: flex; justify-content: flex-end;
-              gap: 12px; font-size: .8rem; color: var(--muted); border-bottom: 1px solid var(--line); }
-  .top-bar span { cursor: pointer; }
-
   /* 헤더 */
   header { background: #fff; padding: 16px 10%; display: flex; justify-content: space-between;
            align-items: center; border-bottom: 1px solid var(--line); }
@@ -59,17 +54,6 @@
     flex-direction: column;
     justify-content: center;
   }
-  .hero-title-area {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .hero-title-area h2 {
-    font-size: 1.8rem;
-    color: var(--navy);
-    font-weight: 800;
-    margin-bottom: 6px;
-  }
-  .hero-title-area h2 span { color: var(--blue); }
 
   .chat-panel {
     background: #fff;
@@ -469,12 +453,6 @@
 </head>
 <body>
 
-<div class="top-bar">
-  <span>글자크기 + -</span>
-  <span>이용자 가이드</span>
-  <span>번역 가이드</span>
-</div>
-
 <header>
   <div class="logo">🎓 소크라테스 AI</div>
   <nav><ul>
@@ -489,9 +467,6 @@
   <section class="hero-section">
     <!-- AI 채팅창 -->
     <div class="chat-hero-container">
-      <div class="hero-title-area">
-        <h2>대화를 나누다 보면 <span>아이들의 미래</span>가 보입니다</h2>
-      </div>
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
           <h3>🤖 소크라테스 대화방</h3>
@@ -700,7 +675,7 @@
 <script>
 let hasReached100 = false;
 
-/* 데이터 정의 (대학교 정보로 구성) */
+/* 데이터 정의 */
 const schoolData = [
   {
     id: 1,
@@ -737,7 +712,6 @@ const schoolData = [
   }
 ];
 
-/* 기관 정보 올바르게 수정 */
 const regionData = [
   {
     id: 1,
@@ -839,7 +813,7 @@ function setGoogleLocationCenterModal() {
   }
 }
 
-/* 모달 데이터 처리 및 인터랙티브 병합 */
+/* 모달 데이터 처리 */
 const modalData = {
   guide: {
     title: "📊 서비스 안내",
@@ -1185,7 +1159,7 @@ function toggleControlPanel() {
   panel.classList.toggle('collapsed');
 }
 
-/* WebChat 연동 (진행률 바 수동 증가 로직 제거 및 봇 메시지 기준 적용) */
+/* WebChat 연동 */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
 
@@ -1203,7 +1177,6 @@ async function initWebChat() {
     webChatStore = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const activity = action.payload.activity;
-        // 봇이 보낸 메시지인 경우에만 진행률 조건 검사
         if (activity && activity.from && activity.from.id !== 'user') {
           if (activity.channelData && typeof activity.channelData.progressPercent === 'number') {
             updateProgress(activity.channelData.progressPercent);
@@ -1218,7 +1191,6 @@ async function initWebChat() {
               updateProgress(parsedPercent);
             }
 
-            // 완료 키워드가 포함된 경우 100% 처리
             if (activity.text.includes('100%') || activity.text.includes('검사 완료') || activity.text.includes('분석이 완료')) {
               updateProgress(100);
             }
@@ -1237,11 +1209,13 @@ async function initWebChat() {
 
 window.addEventListener('DOMContentLoaded', initWebChat);
 
-/* 캐릭터 제어 */
+/* 캐릭터 제어 및 인터페이스 근접 이동 & 말풍선 기능 */
 const buddy = document.getElementById('buddy');
 const buddySizeSlider = document.getElementById('buddySizeSlider');
 const buddySizeLabel = document.getElementById('buddySizeLabel');
 const buddyToggleBtn = document.getElementById('buddyToggleBtn');
+const bubble = document.getElementById('bubble');
+const bubbleText = document.getElementById('bubbleText');
 
 let currentBuddySize = 80;
 let mouse = { x: innerWidth * 0.5, y: innerHeight * 0.5 };
@@ -1264,10 +1238,50 @@ addEventListener('mousemove', e => {
 });
 
 function tick(){
-  let target = { x: mouse.x + (currentBuddySize * 0.6), y: mouse.y + (currentBuddySize * 0.5) };
-  pos.x += (target.x - pos.x) * 0.15;
-  pos.y += (target.y - pos.y) * 0.15;
+  // 가장 가까운 [data-buddy] 인터페이스 요소 탐색
+  const buddyElements = document.querySelectorAll('[data-buddy]');
+  let closestEl = null;
+  let minDst = Infinity;
+
+  buddyElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dst = Math.hypot(mouse.x - cx, mouse.y - cy);
+    if (dst < minDst) {
+      minDst = dst;
+      closestEl = { el, rect };
+    }
+  });
+
+  let targetX = mouse.x + (currentBuddySize * 0.5);
+  let targetY = mouse.y + (currentBuddySize * 0.4);
+
+  // 마우스가 인터페이스 요소 근처(280px 이내)에 있으면 해당 요소의 모서리로 가까이 이동하며 말풍선 표시
+  if (closestEl && minDst < 280) {
+    const rect = closestEl.rect;
+    // 요소의 우측 상단 모서리 부근으로 밀착 유도
+    targetX = rect.right - 10;
+    targetY = rect.top - 10;
+
+    const buddyName = closestEl.el.getAttribute('data-buddy');
+    bubbleText.textContent = `💡 [${buddyName}] 코너입니다!`;
+    bubble.classList.add('show');
+    
+    // 말풍선 방향 조절
+    if (targetX > innerWidth - 200) {
+      bubble.className = 'left';
+    } else {
+      bubble.className = 'right';
+    }
+  } else {
+    bubble.classList.remove('show');
+  }
+
+  pos.x += (targetX - pos.x) * 0.12;
+  pos.y += (targetY - pos.y) * 0.12;
   buddy.style.transform = `translate3d(${pos.x - currentBuddySize / 2}px, ${pos.y - currentBuddySize / 2}px, 0)`;
+  
   requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);
