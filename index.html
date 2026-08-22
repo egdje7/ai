@@ -17,7 +17,6 @@
     --sky: #f0f4ff;
     --ink: #1e293b;
     --muted: #64748b;
-    --line: rgba(255, 255, 255, 0.6);
     --glass-bg: rgba(255, 255, 255, 0.75);
     --glass-border: rgba(255, 255, 255, 0.9);
     --glass-shadow: 0 20px 40px rgba(31, 38, 135, 0.07);
@@ -63,15 +62,16 @@
   nav a:hover { color: var(--blue); }
   nav a.disabled { color: #cbd5e1; cursor: not-allowed; }
 
-  /* 히어로 섹션 */
+  /* 히어로 섹션 (좌우 2단 레이아웃 복구) */
   .hero-section {
     padding: 30px 8% 50px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 380px; /* 왼쪽 채팅, 오른쪽 지도 고정 */
     gap: 32px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+    align-items: start;
   }
 
   .chat-hero-container {
@@ -80,7 +80,7 @@
     width: 100%;
   }
 
-  /* 글래스모피즘 채팅 패널 (세로 높이 확장) */
+  /* 글래스모피즘 채팅 패널 (세로 높이를 위아래로 대폭 확장) */
   .chat-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
@@ -89,7 +89,7 @@
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     padding: 28px;
-    height: 720px; /* 높이 상향 조정 */
+    height: 820px; /* 위아래로 넉넉하게 확장된 높이 */
     display: flex;
     flex-direction: column;
   }
@@ -134,17 +134,16 @@
     transition: width 0.4s ease-in-out;
   }
 
-  /* 하단 그리드 (지도 및 기능 카드) */
-  .bottom-grid {
-    display: grid;
-    grid-template-columns: 380px 1fr;
+  /* 우측 사이드바 (지도 및 기능 카드 영역) */
+  .right-sidebar {
+    display: flex;
+    flex-direction: column;
     gap: 24px;
-    align-items: stretch;
   }
 
   /* 구글 지도 플로팅 카드 (글래스모피즘 적용) */
   .map-floating-card {
-    background: rgba(30, 41, 59, 0.85);
+    background: rgba(30, 41, 59, 0.88);
     backdrop-filter: blur(16px);
     color: #fff;
     border-radius: 28px;
@@ -153,7 +152,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 480px;
+    height: 420px;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
   .map-card-header {
@@ -161,8 +160,8 @@
     justify-content: space-between;
     align-items: flex-start;
   }
-  .map-card-header h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
-  .map-card-header p { font-size: 0.8rem; color: #93c5fd; }
+  .map-card-header h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
+  .map-card-header p { font-size: 0.78rem; color: #93c5fd; }
   
   .btn-expand-map {
     background: rgba(255, 255, 255, 0.15);
@@ -177,7 +176,7 @@
   }
   .btn-expand-map:hover { background: var(--blue); border-color: var(--blue); }
 
-  .map-search-mini { margin: 12px 0; display: flex; gap: 6px; }
+  .map-search-mini { margin: 10px 0; display: flex; gap: 6px; }
   .map-search-mini input {
     flex: 1; padding: 8px 12px; border-radius: 8px; border: none; font-size: 0.8rem; outline: none;
     background: rgba(255, 255, 255, 0.9);
@@ -191,17 +190,17 @@
   }
   #googleMapIframe, #googleMapIframeLarge { width: 100%; height: 100%; border: 0; }
 
-  /* 우측 기능 카드 그리드 */
+  /* 우측 기능 카드 그리드 (2열) */
   .feature-grid-sub {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
   }
   .feature-card {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
-    border-radius: 24px;
-    padding: 24px;
+    border-radius: 22px;
+    padding: 20px;
     text-align: left;
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
@@ -210,7 +209,6 @@
     flex-direction: column;
     justify-content: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    position: relative;
   }
   .feature-card:hover {
     transform: translateY(-4px);
@@ -218,15 +216,15 @@
     box-shadow: 0 20px 35px rgba(37, 99, 235, 0.1);
   }
   .feature-card .icon-box {
-    width: 52px; height: 52px; background: rgba(239, 246, 255, 0.8); border-radius: 16px;
+    width: 44px; height: 44px; background: rgba(239, 246, 255, 0.8); border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; margin-bottom: 14px;
+    font-size: 1.3rem; margin-bottom: 10px;
   }
   .feature-card h4 {
-    font-size: 1.05rem; color: var(--navy); margin-bottom: 6px; font-weight: 800;
+    font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; font-weight: 800;
   }
   .feature-card p {
-    font-size: 0.82rem; color: var(--muted); line-height: 1.4; word-break: keep-all;
+    font-size: 0.78rem; color: var(--muted); line-height: 1.3; word-break: keep-all;
   }
 
   /* 모달 레이어 공통 스타일 */
@@ -255,7 +253,7 @@
     border: 1px solid rgba(255, 255, 255, 0.8);
   }
 
-  /* 마인드맵 및 다운로드 */
+  /* 마인드맵 및 다운로드 버튼 */
   .mindmap-container {
     background: rgba(248, 250, 252, 0.8); border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 16px;
     padding: 16px; margin: 16px 0; text-align: center;
@@ -297,15 +295,11 @@
   #miniSocratesBubble.left .mini-socrates-tail { right: 14px; }
   #miniSocratesBubble.right .mini-socrates-tail { left: 14px; }
 
-  /* 반응형 스타일 */
-  @media(max-width: 900px) {
-    .bottom-grid { grid-template-columns: 1fr; }
-    .feature-grid-sub { grid-template-columns: repeat(2, 1fr); }
+  /* 반응형 스타일 (태블릿/모바일에서는 1단으로 자연스럽게 전환) */
+  @media(max-width: 1024px) {
+    .hero-section { grid-template-columns: 1fr; }
+    .chat-panel { height: 700px; }
     header { padding: 14px 5%; }
-    .hero-section { padding: 20px 4% 40px; }
-  }
-  @media(max-width: 600px) {
-    .feature-grid-sub { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -329,7 +323,7 @@
 
 <main style="display: flex; flex-direction: column; flex: 1;">
   <section class="hero-section">
-    <!-- AI 채팅창 -->
+    <!-- 왼쪽: 확장된 AI 채팅창 -->
     <div class="chat-hero-container">
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
@@ -364,8 +358,8 @@
       </div>
     </div>
 
-    <!-- 하단 그리드 (지도 및 기능카드) -->
-    <div class="bottom-grid">
+    <!-- 오른쪽: 구글 지도 및 기능 카드 사이드바 -->
+    <div class="right-sidebar">
       <!-- 구글 지도 플로팅 카드 -->
       <div class="map-floating-card" data-buddy="지역별 진로정보">
         <div class="map-card-header">
@@ -385,32 +379,32 @@
           <iframe id="googleMapIframe" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
         </div>
 
-        <button onclick="setGoogleLocationCenter()" style="background: var(--blue); color: #fff; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 8px; font-size: 0.8rem;">
+        <button onclick="setGoogleLocationCenter()" style="background: var(--blue); color: #fff; border: none; padding: 7px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 6px; font-size: 0.78rem;">
           📍 내 위치 중심으로 이동
         </button>
       </div>
 
-      <!-- 우측 4개 기능 카드 -->
+      <!-- 기능 카드 4개 (2x2 그리드) -->
       <div class="feature-grid-sub">
         <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
           <div class="icon-box">📊</div>
           <h4>서비스 안내</h4>
-          <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
+          <p>AI 진로 길잡이 가이드</p>
         </div>
         <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
           <div class="icon-box">🏛️</div>
-          <h4>대학교별 공시정보</h4>
-          <p>전국 대학교 공시정보 정확 검색</p>
+          <h4>대학교 공시정보</h4>
+          <p>전국 대학교 공시 검색</p>
         </div>
         <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
           <div class="icon-box">📍</div>
           <h4>지역별 공시정보</h4>
-          <p>관심지역 대학 공시정보 확인</p>
+          <p>관심지역 대학 확인</p>
         </div>
         <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
           <div class="icon-box">📑</div>
-          <h4>세특 로드맵 생성</h4>
-          <p>맞춤형 탐구 보고서 발급</p>
+          <h4>세특 로드맵</h4>
+          <p>맞춤형 탐구 리포트</p>
         </div>
       </div>
     </div>
@@ -694,7 +688,6 @@ window.addEventListener('DOMContentLoaded', initWebChat);
 /* 타이핑 애니메이션 (물결치는 3개 점) 스타일 주입 */
 const typingStyle = document.createElement('style');
 typingStyle.innerHTML = `
-  /* WebChat 내부 타이핑 지시자(점 3개) 커스텀 */
   .webchat__typing-indicator {
     display: flex;
     align-items: center;
