@@ -14,39 +14,39 @@
   :root {
     --navy: #1a2e63;
     --blue: #2563eb;
-    --sky: #eaf2ff;
-    --bg-blue: #2b56ba;
+    --sky: #f0f4ff;
+    --bg-blue: #1e3a8a;
     --ink: #1e293b;
     --muted: #64748b;
     --line: #e2e8f0;
     --gold: #fbbf24;
     --gold-glow: rgba(251, 191, 36, 0.9);
+    --fluid-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; }
 
-  body { background: #fff; color: var(--ink); min-height: 100vh;
+  body { background: #f8fafc; color: var(--ink); min-height: 100vh;
          display: flex; flex-direction: column; overflow-x: hidden; }
 
-  /* 헤더 */
+  /* 헤더 스타일 */
   header { background: #fff; padding: 16px 10%; display: flex; justify-content: space-between;
-           align-items: center; border-bottom: 1px solid var(--line); }
-  header .logo { font-size: 1.5rem; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+           align-items: center; border-bottom: 1px solid var(--line); box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+  header .logo { font-size: 1.4rem; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 10px; }
   nav ul { display: flex; list-style: none; gap: 24px; }
-  nav a { text-decoration: none; color: #334155; font-weight: 700; cursor: pointer; transition: color 0.2s; font-size: 1rem; }
+  nav a { text-decoration: none; color: #334155; font-weight: 700; cursor: pointer; transition: color 0.2s; font-size: 0.95rem; }
   nav a:hover { color: var(--blue); }
   nav a.disabled { color: #cbd5e1; cursor: not-allowed; }
 
-  /* 히어로 섹션 */
+  /* 히어로 섹션 & 플루이드 채팅 패널 */
   .hero-section {
-    background: var(--sky);
+    background: linear-gradient(135deg, #f8fafc 0%, var(--sky) 100%);
     padding: 40px 10% 60px;
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: 1fr 360px;
     gap: 32px;
     align-items: stretch;
-    position: relative;
   }
 
   .chat-hero-container {
@@ -56,50 +56,70 @@
   }
 
   .chat-panel {
-    background: #fff;
-    border-radius: 20px;
-    border: 1px solid var(--line);
-    box-shadow: 0 10px 25px rgba(26, 46, 99, 0.08);
-    padding: 16px;
-    height: 520px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: var(--fluid-shadow);
+    padding: 20px;
+    height: 540px;
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
+  .chat-panel:hover {
+    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.18);
+  }
+
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 10px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 12px;
   }
-  .panel-header h3 { font-size: 1.05rem; color: var(--navy); display: flex; align-items: center; gap: 6px; }
-  #webchat { flex: 1; border: 1px solid #f1f5f9; border-radius: 12px; overflow: hidden; }
+  .panel-header h3 { 
+    font-size: 1.1rem; color: var(--navy); display: flex; align-items: center; gap: 8px; font-weight: 800; 
+  }
+  
+  /* 미니 소크라테스 헤더 아이콘 */
+  .chat-title-icon {
+    width: 28px; height: 28px; background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(30,58,138,0.3); flex-shrink: 0;
+  }
+  .chat-title-icon svg { width: 18px; height: 18px; }
 
-  /* 대화창 하단 퍼센트 진행률 바 스타일 */
+  #webchat { flex: 1; border: 1px solid #f1f5f9; border-radius: 16px; overflow: hidden; background: #fff; }
+
+  /* 대화창 하단 플루이드 퍼센트 진행률 바 스타일 */
   .progress-container {
-    margin-top: 12px;
+    margin-top: 14px;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    background: #fff;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
   }
   .progress-info {
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--navy);
   }
   .progress-bar-bg {
     width: 100%;
-    height: 10px;
-    background-color: #e2e8f0;
-    border-radius: 5px;
+    height: 8px;
+    background-color: #f1f5f9;
+    border-radius: 4px;
     overflow: hidden;
-    position: relative;
   }
   .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #2563eb, #16a34a);
-    border-radius: 5px;
-    transition: width 0.4s ease-in-out;
+    background: linear-gradient(90deg, #2563eb, #10b981);
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* 구글 지도 플로팅 카드 */
@@ -108,21 +128,15 @@
     color: #fff;
     border-radius: 24px;
     padding: 24px 20px;
-    box-shadow: 0 15px 35px rgba(26, 46, 99, 0.2);
+    box-shadow: 0 20px 40px rgba(26, 46, 99, 0.25);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 580px;
+    height: 594px;
   }
-  .map-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .map-card-header h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
+  .map-card-header h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; color: #fff; line-height: 1.4; }
   .map-card-header p { font-size: 0.85rem; color: #93c5fd; }
   
-  /* 지도 창키우기 버튼 */
   .btn-expand-map {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
@@ -135,31 +149,26 @@
     transition: all 0.2s ease;
     white-space: nowrap;
   }
-  .btn-expand-map:hover {
-    background: var(--blue);
-    border-color: var(--blue);
-  }
+  .btn-expand-map:hover { background: var(--blue); border-color: var(--blue); }
 
   .map-search-mini { margin: 12px 0; display: flex; gap: 6px; }
   .map-search-mini input {
-    flex: 1; padding: 8px 10px; border-radius: 6px; border: none; font-size: 0.8rem; outline: none;
+    flex: 1; padding: 9px 12px; border-radius: 8px; border: none; font-size: 0.85rem; outline: none; background: rgba(255,255,255,0.95);
   }
   .map-search-mini button {
-    background: var(--blue); color: #fff; border: none; padding: 0 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer;
+    background: var(--blue); color: #fff; border: none; padding: 0 14px; border-radius: 8px; font-size: 0.85rem; font-weight: bold; cursor: pointer;
   }
 
   .map-card-canvas {
     flex: 1;
     background: #e2e8f0;
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
     position: relative;
   }
-  #googleMapIframe, #googleMapIframeLarge {
-    width: 100%; height: 100%; border: 0;
-  }
+  #googleMapIframe, #googleMapIframeLarge { width: 100%; height: 100%; border: 0; }
 
-  /* 하단 주요 카드 패널 */
+  /* 하단 주요 카드 패널 (플루이드 그리드) */
   .feature-section-wrapper {
     background: var(--bg-blue);
     padding: 60px 10%;
@@ -174,21 +183,22 @@
     margin: 0 auto;
   }
   .feature-card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 32px 20px;
     text-align: center;
     border: 3px solid transparent;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     transform-style: preserve-3d;
     will-change: transform, box-shadow, border-color;
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                box-shadow 0.25s ease, 
-                border-color 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.3s ease, 
+                border-color 0.3s ease;
     position: relative;
     z-index: 1;
   }
@@ -196,9 +206,9 @@
   .feature-card:hover {
     z-index: 10;
     border-color: #f59e0b;
-    box-shadow: 0 0 15px var(--gold-glow),
-                0 0 30px rgba(245, 158, 11, 0.5),
-                0 15px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 20px var(--gold-glow),
+                0 0 40px rgba(245, 158, 11, 0.4),
+                0 20px 40px rgba(0, 0, 0, 0.25);
   }
 
   .feature-card .icon-box {
@@ -211,83 +221,74 @@
   }
   .feature-card h4 {
     font-size: 1.15rem; color: var(--navy); margin-bottom: 8px; font-weight: 800;
-    pointer-events: none;
-    transform: translateZ(20px);
+    pointer-events: none; transform: translateZ(20px);
   }
   .feature-card p {
     font-size: 0.85rem; color: var(--muted); line-height: 1.4; word-break: keep-all;
-    pointer-events: none;
-    transform: translateZ(10px);
+    pointer-events: none; transform: translateZ(10px);
   }
 
   /* 모달 레이어 공통 스타일 */
   .result-overlay, .feature-overlay, .map-overlay, .academy-overlay {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
+    backdrop-filter: blur(8px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
+    animation: fadeIn 0.25s ease;
   }
   .result-overlay.active, .feature-overlay.active, .map-overlay.active, .academy-overlay.active { display: flex; }
 
-  .modal-box {
-    background: #fff; width: 90%; max-width: 1000px; max-height: 88vh; border-radius: 24px;
-    padding: 32px; display: flex; flex-direction: column; position: relative;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
-  }
-  .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
-  .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); }
-  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  /* 지도 및 소크라테스 알리미 확대 모달 전용 스타일 */
+  .modal-box {
+    background: #fff; width: 90%; max-width: 1000px; max-height: 88vh; border-radius: 28px;
+    padding: 36px; display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3); overflow-y: auto;
+  }
+  .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 20px; }
+  .modal-top-header h2 { font-size: 1.35rem; color: var(--navy); font-weight: 800; }
+  .close-btn { background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
+  .close-btn:hover { background: #e2e8f0; }
+
   .map-modal-box, .academy-modal-box {
-    background: #fff;
-    width: 95%;
-    max-width: 1200px;
-    height: 85vh;
-    border-radius: 24px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    background: #fff; width: 95%; max-width: 1200px; height: 85vh; border-radius: 28px;
+    padding: 28px; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.35);
   }
 
   /* 마인드맵 및 다운로드 스타일 */
   .mindmap-container {
-    background: #f8fafc;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 16px;
-    margin: 16px 0;
-    text-align: center;
+    background: #f8fafc; border: 1px solid var(--line); border-radius: 18px;
+    padding: 20px; margin: 16px 0; text-align: center;
   }
   .mindmap-svg { width: 100%; max-height: 260px; }
 
   .btn-download-action {
-    background: var(--blue); color: #fff; border: none; padding: 10px 18px;
-    border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
-    transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue); color: #fff; border: none; padding: 12px 20px;
+    border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.95rem;
+    transition: background 0.2s, transform 0.2s; display: inline-flex; align-items: center; gap: 8px;
   }
-  .btn-download-action:hover { background: #1d4ed8; }
-  .btn-download-action.green { background: #16a34a; }
-  .btn-download-action.green:hover { background: #15803d; }
+  .btn-download-action:hover { background: #1d4ed8; transform: translateY(-1px); }
+  .btn-download-action.green { background: #10b981; }
+  .btn-download-action.green:hover { background: #059669; }
 
   /* 컨트롤 패널 */
   .buddy-control-panel {
-    position: fixed; right: 20px; bottom: 20px; z-index: 1100;
-    background: #fff; border: 1px solid var(--line); border-radius: 16px;
-    padding: 10px 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    display: flex; flex-direction: column; gap: 8px; width: 180px; transition: all 0.3s ease;
+    position: fixed; right: 24px; bottom: 24px; z-index: 1100;
+    background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(8px);
+    border: 1px solid var(--line); border-radius: 18px;
+    padding: 12px 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    display: flex; flex-direction: column; gap: 8px; width: 190px; transition: all 0.3s ease;
   }
-  .panel-toggle-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; font-size: 0.8rem; font-weight: bold; color: var(--navy); }
+  .panel-toggle-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; font-size: 0.82rem; font-weight: bold; color: var(--navy); }
   .arrow-icon { font-size: 0.7rem; transition: transform 0.3s ease; }
   .buddy-control-panel.collapsed .panel-collapsible-content { display: none; }
   .buddy-control-panel.collapsed .arrow-icon { transform: rotate(180deg); }
 
-  .panel-collapsible-content { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .panel-collapsible-content { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
   .panel-collapsible-content label { font-size: 0.75rem; font-weight: bold; color: var(--muted); display: flex; justify-content: space-between; }
   .panel-collapsible-content input[type="range"] { width: 100%; accent-color: var(--blue); cursor: pointer; }
-  .buddy-toggle-btn { background: #f1f5f9; border: none; border-radius: 8px; padding: 6px 10px; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-align: center; color: var(--ink); }
+  .buddy-toggle-btn { background: #f1f5f9; border: none; border-radius: 8px; padding: 7px 10px; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-align: center; color: var(--ink); transition: background 0.2s; }
   .buddy-toggle-btn:hover { background: #e2e8f0; }
 
-  /* 미니 캐릭터 */
+  /* 미니 소크라테스 캐릭터 및 말풍선 */
   #buddy { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 1000; pointer-events: none; will-change: transform; }
   #buddy.off { display: none !important; }
   #buddy svg { width: 100%; height: 100%; overflow: visible; }
@@ -304,10 +305,10 @@
   .buddy-think circle:nth-child(3) { animation-delay: .36s; }
   @keyframes think { 0%,100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-4px); opacity: 1; } }
 
-  #bubble { position: absolute; bottom: 62%; width: max-content; max-width: 145px;
-            background: #fff; border: 2px solid var(--navy); border-radius: 8px;
-            padding: 5px 8px; font-size: .73rem; line-height: 1.35; color: var(--ink);
-            box-shadow: 0 6px 16px rgba(30,58,138,.15);
+  #bubble { position: absolute; bottom: 62%; width: max-content; max-width: 160px;
+            background: #fff; border: 2px solid var(--navy); border-radius: 10px;
+            padding: 6px 10px; font-size: .75rem; line-height: 1.4; color: var(--ink);
+            box-shadow: 0 8px 20px rgba(30,58,138,0.18);
             opacity: 0; transform: translateY(6px) scale(.94); transform-origin: bottom center;
             transition: opacity .22s, transform .22s cubic-bezier(.2,1.4,.4,1); pointer-events: none; }
   #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
@@ -321,7 +322,7 @@
 <body>
 
 <header>
-  <div class="logo">🎓 소크라테스 AI</div>
+  <div class="logo">🎓 소크라테스 AI 진로탐색</div>
   <nav><ul>
     <li><a onclick="openFeatureModal('guide')">소크라테스란</a></li>
     <li><a onclick="openAcademyInfo('school')">전국대학교정보</a></li>
@@ -332,15 +333,27 @@
 
 <main style="display: flex; flex-direction: column; flex: 1;">
   <section class="hero-section">
-    <!-- AI 채팅창 -->
+    <!-- AI 채팅창 (플루이드 UI 및 미니 소크라테스 아이콘 타이틀 적용) -->
     <div class="chat-hero-container">
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
-          <h3>🤖 소크라테스 대화방</h3>
+          <h3>
+            <div class="chat-title-icon">
+              <svg viewBox="0 0 120 120">
+                <rect x="24" y="34" width="72" height="70" rx="28" fill="#3b82f6"/>
+                <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827"/>
+                <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b"/>
+                <circle cx="60" cy="26" r="3" fill="#fbbf24"/>
+                <circle cx="47" cy="65" r="4" fill="#fff"/>
+                <circle cx="73" cy="65" r="4" fill="#fff"/>
+              </svg>
+            </div>
+            소크라테스 진로 심리 검사
+          </h3>
         </div>
         <div id="webchat"></div>
         
-        <!-- 대화창 하단 퍼센트 진행률 바 -->
+        <!-- 대화창 하단 플루이드 진행률 바 -->
         <div class="progress-container">
           <div class="progress-info">
             <span>대화 진행률</span>
@@ -372,7 +385,7 @@
         <iframe id="googleMapIframe" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
       </div>
 
-      <button onclick="setGoogleLocationCenter()" style="background: var(--blue); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 0.85rem;">
+      <button onclick="setGoogleLocationCenter()" style="background: var(--blue); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 0.85rem; transition: background 0.2s;">
         📍 내 위치 중심으로 이동
       </button>
     </div>
@@ -408,14 +421,14 @@
   </section>
 </main>
 
-<!-- 소크라테스 알리미 창 모달 레이어 -->
+<!-- 소크라테스 알리미 모달 레이어 -->
 <div class="academy-overlay" id="academyOverlay">
   <div class="academy-modal-box">
     <div class="modal-top-header">
       <h2 id="academyModalTitle">🏛️ 소크라테스 알리미 공시정보 탐색</h2>
       <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
     </div>
-    <div style="flex: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);">
+    <div style="flex: 1; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);">
       <iframe id="academyIframe" src="https://www.academyinfo.go.kr/index.do" style="width: 100%; height: 100%; border: 0;"></iframe>
     </div>
   </div>
@@ -430,10 +443,10 @@
     </div>
     <div class="map-search-mini" style="margin-bottom: 16px;">
       <input type="text" id="mapModalSearchInput" placeholder="지역/대학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocationModal()">
-      <button onclick="searchGoogleLocationModal()" style="padding: 0 16px;">검색</button>
-      <button onclick="setGoogleLocationCenterModal()" style="background: #16a34a; color:#fff; border:none; border-radius:6px; padding:0 12px; font-weight:bold; cursor:pointer;">📍 내 위치</button>
+      <button onclick="searchGoogleLocationModal()" style="padding: 0 16px; border-radius: 8px;">검색</button>
+      <button onclick="setGoogleLocationCenterModal()" style="background: #10b981; color:#fff; border:none; border-radius:8px; padding:0 14px; font-weight:bold; cursor:pointer;">📍 내 위치</button>
     </div>
-    <div style="flex: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);">
+    <div style="flex: 1; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);">
       <iframe id="googleMapIframeLarge" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
     </div>
   </div>
@@ -555,7 +568,7 @@
 <script>
 let hasReached100 = false;
 
-/* 인터페이스별 도우미 대사 */
+/* 소크라테스 캐릭터 대사 풀 (컴포넌트 연동) */
 const buddyDialogues = {
   "지역별 진로정보": [
     "구글 지도를 활용하여 원하는 지역과 대학교를 탐색해 보세요.",
@@ -584,6 +597,13 @@ const buddyDialogues = {
     "연계 전공 탐색 및 교과목 과제 주제를 추천받아 보세요!",
     "진학 관리 전략을 수립할 때 아주 든든한 조력자가 될 거예요.",
     "생성된 리포트는 텍스트 파일로 언제든 간편하게 다운로드할 수 있어요."
+  ],
+  "채팅창": [
+    "반갑네! 나와 함께 대화를 나누며 너만의 진로를 탐구해 보세나.",
+    "네 안의 숨은 열정과 적성을 질문을 통해 찾아가도록 하세.",
+    "궁금한 점이 있다면 대화창에 편하게 이야기해 주게.",
+    "대화를 이어갈수록 너만의 진로 마인드맵이 구체화될 것이야.",
+    "진행률이 100%가 되면 멋진 종합 결과 리포트가 완성된다네."
   ]
 };
 
@@ -679,9 +699,9 @@ const modalData = {
     title: "📊 서비스 안내",
     html: `
       <h3>소크라테스 AI 진로탐색 서비스란?</h3>
-      <p>산파술 대화 기법을 기반으로 AI가 학생과의 자연스러운 대화를 통해 숨겨진 흥미와 적성을 발굴해 주는 서비스입니다.</p>
-      <h3>이용 단계 안내</h3>
-      <ul>
+      <p style="margin-top:6px; line-height:1.6;">산파술 대화 기법을 기반으로 AI가 학생과의 자연스러운 대화를 통해 숨겨진 흥미와 적성을 발굴해 주는 서비스입니다.</p>
+      <h3 style="margin-top:14px;">이용 단계 안내</h3>
+      <ul style="margin-top:6px; padding-left:20px; line-height:1.6;">
         <li><b>1단계 (대화 진행):</b> AI 소크라테스의 질문에 솔직하게 답변하며 대화를 이어갑니다.</li>
         <li><b>2단계 (진행률 확인):</b> 대화창 하단의 진행률 바가 100%가 되면 분석이 완료됩니다.</li>
         <li><b>3단계 (결과 보고서):</b> 상단 메뉴의 '종합 결과 보고서'를 클릭하여 맞춤형 진로 세특 로드맵 및 마인드맵을 확인하고 다운로드합니다.</li>
@@ -692,9 +712,9 @@ const modalData = {
     title: "📑 세특 로드맵 생성",
     html: `
       <h3>대화 기반 맞춤형 세특(학교생활기록부) 로드맵</h3>
-      <p>진로 탐구가 완료된 후 '세특 로드맵 생성해줘'와 같이 요청하면, 소크라테스 AI와의 대화를 종합 분석하여 학생 개인만의 고유한 진로 세특 가이드를 자동으로 제시해 드립니다.</p>
-      <h3>로드맵 활용 팁</h3>
-      <ul>
+      <p style="margin-top:6px; line-height:1.6;">진로 탐구가 완료된 후 '세특 로드맵 생성해줘'와 같이 요청하면, 소크라테스 AI와의 대화를 종합 분석하여 학생 개인만의 고유한 진로 세특 가이드를 자동으로 제시해 드립니다.</p>
+      <h3 style="margin-top:14px;">로드맵 활용 팁</h3>
+      <ul style="margin-top:6px; padding-left:20px; line-height:1.6;">
         <li>학생의 관심 분야와 연계된 대학 전공 탐색 및 교과목 추천</li>
         <li>학부 연계 및 연구 프로젝트와 결합할 수 있는 탐구 주제 제시</li>
         <li>생성된 리포트를 활용해 진학 관리 전략 수립</li>
@@ -793,7 +813,7 @@ function toggleControlPanel() {
   panel.classList.toggle('collapsed');
 }
 
-/* WebChat 연동 */
+/* WebChat 연동 (플루이드 스타일 적용) */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 let webChatStore = null;
 
@@ -836,7 +856,18 @@ async function initWebChat() {
 
     window.WebChat.renderWebChat({
       directLine, store: webChatStore, locale: 'ko-KR',
-      styleOptions: { accent: '#1e3a8a', hideUploadButton: true }
+      styleOptions: { 
+        accent: '#2563eb', 
+        hideUploadButton: true,
+        bubbleBackground: '#f1f5f9',
+        bubbleTextColor: '#1e293b',
+        bubbleBorderRadius: 14,
+        userBubbleBackground: '#2563eb',
+        userBubbleTextColor: '#ffffff',
+        userBubbleBorderRadius: 14,
+        botAvatarInitials: '학',
+        userAvatarInitials: '나'
+      }
     }, document.getElementById('webchat'));
   } catch (e) { console.error(e); }
 }
@@ -881,9 +912,6 @@ function tick(){
 
   buddyElements.forEach(el => {
     const buddyName = el.getAttribute('data-buddy');
-    
-    if (buddyName === "채팅창") return;
-
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -897,7 +925,7 @@ function tick(){
   let targetX = mouse.x + (currentBuddySize * 0.5);
   let targetY = mouse.y + (currentBuddySize * 0.4);
 
-  if (closestEl && minDst < 280) {
+  if (closestEl && minDst < 300) {
     const el = closestEl.el;
     const rect = closestEl.rect;
     const buddyName = el.getAttribute('data-buddy');
@@ -951,7 +979,7 @@ document.querySelectorAll('.feature-card').forEach(card => {
     const rotateX = -centerY * 15; 
     const rotateY = centerX * 15;   
     
-    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.2, 1.2, 1.2)`;
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
   });
 
   card.addEventListener('mouseleave', () => {
