@@ -12,93 +12,66 @@
 
 <style>
   :root {
-    --navy: #1e293b;
+    --navy: #1a2e63;
     --blue: #2563eb;
-    --sky: #f0f4ff;
+    --sky: #eaf2ff;
+    --bg-blue: #2b56ba;
     --ink: #1e293b;
     --muted: #64748b;
-    --glass-bg: rgba(255, 255, 255, 0.75);
-    --glass-border: rgba(255, 255, 255, 0.9);
-    --glass-shadow: 0 20px 40px rgba(31, 38, 135, 0.07);
+    --line: #e2e8f0;
+    --gold: #fbbf24;
+    --gold-glow: rgba(251, 191, 36, 0.9);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; }
 
-  body {
-    background: #f8fafc;
-    color: var(--ink);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    position: relative;
-  }
-
-  /* 배경 몽글몽글한 블러 오브젝트 */
-  .bg-blobs {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
-  }
-  .blob {
-    position: absolute;
-    filter: blur(80px);
-    border-radius: 50%;
-    opacity: 0.55;
-  }
-  .blob-1 { width: 450px; height: 450px; background: #dbeafe; top: -100px; left: -100px; }
-  .blob-2 { width: 400px; height: 400px; background: #f3e8ff; top: 30%; right: -100px; }
-  .blob-3 { width: 500px; height: 500px; background: #e0f2fe; bottom: -150px; left: 20%; }
+  body { background: #fff; color: var(--ink); min-height: 100vh;
+         display: flex; flex-direction: column; overflow-x: hidden; }
 
   /* 헤더 */
-  header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); padding: 16px 10%; display: flex; justify-content: space-between;
-           align-items: center; border-bottom: 1px solid rgba(226, 232, 240, 0.8); position: sticky; top: 0; z-index: 100; }
-  header .logo { font-size: 1.4rem; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+  header { background: #fff; padding: 16px 10%; display: flex; justify-content: space-between;
+           align-items: center; border-bottom: 1px solid var(--line); }
+  header .logo { font-size: 1.5rem; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 8px; }
   nav ul { display: flex; list-style: none; gap: 24px; }
-  nav a { text-decoration: none; color: #475569; font-weight: 700; cursor: pointer; transition: color 0.2s; font-size: 0.95rem; }
+  nav a { text-decoration: none; color: #334155; font-weight: 700; cursor: pointer; transition: color 0.2s; font-size: 1rem; }
   nav a:hover { color: var(--blue); }
   nav a.disabled { color: #cbd5e1; cursor: not-allowed; }
 
-  /* 히어로 섹션 (좌우 2단 레이아웃 복구) */
+  /* 히어로 섹션 */
   .hero-section {
-    padding: 30px 8% 50px;
+    background: var(--sky);
+    padding: 40px 10% 60px;
     display: grid;
-    grid-template-columns: 1fr 380px; /* 왼쪽 채팅, 오른쪽 지도 고정 */
+    grid-template-columns: 1fr 340px;
     gap: 32px;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-    align-items: start;
+    align-items: stretch;
+    position: relative;
   }
 
   .chat-hero-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: center;
   }
 
-  /* 글래스모피즘 채팅 패널 (세로 높이를 위아래로 대폭 확장) */
+  /* 세련된 채팅 패널 UI */
   .chat-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 28px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    padding: 28px;
-    height: 820px; /* 위아래로 넉넉하게 확장된 높이 */
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    box-shadow: 0 10px 30px rgba(26, 46, 99, 0.12);
+    padding: 20px;
+    height: 520px;
     display: flex;
     flex-direction: column;
   }
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 14px; border-bottom: 1px solid rgba(226, 232, 240, 0.6); margin-bottom: 16px;
+    padding-bottom: 12px; border-bottom: 2px solid #f1f5f9; margin-bottom: 12px;
   }
-  .panel-header h3 { font-size: 1.15rem; color: var(--navy); display: flex; align-items: center; gap: 10px; font-weight: 800; }
-  #webchat { flex: 1; border-radius: 16px; overflow: hidden; background: transparent !important; }
+  .panel-header h3 { font-size: 1.1rem; color: var(--navy); display: flex; align-items: center; gap: 8px; font-weight: 800; }
+  #webchat { flex: 1; border-radius: 12px; overflow: hidden; }
 
   /* 대화창 하단 퍼센트 진행률 바 스타일 */
   .progress-container {
@@ -106,11 +79,9 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    padding: 14px 18px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 12px;
   }
   .progress-info {
     display: flex;
@@ -122,67 +93,59 @@
   .progress-bar-bg {
     width: 100%;
     height: 8px;
-    background-color: rgba(226, 232, 240, 0.7);
+    background-color: #e2e8f0;
     border-radius: 4px;
     overflow: hidden;
+    position: relative;
   }
   .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #3b82f6, #10b981);
+    background: linear-gradient(90deg, #2563eb, #16a34a);
     border-radius: 4px;
     transition: width 0.4s ease-in-out;
   }
 
-  /* 우측 사이드바 (지도 및 기능 카드 영역) */
-  .right-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  /* 구글 지도 플로팅 카드 (글래스모피즘 적용) */
+  /* 구글 지도 플로팅 카드 */
   .map-floating-card {
-    background: rgba(30, 41, 59, 0.88);
-    backdrop-filter: blur(16px);
+    background: var(--navy);
     color: #fff;
-    border-radius: 28px;
-    padding: 24px;
-    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+    border-radius: 24px;
+    padding: 24px 20px;
+    box-shadow: 0 15px 35px rgba(26, 46, 99, 0.2);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 420px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 580px;
   }
   .map-card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
-  .map-card-header h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
-  .map-card-header p { font-size: 0.78rem; color: #93c5fd; }
+  .map-card-header h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; color: #fff; }
+  .map-card-header p { font-size: 0.85rem; color: #93c5fd; }
   
   .btn-expand-map {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 6px 12px;
     border-radius: 8px;
     font-size: 0.75rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
   }
   .btn-expand-map:hover { background: var(--blue); border-color: var(--blue); }
 
-  .map-search-mini { margin: 10px 0; display: flex; gap: 6px; }
+  .map-search-mini { margin: 12px 0; display: flex; gap: 6px; }
   .map-search-mini input {
-    flex: 1; padding: 8px 12px; border-radius: 8px; border: none; font-size: 0.8rem; outline: none;
-    background: rgba(255, 255, 255, 0.9);
+    flex: 1; padding: 8px 10px; border-radius: 6px; border: none; font-size: 0.8rem; outline: none;
   }
   .map-search-mini button {
-    background: var(--blue); color: #fff; border: none; padding: 0 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer;
+    background: var(--blue); color: #fff; border: none; padding: 0 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer;
   }
 
   .map-card-canvas {
@@ -190,97 +153,92 @@
   }
   #googleMapIframe, #googleMapIframeLarge { width: 100%; height: 100%; border: 0; }
 
-  /* 우측 기능 카드 그리드 (2열) */
-  .feature-grid-sub {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+  /* 하단 주요 카드 패널 */
+  .feature-section-wrapper {
+    background: var(--bg-blue); padding: 60px 10%; flex: 1; perspective: 1200px;
+  }
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1400px; margin: 0 auto;
   }
   .feature-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border-radius: 22px;
-    padding: 20px;
-    text-align: left;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    background: #fff; border-radius: 20px; padding: 32px 20px; text-align: center;
+    border: 3px solid transparent; box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    cursor: pointer; display: flex; flex-direction: column; align-items: center;
+    transform-style: preserve-3d; will-change: transform, box-shadow, border-color;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative; z-index: 1;
   }
   .feature-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(37, 99, 235, 0.4);
-    box-shadow: 0 20px 35px rgba(37, 99, 235, 0.1);
+    z-index: 10; border-color: #f59e0b;
+    box-shadow: 0 0 15px var(--gold-glow), 0 0 30px rgba(245, 158, 11, 0.5), 0 15px 35px rgba(0, 0, 0, 0.3);
   }
   .feature-card .icon-box {
-    width: 44px; height: 44px; background: rgba(239, 246, 255, 0.8); border-radius: 14px;
+    width: 68px; height: 68px; background: #eff6ff; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem; margin-bottom: 10px;
+    font-size: 2rem; margin-bottom: 16px; pointer-events: none; transform: translateZ(30px);
   }
   .feature-card h4 {
-    font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; font-weight: 800;
+    font-size: 1.15rem; color: var(--navy); margin-bottom: 8px; font-weight: 800;
+    pointer-events: none; transform: translateZ(20px);
   }
   .feature-card p {
-    font-size: 0.78rem; color: var(--muted); line-height: 1.3; word-break: keep-all;
+    font-size: 0.85rem; color: var(--muted); line-height: 1.4; word-break: keep-all;
+    pointer-events: none; transform: translateZ(10px);
   }
 
   /* 모달 레이어 공통 스타일 */
   .result-overlay, .feature-overlay, .map-overlay, .academy-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(8px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(6px); z-index: 1200; justify-content: center; align-items: center; padding: 20px;
   }
   .result-overlay.active, .feature-overlay.active, .map-overlay.active, .academy-overlay.active { display: flex; }
   .modal-box {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(16px);
-    width: 90%; max-width: 900px; max-height: 85vh; border-radius: 28px;
+    background: #fff; width: 90%; max-width: 1000px; max-height: 88vh; border-radius: 24px;
     padding: 32px; display: flex; flex-direction: column; position: relative;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.2); overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
   }
-  .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(226, 232, 240, 0.8); padding-bottom: 16px; margin-bottom: 16px; }
-  .modal-top-header h2 { font-size: 1.25rem; color: var(--navy); font-weight: 800; }
-  .close-btn { background: rgba(241, 245, 249, 0.8); border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
+  .modal-top-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
+  .modal-top-header h2 { font-size: 1.3rem; color: var(--navy); font-weight: 800; }
+  .close-btn { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
   .close-btn:hover { background: #e2e8f0; }
   .map-modal-box, .academy-modal-box {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(16px);
-    width: 95%; max-width: 1100px; height: 85vh; border-radius: 28px;
-    padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: #fff; width: 95%; max-width: 1200px; height: 85vh; border-radius: 24px;
+    padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
 
-  /* 마인드맵 및 다운로드 버튼 */
+  /* 마인드맵 및 다운로드 스타일 */
   .mindmap-container {
-    background: rgba(248, 250, 252, 0.8); border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 16px;
+    background: #f8fafc; border: 1px solid var(--line); border-radius: 16px;
     padding: 16px; margin: 16px 0; text-align: center;
   }
-  .mindmap-svg { width: 100%; max-height: 240px; }
+  .mindmap-svg { width: 100%; max-height: 260px; }
   .btn-download-action {
     background: var(--blue); color: #fff; border: none; padding: 10px 18px;
-    border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
+    border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
     transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px;
   }
   .btn-download-action:hover { background: #1d4ed8; }
-  .btn-download-action.green { background: #10b981; }
-  .btn-download-action.green:hover { background: #059669; }
+  .btn-download-action.green { background: #16a34a; }
+  .btn-download-action.green:hover { background: #15803d; }
 
-  /* 미니 소크라테스 캐릭터 */
+  /* =======================================================================
+     미니 소크라테스 (대사 시스템) CSS 내장
+     ======================================================================= */
   #miniSocrates {
-    position: fixed; left: 0; top: 0; width: 72px; height: 72px; z-index: 2000;
-    pointer-events: none; will-change: transform; transition: opacity 0.2s ease-in-out;
+    position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
+    pointer-events: none; will-change: transform;
+    /* 투명도 전환 효과 애니메이션 */
+    transition: opacity 0.2s ease-in-out;
   }
   #miniSocrates svg { width: 100%; height: 100%; overflow: visible; }
   .mini-socrates-body { transform-box: fill-box; transform-origin: 50% 90%; animation: miniSocratesFloat 2.6s ease-in-out infinite; }
   @keyframes miniSocratesFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -4px; } }
   #miniSocratesBubble {
     position: absolute; bottom: 72%; left: 110%; width: max-content; max-width: 220px;
-    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border: 1px solid rgba(26, 46, 99, 0.2); 
-    border-radius: 12px; padding: 10px 14px; color: var(--navy); font-size: .8rem; font-weight: 700; line-height: 1.4;
-    box-shadow: 0 10px 25px rgba(30,58,138,.1); opacity: 0;
+    background: #fff; border: 2px solid #1a2e63; border-radius: 12px; padding: 10px 14px;
+    color: #1e293b; font-size: .8rem; font-weight: 700; line-height: 1.4;
+    box-shadow: 0 8px 20px rgba(30,58,138,.16); opacity: 0;
     transform: translateY(6px) scale(.94);
     transition: opacity .18s ease, transform .18s cubic-bezier(.2,1.4,.4,1);
     pointer-events: none;
@@ -289,27 +247,14 @@
   #miniSocratesBubble.left { left: auto; right: 110%; transform-origin: bottom right; }
   #miniSocratesBubble.right { left: 110%; right: auto; transform-origin: bottom left; }
   .mini-socrates-tail {
-    position: absolute; bottom: -6px; width: 10px; height: 10px; background: rgba(255, 255, 255, 0.95);
-    border-right: 1px solid rgba(26, 46, 99, 0.2); border-bottom: 1px solid rgba(26, 46, 99, 0.2); transform: rotate(45deg);
+    position: absolute; bottom: -7px; width: 12px; height: 12px; background: #fff;
+    border-right: 2px solid #1a2e63; border-bottom: 2px solid #1a2e63; transform: rotate(45deg);
   }
   #miniSocratesBubble.left .mini-socrates-tail { right: 14px; }
   #miniSocratesBubble.right .mini-socrates-tail { left: 14px; }
-
-  /* 반응형 스타일 (태블릿/모바일에서는 1단으로 자연스럽게 전환) */
-  @media(max-width: 1024px) {
-    .hero-section { grid-template-columns: 1fr; }
-    .chat-panel { height: 700px; }
-    header { padding: 14px 5%; }
-  }
 </style>
 </head>
 <body>
-
-<div class="bg-blobs">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-</div>
 
 <header>
   <div class="logo">🎓 소크라테스 AI</div>
@@ -323,12 +268,12 @@
 
 <main style="display: flex; flex-direction: column; flex: 1;">
   <section class="hero-section">
-    <!-- 왼쪽: 확장된 AI 채팅창 -->
+    <!-- AI 채팅창 -->
     <div class="chat-hero-container">
       <div class="chat-panel" data-buddy="채팅창">
         <div class="panel-header">
           <h3>
-            <svg viewBox="0 0 120 120" width="26" height="26">
+            <svg viewBox="0 0 120 120" width="28" height="28">
               <rect x="24" y="34" width="72" height="70" rx="28" fill="#1e3a8a"/>
               <path d="M42 32 h36 v6 a6 6 0 0 1 -6 6 h-24 a6 6 0 0 1 -6 -6 z" fill="#111827"/>
               <polygon points="60,12 102,26 60,40 18,26" fill="#1e293b"/>
@@ -358,54 +303,53 @@
       </div>
     </div>
 
-    <!-- 오른쪽: 구글 지도 및 기능 카드 사이드바 -->
-    <div class="right-sidebar">
-      <!-- 구글 지도 플로팅 카드 -->
-      <div class="map-floating-card" data-buddy="지역별 진로정보">
-        <div class="map-card-header">
-          <div>
-            <h3>Google Maps 탐색</h3>
-            <p>📍 위치 기반 대학 및 진로 지도</p>
-          </div>
-          <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
+    <!-- 구글 지도 플로팅 카드 -->
+    <div class="map-floating-card" data-buddy="지역별 진로정보">
+      <div class="map-card-header">
+        <div>
+          <h3>Google Maps 기반<br>대학교/진로 지도 탐색</h3>
+          <p>📍 구글 지도로 위치 탐색</p>
         </div>
-
-        <div class="map-search-mini">
-          <input type="text" id="mapSearchInput" placeholder="지역/대학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocation()">
-          <button onclick="searchGoogleLocation()">검색</button>
-        </div>
-
-        <div class="map-card-canvas">
-          <iframe id="googleMapIframe" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
-        </div>
-
-        <button onclick="setGoogleLocationCenter()" style="background: var(--blue); color: #fff; border: none; padding: 7px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 6px; font-size: 0.78rem;">
-          📍 내 위치 중심으로 이동
-        </button>
+        <button class="btn-expand-map" onclick="openMapModal()">🔍 크게 보기</button>
       </div>
 
-      <!-- 기능 카드 4개 (2x2 그리드) -->
-      <div class="feature-grid-sub">
-        <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
-          <div class="icon-box">📊</div>
-          <h4>서비스 안내</h4>
-          <p>AI 진로 길잡이 가이드</p>
-        </div>
-        <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
-          <div class="icon-box">🏛️</div>
-          <h4>대학교 공시정보</h4>
-          <p>전국 대학교 공시 검색</p>
-        </div>
-        <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
-          <div class="icon-box">📍</div>
-          <h4>지역별 공시정보</h4>
-          <p>관심지역 대학 확인</p>
-        </div>
-        <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
-          <div class="icon-box">📑</div>
-          <h4>세특 로드맵</h4>
-          <p>맞춤형 탐구 리포트</p>
-        </div>
+      <div class="map-search-mini">
+        <input type="text" id="mapSearchInput" placeholder="지역/대학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocation()">
+        <button onclick="searchGoogleLocation()">검색</button>
+      </div>
+
+      <div class="map-card-canvas">
+        <iframe id="googleMapIframe" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+
+      <button onclick="setGoogleLocationCenter()" style="background: var(--blue); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 0.85rem;">
+        📍 내 위치 중심으로 이동
+      </button>
+    </div>
+  </section>
+
+  <!-- 하단 4개 카드 -->
+  <section class="feature-section-wrapper">
+    <div class="feature-grid">
+      <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
+        <div class="icon-box">📊</div>
+        <h4>서비스 안내</h4>
+        <p>AI 진로 길잡이 서비스 이용 가이드 안내</p>
+      </div>
+      <div class="feature-card" data-buddy="대학교별 공시정보" onclick="openAcademyInfo('school')">
+        <div class="icon-box">🏛️</div>
+        <h4>대학교별 공시정보</h4>
+        <p>소크라테스 알리미에서 전국 대학교 공시정보를 정확하게 검색</p>
+      </div>
+      <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
+        <div class="icon-box">📍</div>
+        <h4>지역별 공시정보</h4>
+        <p>관심지역의 대학 공시정보를 한눈에 확인</p>
+      </div>
+      <div class="feature-card" data-buddy="세특 로드맵 생성" onclick="openFeatureModal('roadmap')">
+        <div class="icon-box">📑</div>
+        <h4>세특 로드맵 생성</h4>
+        <p>대화 완료 후 맞춤형 탐구 보고서 발급</p>
       </div>
     </div>
   </section>
@@ -418,7 +362,7 @@
       <h2 id="academyModalTitle">🏛️ 소크라테스 알리미 공시정보 탐색</h2>
       <button class="close-btn" onclick="closeAcademyModal()">&times;</button>
     </div>
-    <div style="flex: 1; border-radius: 16px; overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.8);">
+    <div style="flex: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);">
       <iframe id="academyIframe" src="https://www.academyinfo.go.kr/index.do" style="width: 100%; height: 100%; border: 0;"></iframe>
     </div>
   </div>
@@ -433,9 +377,9 @@
     <div class="map-search-mini" style="margin-bottom: 16px;">
       <input type="text" id="mapModalSearchInput" placeholder="지역/대학교명 검색" onkeypress="if(event.key==='Enter') searchGoogleLocationModal()">
       <button onclick="searchGoogleLocationModal()" style="padding: 0 16px;">검색</button>
-      <button onclick="setGoogleLocationCenterModal()" style="background: #10b981; color:#fff; border:none; border-radius:8px; padding:0 12px; font-weight:bold; cursor:pointer;">📍 내 위치</button>
+      <button onclick="setGoogleLocationCenterModal()" style="background: #16a34a; color:#fff; border:none; border-radius:6px; padding:0 12px; font-weight:bold; cursor:pointer;">📍 내 위치</button>
     </div>
-    <div style="flex: 1; border-radius: 16px; overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.8);">
+    <div style="flex: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);">
       <iframe id="googleMapIframeLarge" src="https://maps.google.com/maps?q=서울역&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
     </div>
   </div>
@@ -490,7 +434,9 @@
   </div>
 </div>
 
-<!-- 미니 소크라테스 캐릭터 -->
+<!-- =======================================================================
+     미니 소크라테스 대사 시스템 (본문에 직접 병합)
+     ======================================================================= -->
 <div id="miniSocrates">
   <svg viewBox="0 0 120 120" aria-hidden="true">
     <defs>
@@ -523,6 +469,9 @@
 </div>
 
 <script>
+/* =======================================================================
+   공통 로직 및 모달 제어
+   ======================================================================= */
 let hasReached100 = false;
 
 function openAcademyInfo(type) {
@@ -629,7 +578,7 @@ function downloadMindmap() {
 }
 
 /* =======================================================================
-   WebChat 스타일 설정 (화이트 글래스모피즘 & 물결 타이핑 애니메이션 적용)
+   WebChat 세련된 UI 적용 및 아바타 변경
    ======================================================================= */
 const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 
@@ -662,20 +611,18 @@ async function initWebChat() {
       botAvatarImage: socratesAvatar,
       botAvatarInitials: 'AI',
       userAvatarInitials: 'Me',
-      bubbleBackground: 'rgba(255, 255, 255, 0.9)',
-      bubbleBorderColor: 'rgba(226, 232, 240, 0.8)',
-      bubbleBorderRadius: 18,
+      bubbleBackground: '#f8fafc',
+      bubbleBorderColor: '#e2e8f0',
+      bubbleBorderRadius: 16,
       bubbleBorderWidth: 1,
       bubbleTextColor: '#1e293b',
       bubbleFromUserBackground: '#2563eb',
-      bubbleFromUserBorderRadius: 18,
+      bubbleFromUserBorderRadius: 16,
       bubbleFromUserTextColor: 'white',
       hideUploadButton: true,
-      sendBoxBackground: 'rgba(255, 255, 255, 0.9)',
-      sendBoxBorderTop: 'solid 1px rgba(226, 232, 240, 0.8)',
-      sendBoxButtonColor: '#2563eb',
-      sendBoxTextBuffer: 8,
-      typingAnimationDuration: 1000
+      sendBoxBackground: '#ffffff',
+      sendBoxBorderTop: 'solid 1px #e2e8f0',
+      sendBoxButtonColor: '#2563eb'
     };
 
     window.WebChat.renderWebChat({
@@ -685,32 +632,16 @@ async function initWebChat() {
 }
 window.addEventListener('DOMContentLoaded', initWebChat);
 
-/* 타이핑 애니메이션 (물결치는 3개 점) 스타일 주입 */
-const typingStyle = document.createElement('style');
-typingStyle.innerHTML = `
-  .webchat__typing-indicator {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 12px;
-  }
-  .webchat__typing-indicator__dot {
-    width: 7px;
-    height: 7px;
-    background-color: #3b82f6;
-    border-radius: 50%;
-    animation: waveTyping 1.4s infinite ease-in-out both;
-  }
-  .webchat__typing-indicator__dot:nth-child(1) { animation-delay: -0.32s; }
-  .webchat__typing-indicator__dot:nth-child(2) { animation-delay: -0.16s; }
-  .webchat__typing-indicator__dot:nth-child(3) { animation-delay: 0s; }
-
-  @keyframes waveTyping {
-    0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
-    40% { transform: scale(1.0); opacity: 1; }
-  }
-`;
-document.head.appendChild(typingStyle);
+/* 카드 입체 효과 */
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    const rotateX = -(y / rect.height - 0.5) * 15, rotateY = (x / rect.width - 0.5) * 15;
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`;
+  });
+  card.addEventListener('mouseleave', () => card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+});
 
 /* =======================================================================
    미니 소크라테스 로직 (채팅/지도 영역 진입 시 즉시 멈춤 및 투명화)
@@ -724,7 +655,7 @@ document.head.appendChild(typingStyle);
   let targetX = mouseX + 45, targetY = mouseY + 45;
   let currentX = targetX, currentY = targetY;
   let activeElement = null;
-  let mode = 'follow';
+  let mode = 'follow'; // 'follow' (마우스 추적), 'hide' (정지 및 투명화)
 
   document.addEventListener('mousemove', e => { 
     mouseX = e.clientX; 
@@ -752,6 +683,7 @@ document.head.appendChild(typingStyle);
 
   document.addEventListener('mouseover', e => {
     if (mode !== 'follow') return;
+    
     const el = getInteractive(e.target);
     if (!el || el === activeElement) return;
     activeElement = el;
@@ -770,13 +702,16 @@ document.head.appendChild(typingStyle);
     bubble.classList.remove('show');
   });
 
+  // 채팅창, 구글 지도, 공시정보 창 등 모든 숨김 영역 처리
   const hideAreas = document.querySelectorAll('.chat-panel, .map-floating-card, .academy-modal-box, .map-modal-box');
   
   hideAreas.forEach(area => {
     area.addEventListener('mouseenter', () => {
       mode = 'hide';
-      socrates.style.opacity = '0';
+      socrates.style.opacity = '0'; // 즉시 투명해짐
       bubble.classList.remove('show');
+      
+      // 진입 순간 현재 위치로 목표 좌표를 강제 고정하여 완전히 멈추게 함 (모서리로 끌려감 방지)
       targetX = currentX;
       targetY = currentY;
     });
@@ -784,6 +719,8 @@ document.head.appendChild(typingStyle);
     area.addEventListener('mouseleave', (e) => {
       mode = 'follow';
       socrates.style.opacity = '1';
+      
+      // 마우스가 다시 나올 때, 엉뚱한 곳에서 날아오지 않도록 현재 마우스 좌표로 위치 동기화
       currentX = e.clientX + 45;
       currentY = e.clientY + 45;
       targetX = currentX;
@@ -791,6 +728,7 @@ document.head.appendChild(typingStyle);
     });
   });
 
+  // 애니메이션 루프
   function animate() {
     if (mode === 'follow') {
       if (!activeElement) { 
@@ -798,11 +736,14 @@ document.head.appendChild(typingStyle);
         targetY = mouseY + 45; 
       }
     } 
+    // mode === 'hide' 일 때는 targetX, targetY가 마우스를 따라 업데이트되지 않고 멈춰 있음
+
     currentX += (targetX - currentX) * 0.12; 
     currentY += (targetY - currentY) * 0.12;
     socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
     requestAnimationFrame(animate);
   }
+  
   animate();
 })();
 </script>
