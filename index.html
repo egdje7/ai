@@ -9,7 +9,7 @@
 <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
 <!-- Pretendard 폰트 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<!-- Leaflet : 오픈소스 지도 엔진 (API 키 불필요, GitHub Pages에서 바로 동작) -->
+<!-- Leaflet : 오픈소스 지도 엔진 -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -68,6 +68,7 @@
     height: 520px;
     display: flex;
     flex-direction: column;
+    transition: opacity 0.3s ease-in-out;
   }
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
@@ -120,6 +121,7 @@
     flex-direction: column;
     justify-content: space-between;
     height: 580px;
+    transition: opacity 0.3s ease-in-out;
   }
   .map-card-header {
     display: flex;
@@ -161,33 +163,6 @@
   .leaflet-container { font-family: 'Pretendard', sans-serif; }
   .leaflet-control-attribution { font-size: 9px; }
 
-  /* 대학 마커 핀 */
-  .uni-pin {
-    width: 26px; height: 26px; border-radius: 50% 50% 50% 4px;
-    transform: rotate(-45deg); border: 2px solid #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .uni-pin span { transform: rotate(45deg); font-size: 12px; line-height: 1; }
-  .uni-pin.is-near { animation: pinPop 1.4s ease-in-out infinite; }
-  @keyframes pinPop { 0%,100% { box-shadow: 0 2px 6px rgba(0,0,0,.35); } 50% { box-shadow: 0 0 0 8px rgba(37,99,235,.25); } }
-
-  .me-pin {
-    width: 18px; height: 18px; border-radius: 50%; background: #2563eb;
-    border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(37,99,235,0.25);
-  }
-
-  /* 지도 팝업 */
-  .uni-popup { min-width: 170px; }
-  .uni-popup b { font-size: 1rem; color: var(--navy); display: block; margin-bottom: 2px; }
-  .uni-popup .meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 8px; }
-  .uni-popup .dist { color: #16a34a; font-weight: 800; }
-  .uni-popup button {
-    width: 100%; background: var(--blue); color: #fff; border: none;
-    padding: 7px 10px; border-radius: 7px; font-weight: 700; font-size: 0.78rem; cursor: pointer;
-  }
-  .uni-popup button:hover { background: #1d4ed8; }
-
   /* 지역 필터 칩 */
   .region-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
   .region-chips button {
@@ -209,19 +184,10 @@
   .btn-locate:hover { background: #1d4ed8; }
   .btn-locate.ask { animation: askPulse 1.8s ease-in-out infinite; }
   @keyframes askPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); } 50% { box-shadow: 0 0 0 7px rgba(251,191,36,0.45); } }
-  .btn-locate:disabled { background: #64748b; cursor: progress; animation: none; }
 
   /* 카드 안 미니 결과 스트립 */
   .nearby-mini { margin-top: 8px; max-height: 78px; overflow-y: auto; }
   .nearby-mini:empty { display: none; }
-  .nearby-mini .row {
-    display: flex; justify-content: space-between; gap: 8px; align-items: center;
-    background: rgba(255,255,255,0.10); border-radius: 7px; padding: 5px 9px; margin-bottom: 4px;
-    font-size: 0.76rem; cursor: pointer;
-  }
-  .nearby-mini .row:hover { background: rgba(255,255,255,0.22); }
-  .nearby-mini .row b { font-weight: 700; color: #fff; }
-  .nearby-mini .row span { color: var(--gold); font-weight: 800; white-space: nowrap; }
 
   /* 지도 모달 2단 레이아웃 */
   .map-modal-body { flex: 1; display: grid; grid-template-columns: 300px 1fr; gap: 16px; min-height: 0; }
@@ -231,18 +197,6 @@
 
   .nearby-panel { margin-top: 12px; flex: 1; overflow-y: auto; border-top: 1px solid var(--line); padding-top: 10px; }
   .nearby-panel .nearby-empty { font-size: 0.82rem; color: var(--muted); line-height: 1.6; word-break: keep-all; }
-  .nearby-item {
-    display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px;
-    cursor: pointer; transition: background 0.15s ease;
-  }
-  .nearby-item:hover { background: var(--sky); }
-  .nearby-item .rank {
-    width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: #fff;
-    font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .nearby-item .nm { flex: 1; font-size: 0.86rem; font-weight: 700; color: var(--ink); }
-  .nearby-item .ds { font-size: 0.78rem; font-weight: 800; color: #16a34a; white-space: nowrap; }
-  .nearby-item .rg { font-size: 0.7rem; color: var(--muted); }
 
   @media (max-width: 900px) {
     .map-modal-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -251,7 +205,7 @@
 
   /* 하단 주요 카드 패널 */
   .feature-section-wrapper {
-    background: var(--bg-blue); padding: 60px 10%; flex: 1; perspective: 1200px;
+    background: var(--bg-blue); padding: 60px 10%; flex: 1;
   }
   .feature-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1400px; margin: 0 auto;
@@ -260,7 +214,6 @@
     background: #fff; border-radius: 20px; padding: 32px 20px; text-align: center;
     border: 3px solid transparent; box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     cursor: pointer; display: flex; flex-direction: column; align-items: center;
-    transform-style: preserve-3d; will-change: transform, box-shadow, border-color;
     transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 box-shadow 0.25s ease, border-color 0.25s ease;
     position: relative; z-index: 1;
@@ -272,15 +225,15 @@
   .feature-card .icon-box {
     width: 68px; height: 68px; background: #eff6ff; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 2rem; margin-bottom: 16px; pointer-events: none; transform: translateZ(30px);
+    font-size: 2rem; margin-bottom: 16px; pointer-events: none;
   }
   .feature-card h4 {
     font-size: 1.15rem; color: var(--navy); margin-bottom: 8px; font-weight: 800;
-    pointer-events: none; transform: translateZ(20px);
+    pointer-events: none;
   }
   .feature-card p {
     font-size: 0.85rem; color: var(--muted); line-height: 1.4; word-break: keep-all;
-    pointer-events: none; transform: translateZ(10px);
+    pointer-events: none;
   }
 
   /* 모달 레이어 공통 스타일 */
@@ -295,7 +248,6 @@
     box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow-y: auto;
   }
 
-  /* 2번 파일에서 잘린 부분 완성 (1번 파일 코드 병합) */
   .modal-top-header { 
     display: flex; justify-content: space-between; align-items: center; 
     border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; 
@@ -313,7 +265,7 @@
     padding: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
   }
 
-  /* 마인드맵 (1번 파일) */
+  /* 마인드맵 스타일 */
   .mindmap-container {
     background: #f8fafc; border: 1px solid var(--line); border-radius: 16px;
     padding: 16px; margin: 16px 0; text-align: center;
@@ -328,7 +280,7 @@
   .btn-download-action.green { background: #16a34a; }
   .btn-download-action.green:hover { background: #15803d; }
 
-  /* 미니 소크라테스 (1번 파일) */
+  /* 미니 소크라테스 스타일 */
   #miniSocrates {
     position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 2000;
     pointer-events: none; will-change: transform; transition: opacity 0.3s ease-in-out;
@@ -338,7 +290,7 @@
   @keyframes miniSocratesFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
 
   #miniSocratesBubble {
-    position: absolute; bottom: 72%; left: 110%; width: max-content; max-width: 220px;
+    position: absolute; bottom: 72%; width: max-content; max-width: 220px;
     background: #fff; border: 2px solid #1a2e63; border-radius: 12px; padding: 10px 14px;
     color: #1e293b; font-size: .8rem; font-weight: 700; line-height: 1.4;
     box-shadow: 0 8px 20px rgba(30, 58, 138, .16); opacity: 0; transform: translateY(6px) scale(.94);
@@ -354,7 +306,7 @@
   #miniSocratesBubble.left .mini-socrates-tail { right: 14px; }
   #miniSocratesBubble.right .mini-socrates-tail { left: 14px; }
 
-  /* 대학 API 검색 UI (1번 파일) */
+  /* 대학 API 검색 UI 스타일 */
   .academy-search-panel { display: flex; flex-direction: column; gap: 14px; height: 100%; min-height: 0; }
   .academy-search-bar { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
   .academy-search-bar input {
@@ -447,7 +399,7 @@
         </div>
       </div>
 
-      <!-- 지도 (2번 파일의 구조 활용) -->
+      <!-- 지도 -->
       <div class="map-floating-card" data-buddy="지역별 진로정보">
         <div class="map-card-header">
           <div>
@@ -470,14 +422,12 @@
             <div id="uniMap"></div>
           </div>
         </div>
-        <div class="nearby-mini" id="nearbyMiniList">
-          <!-- 스크립트 등을 통해 결과 삽입 가능 -->
-        </div>
+        <div class="nearby-mini" id="nearbyMiniList"></div>
         <button class="btn-locate ask" onclick="locateMe()">📍 내 위치 주변 대학 찾기</button>
       </div>
     </section>
 
-    <!-- 기능 카드 -->
+    <!-- 기능 카드 (채팅 아래 여러 정보 카드들) -->
     <section class="feature-section-wrapper">
       <div class="feature-grid">
         <div class="feature-card" data-buddy="서비스 안내" onclick="openFeatureModal('guide')">
@@ -490,7 +440,7 @@
           <h4>대학교별 공시정보</h4>
           <p>소크라테스 알리미에서 전국 대학교 공시정보를 정확하게 검색</p>
         </div>
-        <div class="feature-card" data-buddy="지역별 진로정보" onclick="openAcademyInfo('region')">
+        <div class="feature-card" data-buddy="지역별 공시정보" onclick="openAcademyInfo('region')">
           <div class="icon-box">📍</div>
           <h4>지역별 공시정보</h4>
           <p>관심지역의 대학 공시정보를 한눈에 확인</p>
@@ -538,7 +488,7 @@
     </div>
   </div>
 
-  <!-- 지도 크게보기 (2번 파일의 구조 활용) -->
+  <!-- 지도 크게보기 -->
   <div class="map-overlay" id="mapOverlay">
     <div class="map-modal-box" data-buddy="지도 크게보기">
       <div class="modal-top-header">
@@ -678,7 +628,7 @@
             attribution: '&copy; OpenStreetMap'
           }).addTo(mapLarge);
         } else {
-          mapLarge.invalidateSize(); // 디스플레이가 block으로 바뀐 뒤 반드시 호출
+          mapLarge.invalidateSize();
         }
       }, 100);
     }
@@ -717,9 +667,7 @@
       initLeafletMaps();
     });
 
-    /* ============================================================
-       대학 정보 API 기능
-       ============================================================ */
+    /* 대학 정보 API 기능 */
     function openAcademyInfo(type) {
       const titleEl = document.getElementById('academyModalTitle');
       if (type === 'school') titleEl.textContent = '🏛️ 대학교별 공시정보 — API 검색';
@@ -850,9 +798,7 @@
       });
     }
 
-    /* ============================================================
-       WebChat 기능
-       ============================================================ */
+    /* WebChat 기능 */
     const DIRECT_LINE_TOKEN_URL = 'https://test-gjecgzfygwefcjdp.koreacentral-01.azurewebsites.net/api/directlineToken';
 
     async function initWebChat() {
@@ -907,39 +853,84 @@
       }
     }
 
-    /* 카드 3D 효과 */
-    document.querySelectorAll('.feature-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const rotateX = -(y / rect.height - 0.5) * 15;
-        const rotateY = (x / rect.width - 0.5) * 15;
-        card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1,1.1,1.1)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-      });
-    });
-
-    /* 미니 소크라테스 (간소화) */
+    /* 미니 소크라테스 및 커서 인터랙션 스크립트 */
     (() => {
       const socrates = document.getElementById('miniSocrates');
       const bubble = document.getElementById('miniSocratesBubble');
       const bubbleText = document.getElementById('miniSocratesBubbleText');
+      
       let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
       let targetX = mouseX + 45, targetY = mouseY + 45;
       let currentX = targetX, currentY = targetY;
       
-      document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+      document.addEventListener('mousemove', e => { 
+        mouseX = e.clientX; 
+        mouseY = e.clientY; 
+      });
 
       function animate() {
-        targetX = mouseX + 45; targetY = mouseY + 45;
-        currentX += (targetX - currentX) * 0.12; currentY += (targetY - currentY) * 0.12;
-        if(socrates) socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
+        targetX = mouseX + 45; 
+        targetY = mouseY + 45;
+        currentX += (targetX - currentX) * 0.12; 
+        currentY += (targetY - currentY) * 0.12;
+        if(socrates) {
+          socrates.style.transform = `translate3d(${currentX - 40}px, ${currentY - 40}px, 0)`;
+        }
         requestAnimationFrame(animate);
       }
       animate();
+
+      // 1. 채팅창 및 지도 인터페이스 투명화 (마우스 진입 시 숨김, 이탈 시 복원)
+      const transparentPanels = document.querySelectorAll('.chat-panel, .map-floating-card');
+      transparentPanels.forEach(panel => {
+        panel.addEventListener('mouseenter', () => {
+          panel.style.opacity = '0';
+        });
+        panel.addEventListener('mouseleave', () => {
+          panel.style.opacity = '1';
+        });
+      });
+
+      // 2. 채팅 아래 정보 카드들 (feature-card) 분할 및 모서리 이동, 말풍선 제어
+      const buddyCards = document.querySelectorAll('.feature-card');
+      buddyCards.forEach(card => {
+        const buddyName = card.getAttribute('data-buddy') || '정보 카드';
+        card.style.transition = 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+
+        card.addEventListener('mouseenter', (e) => {
+          const rect = card.getBoundingClientRect();
+          const relX = e.clientX - rect.left;
+          const relY = e.clientY - rect.top;
+
+          // 인터페이스를 반으로 나누어 더 가까운 모서리 방향으로 이동
+          let moveX = relX < rect.width / 2 ? -12 : 12;
+          let moveY = relY < rect.height / 2 ? -12 : 12;
+
+          card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.02)`;
+
+          // 도우미 말풍선 텍스트 설정 및 표시
+          if (bubble && bubbleText) {
+            bubbleText.textContent = `"${buddyName}" 영역입니다. 도움말을 확인해보세요!`;
+            bubble.classList.add('show');
+
+            // 커서를 가리지 않는 방향으로 말풍선 위치 자동 조절 (좌/우)
+            if (mouseX > window.innerWidth / 2) {
+              bubble.classList.add('left');
+              bubble.classList.remove('right');
+            } else {
+              bubble.classList.add('right');
+              bubble.classList.remove('left');
+            }
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translate(0, 0) scale(1)';
+          if (bubble) {
+            bubble.classList.remove('show');
+          }
+        });
+      });
     })();
 
     /* ESC 키로 모달 닫기 */
